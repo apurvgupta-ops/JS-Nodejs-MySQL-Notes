@@ -1,0 +1,9 @@
+PRO TIP => In .html file if you use script tag before body then the body tag details load after the script tag finish, but if you want the script tag work as a async then we have to use defer property in script tag.
+
+
+what is nodejs => Nodejs is the c++ applcation(CLI) which can understand and run javascript code outside the browser. It provides a run time enviroment built on chorme v8 engine, enabling developers to execute javascript on the server side.
+
+
+// BASICS OF TERMINAL =>    
+ => For the terminal we are using git bash (Bash is the scripting language) (if we want create the bash file then ,the extension is .sh)
+ => echo comman d is used for print something in terminal.
