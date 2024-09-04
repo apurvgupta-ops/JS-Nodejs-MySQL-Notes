@@ -3,7 +3,33 @@ PRO TIP => In .html file if you use script tag before body then the body tag det
 
 what is nodejs => Nodejs is the c++ applcation(CLI) which can understand and run javascript code outside the browser. It provides a run time enviroment built on chorme v8 engine, enabling developers to execute javascript on the server side.
 
-
+-----------------------------------------------------------------------------
 // BASICS OF TERMINAL =>    
  => For the terminal we are using git bash (Bash is the scripting language) (if we want create the bash file then ,the extension is .sh)
  => echo comman d is used for print something in terminal.
+ => pwd => gives the current directory.
+ => whoami => give current user. 
+ => cd => change current directory.
+ => ls/dir => give all the files in the current directory.
+ => touch => make the file.
+          => touch index.html
+ => mkdir => make the folder(DIRECTORY).
+          => mkdir src
+ => cp => copy the file from one place to another(note => set the path then both the argument get append).
+       => cp filename place where to copy
+       => cp index.html src
+ => mv => move the file from one play to another, and used for rename also (note => set the path then both the argument get append).
+       => mv filename place where to copy
+       => mv filename newfilename
+       => mv index.html src
+ =>rm -rf => to remove any file, folder, empty folder (we can use rm for only file, rmdir for empty folder, rm -r for remove folder with some data init (-r means recusively)).
+          => rm -rf filename
+ 
+ => cat => to read file content.
+        => cat index.html
+ => nano => to edit the file (ctrl + o to save, ctrl + x to exit).
+         => nano index.html
+ => vim => to edit the file (press i to start editing , esc to stop editing, :w to save , :q to exit , and :wq to save and exit ).
+        => vim index.html
+
+----------------------------------------------------------------------------------------
