@@ -16,6 +16,7 @@ what is nodejs => Nodejs is the c++ applcation(CLI) which can understand and run
 => echo comman d is used for print something in terminal.
 => pwd => gives the current directory.
 => whoami => give current user.
+=> source ~/.bashrc  => to run bashrc file.     
 
 => cd . => show the current directory.
 => cd .. => go backward to the parent of the current directory.
@@ -26,6 +27,7 @@ what is nodejs => Nodejs is the c++ applcation(CLI) which can understand and run
 => ls/dir => give all the files in the current directory.
 => ls -a => show the files and hidden files.
 => ls -l => show all the file with there permissions.
+=> ls -l index.js=> show all the permission of this file.
 
 => touch => make the file.
    => touch index.html
@@ -56,6 +58,42 @@ what is nodejs => Nodejs is the c++ applcation(CLI) which can understand and run
 => cygpath -u/-w > this is the utility function used in terminal to get the path in the perticular os format.
    => -w is for window , -u is for ubuntu/unix.  
    => command : cygpath -u path.
+
+
+---------------PERMISSIONS----------------
+
+=> chmod => this is for change the permissions of file and folder.
+  => command:  chmod +x index.js 
+  ** this means give the execute permission to the current user for this file/folder.
+
+  => command:  chmod -x index.js 
+  ** this means remove the execute permission to the current user for this file/folder.
+
+** So there are some alphabet for the permission (d,r,w,x,-);
+1. d is for directory/folder.
+2. r/4 is for read.
+3. w/2 is for write.
+4. x/1 is for executable file.
+5. - is represent that this is file.
+
+=>> example : -rwx--x--x : Now this is the file because of (-) , and this file has (-rwx) read,write,execute permission for the current user, and (--x) means current group has only execute permission , (--x) means third permission other then groups and current user has only execute permission.
+
+** The permission consist of 10 letters , first indicate this is file or folder ,
+                                          consist of 3 letters , indicate the current user (u) permissions ,
+                                          consist of 3 letters, indicate the current group (g) permission , 
+                                          consist of 3 letter, indicate the third party user/others (o) permission.
+
+** We can give th permission with the help of numbers also like : 777 means all three of them has read, write, execute permission.
+** Write permission is very important , if have to mention the user type to give the permission to specfic user in command.
+
+// EXAMPLES :  
+chmod u+r,g+r, o+r index.js => means give read permission to all.
+chmod +r index.js => read permission to all.
+chmod +w index.js => this permission only give to current user.
+chmod u+w,g+w => permission for write to the specfic user.
+chmod 777 index.js => all permission to all (combination of r,w,x make the number)
+chmod 652 index.js => read and write permssion to current user, read and execute to group, write to the others.
+
 
 ----------------------------------------------------------------------------------
 
