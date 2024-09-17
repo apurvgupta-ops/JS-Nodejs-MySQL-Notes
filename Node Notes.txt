@@ -10,7 +10,7 @@ what is nodejs => Nodejs is the c++ applcation(CLI) which can understand and run
 
 -------------------------------------------------------------------------
 
-// BASICS OF TERMINAL =>  
+=>> BASICS OF TERMINAL =>  
 
 => For the terminal we are using git bash (Bash is the scripting language) (if we want create the bash file then ,the extension is .sh)
 => echo comman d is used for print something in terminal.
@@ -97,7 +97,7 @@ chmod 652 index.js => read and write permssion to current user, read and execute
 
 ----------------------------------------------------------------------------------
 
-// BASICS OF OS => software to eximine process and thread use (system informer).
+=>> BASICS OF OS => software to eximine process and thread use (system informer).
 
 => context switching => Suppose i have a computer of 4 cores , it means my computer can handle 4 application/process, means 1 core can handle 1 application until we close them. but this is the issue that why OS comes into the picture , because in todays world we can see 4 core computer can run 10 20 etc application at a time, this is due to OS. OS send the application to the core in every 1ms and again back to the same place (to and fro motion) this process is called context switching.
 
@@ -109,6 +109,12 @@ chmod 652 index.js => read and write permssion to current user, read and execute
       => * If we have 9 threads and only have 6 core then we called that 9 core is concurrent and 6 core is in parallism.
       => ** So because of multiple threads then nodejs called multithread language.Threads is faster then the single thread(main thread) .beacuse it takes the extra cpu space and use remaining core in the system.
 
+-------------------------------------------------------------------------------------
 
----------------------------------------------------------------------------------------
-INTRODCTION TO NODEJS : 
+=>> INTRODUCTION TO NODEJS =>>
+
+1. There are two types of module in nodejs one is commonjs system and another one is module system, the extension we can use if project is using both system then cjs , mjs extension we can use to make a file.
+2. In common js the __dirname, __filename is easily available , but in module system we have to destructure this by import.meta.
+3. module system comes with so many benefits :
+   1. we have to use extension while import the file, because in commonjs there is no error handling of the extension we can create any file with any extension (like .aslkjgdask) and require them, but this is not working in module system. 
+   
