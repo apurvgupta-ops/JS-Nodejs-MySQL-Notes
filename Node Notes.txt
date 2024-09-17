@@ -108,3 +108,7 @@ chmod 652 index.js => read and write permssion to current user, read and execute
 => If we have multiple thread and multiple core then the phenomena called paraellism.
       => * If we have 9 threads and only have 6 core then we called that 9 core is concurrent and 6 core is in parallism.
       => ** So because of multiple threads then nodejs called multithread language.Threads is faster then the single thread(main thread) .beacuse it takes the extra cpu space and use remaining core in the system.
+
+
+---------------------------------------------------------------------------------------
+INTRODCTION TO NODEJS : 
