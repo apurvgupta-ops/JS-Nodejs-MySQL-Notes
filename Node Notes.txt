@@ -113,10 +113,26 @@ chmod 652 index.js => read and write permssion to current user, read and execute
 
 =>> INTRODUCTION TO NODEJS =>>
 
-1. There are two types of module in nodejs one is commonjs system and another one is module system, the extension we can use if project is using both system then cjs , mjs extension we can use to make a file.
-2. In common js the __dirname, __filename is easily available , but in module system we have to destructure this by import.meta.
-3. module system comes with so many benefits :
+1. module system and commonjs DIFFERENCE :
    1. we have to use extension while import the file, because in commonjs there is no error handling of the extension we can create any file with any extension (like .aslkjgdask) and require them, but this is not working in module system. 
+   2. commonjs loads the file synchoronous and module system loads the file asynchnoronus.
+   3. file extension is madentory but in commonjs no need.
+   4. There are two types of module in nodejs one is commonjs system and another one is module system, the extension we can use if project is using both system then cjs , mjs extension we can use to make a file.
+   5. In common js the __dirname, __filename is easily available , but in module system we have to destructure this by import.meta.
+   6. The value is this keyword is undefined in module, but in commonjs the value is module.exports.
+   7. module system is hoisted , commonjs is not.
+   8. export multiple things in module system (export(named export) , export default) , but in commonjs we can export one object (because requried is the function and function return one value only).
+   9. Top level await can used , but not in commonjs.
+   10. Strict mode is enabled in module system, not in common js.
+
+2. Shebang : For use the shebang if have to add #! in the top of the file and add the process by which we want to exexute the file.
+            ex : #!node => before shebang the command for exexute some file is node app.js, now app.js only.
+
+3. Npx : npx is a used to run the cli library like vite etc,
+      => there are two types of library package library , cli library, main difference is we can import the package library the file and use them like bcrypt, axios etc, and cli library like vite etc.
+
+
+
    
 
 
