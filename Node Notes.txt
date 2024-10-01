@@ -118,3 +118,27 @@ chmod 652 index.js => read and write permssion to current user, read and execute
 3. module system comes with so many benefits :
    1. we have to use extension while import the file, because in commonjs there is no error handling of the extension we can create any file with any extension (like .aslkjgdask) and require them, but this is not working in module system. 
    
+
+
+
+
+
+=>> NUMBER SYSTEM =>> In the computer world all the code is working on the binary system, because it is easy to understand, but for humans we are using decimal number system.
+
+=>> We use 4 types of system :
+1. Binary => 0,1 => starts with 0b => 2^
+2. Octal => 0,1,2,3,4,5,6,7 => starts with 0o => 8^
+3. Decimal => 0,1,2,3,4,5,6,7,8,9 => This is normal as we write => 10^
+4. HexaDecimal => 0,1,2,3,4,5,6,7,8,9,A,B,C,D,F => starts with 0x => 16^
+
+=>> ** The main conversion is binery, octa, HexaDecimal to decimal, because this is widely use.
+
+ex : binary => 1111             
+conversion => 1 x 2^0 = 1
+              1 x 2^1 = 2
+              1 x 2^2 = 4
+              1 x 2^3 = 8
+                      = 15 
+=> Same process goes for all.
+
+=> ** But in the old time we are facing one problem , and the problem is how to save characters, thats why engineer introcuce charactercoding, and character set.
