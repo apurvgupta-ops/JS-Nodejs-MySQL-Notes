@@ -173,3 +173,6 @@ The Buffer class in Node.js is used to perform operations on raw binary data. Ge
 1 . it filles the space in the memory , because behind the scene it uses ArrayBuffers and ArrayBuffers takes some space from the memory(ram). 
 2. it slow down the server or somethings crash the server.
 
+------------------------------------------------------------------------
+
+=>> Event Driven Architecture =>
