@@ -14,4 +14,7 @@ ex : console.log(5 - 6 + 2) = 1.
 
 => Type of NaN is [Object], this is a bug in the JS.
 
-3. **Var, let, const** => 
+3. **Var, let, const** => All Three are used for declaring the variables, but in different sinorieo.
+=> const => const is a type of constant , if you dont want change the value of a variable then use const, this is block scope, means we can only use inside that block.
+=> let => If you want to change the value according to the situations then use let, and this is also block scope.
+=> var => Same as let, but this is function scope.
