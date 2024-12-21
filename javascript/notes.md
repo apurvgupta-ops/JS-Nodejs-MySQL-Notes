@@ -32,3 +32,11 @@
 6. **String methods and properties** => Check string.html
 
 7. **Math** => Check math.html
+
+8. **Truthy and Falsy Values** => Falsy Values = 0, -0, "", undefined, null, NaN. Other then this all are truthy values.
+   => Methods to check values are truthy or falsy =>
+   => Boolean(10) => true.
+   => !!10 => true
+   => !!'' => false
+
+9.
