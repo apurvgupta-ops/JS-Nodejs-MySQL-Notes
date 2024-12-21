@@ -14,7 +14,8 @@
    => parseInt('100') = 100 => if there is string added after the number then it gives NaN (100sdasd) , this only give number but if the value is not started with string, and contain some number, other it also give NaN
    => 100 + '' = '100'
 
-=> Type of NaN is [Object], this is a bug in the JS.
+=> Type of NaN is [Number], this is a bug in the JS.
+=> Type of NULL is [Object], this is a bug in the JS.
 
 3. **Var, let, const** => All Three are used for declaring the variables, but in different sinorieo.
    => const => const is a type of constant , if you dont want change the value of a variable then use const, this is block scope, means we can only use inside that block.
@@ -29,3 +30,5 @@
    => prompt => this is for user input , this provides input box, and two buttons , return value is the value put in the input box (on Ok button) and on cancel button it provides null value.
 
 6. **String methods and properties** => Check string.html
+
+7. **Math** => Check math.html
