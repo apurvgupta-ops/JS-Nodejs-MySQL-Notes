@@ -57,4 +57,35 @@ Object.seal(demo1);
 Object.freeze(demo1);
 
 // This is used to check mentioned property is in that object or not , return boolean.
-"name" in demo1; 
+"name" in demo1;
+
+// Shallow copy (we only copy the parent object) vs deep copy
+
+const demo2 = {
+  name: "Apurv",
+  age: 24,
+  address: {
+    street: "Balaji Tower",
+    landmark: "Vivacity",
+    personal: {
+      ph: "1234567890",
+    },
+  },
+};
+console.log({ demo2 });
+// shallow copy
+const newObj = {};
+Object.assign(newObj, demo2);
+newObj.name = "Appu";
+newObj.address.street = "balaji tower 55";
+console.log({ newObj });
+
+const newObj2 = { ...demo2 };
+newObj2.name = "Apppppu";
+newObj2.address.street = "balaji tower";
+console.log({ newObj2 });
+
+// deep Copy
+const newObj3 = JSON.parse(JSON.stringify(demo2));
+newObj3.address.street = "Balaji tower 5";
+console.log({ newObj3 });

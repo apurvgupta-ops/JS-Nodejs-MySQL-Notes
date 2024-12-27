@@ -98,6 +98,27 @@
 - **_Methods :_**
   - `Object.seal()` = It basically used for not to add or delete any value from the object, but we can change the existing values.
   - `Object.freeze()` = It basically used to not add, delete or change any value in the object.
+  - ***_Shallow copy vs Deep copy :_***
+  - **How it works** => Basically when we create the object the js engine assign some address, and then when we change something in the object the value get change but not the address. Now in case of copy the object, js basically copy the address and assign the same address to another object.
+  - Suppose we have a object with three nested objects , now when we do shallow copy it basically copy the whole object but in this we can only change the parent object properties. Because when js copy the object it copy the address of the nested object that's why if we change the value in the nested object they change in the original one also.
+  - In case of deep copy it copy the object and assign to the new address, that's why we can change any value and it not effect the original one.
+  -  ```javascript
+        const demo = { @123
+        name: "Apurv",
+        age: 24,
+        address: { @456
+          street: "Balaji Tower",
+          landmark: "Vivacity",
+          personal: { @789
+            ph: "1234567890",
+          },
+        },
+      };
+
+      So when js copy the obj it copy the address to in shallow copy. 
+      AND THIS IS THE SAME PHENOMENA APPLY IN ARRAY'S.
+  - `Object.assign(jisme copy krna h, jisko copy krna h)`
+  - `Spread Operator (...) => const newObj = {...obj}`
 
 ---
 
@@ -106,5 +127,14 @@
 - **_Properties :_**
   - `length` : to check the length of an array.
 - **_Methods :_**
-  - `Push(10)` :  To add an element at the last.
+  - `Push(x,y,...)` :  To add an element at the last, return length.
   - `Pop()` :  To remove an element from the last.
+  - `shift()` : remove the element from the start.
+  - `unshift(x,y,...)` : add the element at the start, return length
+  - `indexof(x)`: give index to passed element. 
+  - `concat(x,y)`: combine two or more array, return new array.
+  - `includes(x)` : check x is present in the array or not, return boolean. 
+  - `sort()`: Sort basically sort the data according to the strings, weather it is number or string. 
+  - `reverse()` : it reverse the whole array.
+  - `slice(x, ?y)` : It provide the data according to x and y. x is implisit and y is explisit, return new array.  
+  - `splice(?x, ?deleteCount, ?...item)` : It basically give the new array , x is starting index, deleteCount is for how many things you want to delete, and items is for add the item in an array at the place of deleted items.
