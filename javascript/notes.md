@@ -138,3 +138,10 @@
   - `reverse()` : it reverse the whole array.
   - `slice(x, ?y)` : It provide the data according to x and y. x is implisit and y is explisit, return new array.  
   - `splice(?x, ?deleteCount, ?...item)` : It basically give the new array , x is starting index, deleteCount is for how many things you want to delete, and items is for add the item in an array at the place of deleted items.
+
+---
+
+### 14. **Functions**
+- It basically means i collection of logics which we want to use so many time in our system.
+- if functions has no return statement, then they return _undefined_.
+- 
