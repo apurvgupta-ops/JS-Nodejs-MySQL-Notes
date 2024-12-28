@@ -28,6 +28,8 @@
   - **const**: Used for constants. Value cannot be changed. Block scope.
   - **let**: Value can be changed. Block scope.
   - **var**: Value can be changed. Function scope.
+  - All the variables created with let and const goes to script scope and var goes window obj.
+
 - ***_Why we can change the value of let but not const ?_***
   - Because when we try to change the value in the const it say cant change the value of constant, but in case of let when we try to change the value it basically change the address of that value.
   - `let a = "Apurv"` then `a = "Appu"`, so in this it change the address.
@@ -144,4 +146,60 @@
 ### 14. **Functions**
 - It basically means i collection of logics which we want to use so many time in our system.
 - if functions has no return statement, then they return _undefined_.
-- 
+
+---
+
+### 15. **Execution context and call stack**
+- See the [Hand Written notes](./Jsnotes.pdf) file.
+
+---
+
+### 16. **Hoisting**
+- This is the process in which js  appers to move the variable at the top is called hoisting.
+  - This is not the js functionality, users create this phenomenon. 
+  - `Temporal dead zone :` when we create the variable with let and const, then js put those variable in a zone(_the zone where we can't access variables before inilization_) called TDZ.
+
+---
+
+### 17. **Global Scope vs Local Scope**
+- Global scope is a combination of two scops script and window obj. 
+- `Lexical Scope :` Suppose we have one child function, the scope that function is there own scope, there parent scope and then global scope is called lexical scope of that function.
+- **`Clouser :`** we declear the variables in the parent function but we can access these variables in the child and innerChild function, those variables we are using from parent function in the subfunction those variables form the `clousers`. 
+- ```javascript
+  function parent() {
+    const a = 10;
+    const b = 100;
+    const c = 1000;
+
+    function child() {
+      console.log(a);
+
+      function innerChild() {
+        console.log(b);
+      }
+    }
+    child();
+  }
+  parent();
+
+- All the variables created with let and const goes to script scope and var goes window obj.
+
+---
+
+### 18. **Higher order functions and callbacks** 
+- Higher order functions are those functions in which we pass another function and return a function. The passed function as an argument is called callback function.
+- callback basically means we pass one function as an argument then the HOF call that functions as per the need.
+- ```javascript
+  function parent(func) {
+    console.log("hii")
+    func()
+  }
+
+  parent(function (){ // callback function
+    console.log("hello")
+  });
+ 
+---
+
+### 19. setTimeout vs setInterval
+- See the [Hand Written notes](./Jsnotes.pdf) file.
