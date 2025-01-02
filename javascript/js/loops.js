@@ -19,6 +19,9 @@ for (let i = 0; i <= 100; i++) {
   // console.log(`${i + 1}.${arr[i]}`);
 }
 
+// FOREACH
+arr.forEach((item) => console.log(item));
+
 // DO WHILE LOOP
 let j = 0;
 do {
@@ -26,10 +29,9 @@ do {
   j++;
 } while (i < 5);
 
-
 // for of loop
-for(const alpha of arr){
-  console.log(alpha)
+for (const alpha of arr) {
+  console.log(alpha);
 }
 
 // for in loop
@@ -48,39 +50,31 @@ const d = {
   },
 };
 
-for(const de in d){
-  console.log(d[de])
+for (const de in d) {
+  console.log(d[de]);
 }
 
-
-
 // MAP
-const returnValue = arr.map((item) =>{
-  return arr
-
-})
-
+const returnValue = arr.map((item) => {
+  return arr;
+});
 
 // filter
-const filterValue = arr.filter((item) =>{
-  return item.includes("A")
-})
-
+const filterValue = arr.filter((item) => {
+  return item.includes("A");
+});
 
 // Reduce
-const reducedValue = arr.reduce((accmulator, currentValue, index) =>{
-  return accmulator + currentValue
-} ,0) // initial value
-
+const reducedValue = arr.reduce((accmulator, currentValue, index) => {
+  return accmulator + currentValue;
+}, 0); // initial value
 
 // some => RETURN  boolean value if one get true.
-const booleanValue = arr.some((item) =>{
-  return item >3;
-})
+const booleanValue = arr.some((item) => {
+  return item > 3;
+});
 
 // every => RETURN boolean value if one get false.
-const booleanValues = arr.every((item) =>{
-  return item >3;
-})
-
-
+const booleanValues = arr.every((item) => {
+  return item > 3;
+});

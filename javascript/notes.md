@@ -93,7 +93,7 @@
 ---
 
 ### 12. **Objects** (Non-Primitive or Reference types)
-- See the [object.js](#) file.
+- See the [object.js](./js/object.js) file.
 - **_Properties :_**
   - **delete** is used to remove any key from the object => delete user.name
   - `"name" in demo1` This is used to check mentioned property is in that object or not , return boolean.
@@ -140,12 +140,15 @@
   - `reverse()` : it reverse the whole array.
   - `slice(x, ?y)` : It provide the data according to x and y. x is implisit and y is explisit, return new array.  
   - `splice(?x, ?deleteCount, ?...item)` : It basically give the new array , x is starting index, deleteCount is for how many things you want to delete, and items is for add the item in an array at the place of deleted items.
+- See the [Arrays](./js/array.js) file.
+
 
 ---
 
 ### 14. **Functions**
 - It basically means i collection of logics which we want to use so many time in our system.
 - if functions has no return statement, then they return _undefined_.
+- See the [functions](./js/functions.js) file.
 
 ---
 
@@ -203,3 +206,16 @@
 
 ### 19. setTimeout vs setInterval
 - See the [Hand Written notes](./Jsnotes.pdf) file.
+- See the [setTimeoutVSSetInterval](./js/setTimeoutVSsetInterval.js) file.
+
+---
+
+### 20. Spread vs Rest
+- See the [Spread Vs Rest](./js/spreadVSrest.js) file.
+
+---
+---
+
+
+### 21. BOM(Browser Object Model)
+-
