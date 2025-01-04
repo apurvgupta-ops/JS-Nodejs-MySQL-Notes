@@ -214,8 +214,26 @@
 - See the [Spread Vs Rest](./js/spreadVSrest.js) file.
 
 ---
+
+
+### 21. Events
+- Events do not only exist in JavaScript but in all programming languages. The primary idea behind events in JavaScript is the ability to run code when a certain event happens. This could be a user clicking a button or any other events you might think of that could trigger some code to run.
+
 ---
 
+### 22. Event Handlers
+- Event handlers are like a special all-purpose remote control that can perform certain actions like changing channels on your TV, increasing the temperature of your AC, and changing the state of your lighting in your home. But they need a professional to handle a special button attached to it.
 
-### 21. BOM(Browser Object Model)
--
+- The above analogy explains the concepts of event handling in JavaScript. The remote control represents the application you are using. The HTML element-like button on the application is the special button attached to the remote. And the professional that handles the special button is the JavaScript.
+
+---
+
+### 23. Event Bubbling
+- Event Bubbling is a process in which when we click on child element it parent element is also clicked upto global window object.
+
+---
+
+### 24. Event Capturing
+- Event Capturing is a process in which when we click on child element its parent element also get trigger and first parent calls then child element.
+
+
