@@ -134,7 +134,7 @@ chmod 652 index.js => read and write permssion to current user, read and execute
       => there are two types of library package library , cli library, main difference is we can import the package library the file and use them like bcrypt, axios etc, and cli library like vite etc.
 
 
-=>> NUMBER SYSTEM =>> In the computer world all the code is working on the binary system, because it is easy to understand, but for humans we are using decimal number system.
+=>>  =>> In the computer world all the code is working on the binary system, because it is easy to understand, but for humans we are using decimal number system.
 
 =>> We use 4 types of system :
 1. Binary => 0,1 => starts with 0b => 2^
