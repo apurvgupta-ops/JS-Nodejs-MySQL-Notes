@@ -237,3 +237,10 @@
 - Event Capturing is a process in which when we click on child element its parent element also get trigger and first parent calls then child element.
 
 
+---
+
+### 25. Promises and Async/await
+- See the [Hand Written notes](./Jsnotes.pdf) file.
+- See the [Promises](./js/promises.js) file.
+- The difference is that in an async function, JavaScript will pause the function execution until the promise settles. With then(), the rest of the function will continue to execute but JavaScript won't execute the .then() callback until the promise settles.
+  
