@@ -243,4 +243,9 @@
 - See the [Hand Written notes](./Jsnotes.pdf) file.
 - See the [Promises](./js/promises.js) file.
 - The difference is that in an async function, JavaScript will pause the function execution until the promise settles. With then(), the rest of the function will continue to execute but JavaScript won't execute the .then() callback until the promise settles.
-  
+
+
+---
+
+## Useful methods for all the Objects , Array and Map etc.
+- See the [Md file](./javascript_methods_overview.md)
