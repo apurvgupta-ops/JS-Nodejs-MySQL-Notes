@@ -152,3 +152,5 @@ Duplex streams are streams that can **both read and write data**. These are usef
 
 #### 4. Transform Streams
 Transform streams are a special type of duplex stream where the **output is a transformation of the input**. They modify or process the data as it passes through the stream, such as compressing or encrypting data.
+
+- SEE [Streams Notes](./readable_stream_states.md)
