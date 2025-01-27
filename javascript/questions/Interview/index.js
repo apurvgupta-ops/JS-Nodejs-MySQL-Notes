@@ -11,8 +11,6 @@
 // });
 // myPromise.then((i) => console.log(i)).catch((err) => console.log(err));
 
-
-
 // Intersecting Two circles
 let cirCoord = [];
 
@@ -64,9 +62,9 @@ document.addEventListener("click", (event) => {
     console.log("intersect", res);
   }
 });
-<<<<<<< HEAD
-myPromise.then((i) => console.log(i)).catch((err) => console.log(err));
-//  ---
+
+//  ===================================
+
 function test() {
   console.log(test.abc);
 }
@@ -74,17 +72,20 @@ test();
 test.abc = 500;
 test.abc = 800;
 test();
-//  ---
+
+//  ===================================
 
 console.log({} == {});
 // console.log({} === {});
-//  ---
+
+//  ===================================
 
 let a = 10;
 let b = new Number(10);
 console.log(b);
 console.log(a == b);
-//  ---
+
+//  ===================================
 
 let ba = {
   name: "APurv",
@@ -94,7 +95,8 @@ let ab = ba;
 
 ab.name = "appu";
 console.log(ba.name);
-//  ---
+
+//  ===================================
 
 // function test1(record) {
 //   console.log({ ...record });
@@ -108,11 +110,13 @@ console.log(ba.name);
 // }
 
 // test1({ age: 28 });
-//  ---
+
+//  ===================================
 
 console.log(+true);
 console.log(!"test");
-//  ---
+
+//  ===================================
 
 var aa = {};
 var bb = { key: "bb" };
@@ -129,6 +133,30 @@ console.log(aa[cc]);
 console.log(aa[bb]);
 console.log(bb[bb]);
 console.log(bb[cc]);
-//  ---
-=======
->>>>>>> d5a473ca90a10c50a80db2981476809fe65f0541
+
+//  ===================================
+
+const arr = [1, 2, 3, [35, 23], 45, [[22, 33, 66, 55, 450], 77, 88, [99, 201]]];
+
+// find largest number by inbuilt method.
+const largest = Math.max(...arr.flat(Infinity));
+console.log(largest);
+
+// find largest number by loop.
+
+function largestt(arr) {
+  let maximum = -1;
+  for (let item of arr) {
+    if (Array.isArray(item)) {
+      maximum = Math.max(maximum, largestt(item));
+    } else {
+      maximum = Math.max(maximum, item);
+    }
+  }
+
+  return maximum;
+}
+
+console.log(largestt(arr));
+
+//  ===================================
