@@ -26,7 +26,7 @@ const server = http.createServer(async (req, res) => {
       const fileState = await fileOpen.stat();
 
       res.setHeader("Content-Type", mime.contentType(url.slice(1)));
-      // res.setHeader("Content-Length", mime.contentType(fileState.size));
+      // res.setHeader("Content-Length", mime.contentType(fileState.size)); // to show the download progress bar.
       if (queryParams.action == "download") {
         res.setHeader(
           "Content-Disposition",
@@ -49,7 +49,8 @@ const server = http.createServer(async (req, res) => {
 
 async function serverContent(req, res) {
   console.log("url= ", req.url);
-  const listItems = await readdir(`./storage${decodeURIComponent(req.url)}`);
+  const [url, queryString] = req.url.split("?");
+  const listItems = await readdir(`./storage${decodeURIComponent(url)}`);
   console.log(listItems);
 
   // set the files name in the html
