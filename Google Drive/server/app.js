@@ -1,4 +1,4 @@
-import { open, readdir, readFile } from "fs/promises";
+import { open, readdir, readFile, rename, rm } from "fs/promises";
 import http from "http";
 import mime from "mime-types";
 import { createWriteStream } from "fs";
@@ -7,6 +7,7 @@ const server = http.createServer(async (req, res) => {
   if (req.url === "/favicon.ico") return "Not Found";
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader("Access-Control-Allow-Methods", "*");
   // Read the directory so that we can get the internal files
 
   if (req.method === "GET") {
@@ -52,10 +53,30 @@ const server = http.createServer(async (req, res) => {
     res.end("OK");
   } else if (req.method === "POST") {
     const writeStream = createWriteStream(`./storage/${req.headers.filename}`);
-
+    // we face one issue if we not end the writeStream, the readon is when we upload the file the fileDiscriptor of the file holds the nodejs process, thats whjy when we uplaod a file we can't delete instantly, we need to refresh the page so that FD remove the hold of nodejs. we can use pipe method they handle this autmatically.
     req.on("data", (chunk) => {
       writeStream.write(chunk);
-      console.log({ chunk });
+      // console.log({ chunk });
+    });
+
+    req.on("end", () => {
+      // writeStream.end();
+      res.end("File uploaded successfully");
+    });
+  } else if (req.method === "DELETE") {
+    req.on("data", async (chunk) => {
+      const filename = chunk.toString();
+      await rm(`./storage/${filename}`);
+      res.end("File Deleted successfully");
+    });
+  } else if (req.method === "PATCH") {
+    req.on("data", async (chunk) => {
+      const filename = JSON.parse(chunk.toString());
+      await rename(
+        `./storage/${filename.oldFileName}`,
+        `./storage/${filename.newFileName}`
+      );
+      res.end("Renamed Successfully");
     });
   }
 });
