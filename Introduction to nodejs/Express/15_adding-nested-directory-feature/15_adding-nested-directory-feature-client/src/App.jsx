@@ -1,11 +1,10 @@
-import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Files from "./pages/Files";
+import DirectoryView from "./DirectoryView";
 
 const router = createBrowserRouter([
   {
     path: "/*",
-    element: <Files />,
+    element: <DirectoryView />,
   },
 ]);
 

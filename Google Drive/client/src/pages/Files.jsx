@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/common/Button";
+import { useParams } from "react-router-dom";
 
 const Files = () => {
   const baseUrl = "http://192.168.1.2";
+  const { "*": path } = useParams();
+  console.log({ path });
   const [data, setData] = useState([]);
   const [progress, setProgress] = useState(0);
   const [newFileName, setNewFileName] = useState("");
 
   const handleData = async () => {
-    const res = await fetch("http://192.168.1.2");
+    const res = await fetch(`${baseUrl}/directory/${path ?? ""}`);
     const data = await res.json();
     setData(data);
     // console.log({ data });
@@ -28,9 +31,9 @@ const Files = () => {
     });
     xhr.send(file);
   };
-
+  console.log("hell");
   const handleDelete = async (file) => {
-    const res = await fetch("http://192.168.1.2", {
+    const res = await fetch(baseUrl, {
       method: "DELETE",
       body: file,
     });
@@ -41,7 +44,7 @@ const Files = () => {
 
   const handleRename = async (oldFileName) => {
     console.log({ oldFileName, newFileName });
-    const res = await fetch("http://192.168.1.2", {
+    const res = await fetch(baseUrl, {
       method: "PATCH",
       body: JSON.stringify({ oldFileName, newFileName }),
     });
@@ -64,28 +67,33 @@ const Files = () => {
         placeholder="Enter new file name"
         className="border"
       />
-      {data.map((file, index) => (
+      {data.map(({ item, isDirectory }, index) => (
         <div key={index} className="flex gap-5">
-          {file}
-          <Button
-            title={"OPEN"}
-            path={`${baseUrl}/${file}?action=open`}
-            color="red"
-          />
-          <Button
-            title={"DOWNLOAD"}
-            path={`${baseUrl}/${file}?action=download`}
-            color="red"
-          />
-          <button onClick={(e) => handleDelete(file)}>DELETE</button>
+          {item}
+          {isDirectory && <a href={`/${item}`}>OPEN FOLDER</a>}
+          {!isDirectory && (
+            <Button
+              title={"OPEN"}
+              path={`${baseUrl}/files/${item}?action=open`}
+              color="red"
+            />
+          )}
+          {!isDirectory && (
+            <Button
+              title={"DOWNLOAD"}
+              path={`${baseUrl}/files/${item}?action=download`}
+              color="red"
+            />
+          )}
+          <button onClick={(e) => handleDelete(item)}>DELETE</button>
           {/* {newFileName === file ? (
             <button onClick={(e) => handleRename(file)}>SAVE</button>
           ) : (
             <button onClick={(e) => setNewFileName(file)}>RENAME</button>
           )} */}
-          <button onClick={(e) => setNewFileName(file)}>RENAME</button>
+          <button onClick={(e) => setNewFileName(item)}>RENAME</button>
 
-          <button onClick={(e) => handleRename(file)}>SAVE</button>
+          <button onClick={(e) => handleRename(item)}>SAVE</button>
         </div>
       ))}
       <input

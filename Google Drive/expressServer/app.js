@@ -1,10 +1,11 @@
 import express from "express";
 import { createWriteStream } from "fs";
-import { readdir, rename, rm } from "fs/promises";
+import { readdir, rename, rm, stat } from "fs/promises";
 
 const app = express();
 
 app.use(express.json());
+// app.use(express.static("./storage"));
 
 // Enabling CORS
 app.use((req, res, next) => {
@@ -17,7 +18,7 @@ app.use((req, res, next) => {
 });
 
 // Create
-app.post("/:filename", (req, res) => {
+app.post("/files/:filename", (req, res) => {
   const writeStream = createWriteStream(`./storage/${req.params.filename}`);
   req.pipe(writeStream);
   req.on("end", () => {
@@ -26,12 +27,19 @@ app.post("/:filename", (req, res) => {
 });
 
 // Read
-app.get("/", async (req, res) => {
-  const filesList = await readdir("./storage");
-  res.json(filesList);
+app.get("/directory/:filename?", async (req, res) => {
+  const { filename } = req.params;
+  const fullDirPath = `./storage/${filename ?? ""}`;
+  const filesList = await readdir(fullDirPath);
+  const resData = [];
+  for (const item of filesList) {
+    const stats = await stat(`${fullDirPath}/${item}`);
+    resData.push({ item, isDirectory: stats.isDirectory() });
+  }
+  res.json(resData);
 });
 
-app.get("/:filename", (req, res) => {
+app.get("/files/:filename", (req, res) => {
   const { filename } = req.params;
   if (req.query.action === "download") {
     res.set("Content-Disposition", "attachment");
@@ -40,14 +48,14 @@ app.get("/:filename", (req, res) => {
 });
 
 // Update
-app.patch("/:filename", async (req, res) => {
+app.patch("/files/:filename", async (req, res) => {
   const { filename } = req.params;
   await rename(`./storage/${filename}`, `./storage/${req.body.newFilename}`);
   res.json({ message: "Renamed" });
 });
 
 // Delete
-app.delete("/:filename", async (req, res) => {
+app.delete("/files/:filename", async (req, res) => {
   const { filename } = req.params;
   const filePath = `./storage/${filename}`;
   try {
@@ -58,6 +66,6 @@ app.delete("/:filename", async (req, res) => {
   }
 });
 
-app.listen(4000, () => {
+app.listen(80, () => {
   console.log(`Server Started`);
 });
