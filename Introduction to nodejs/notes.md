@@ -62,16 +62,54 @@ It provides a runtime environment built on the Chrome V8 engine, enabling develo
 
 ### **Using `chmod`**
 
-- Change permissions for a file or folder.
-- Permission levels:
-- `d`: Directory
-- `r`: Read (4)
-- `w`: Write (2)
-- `x`: Execute (1)
-- Example:
-- `chmod +x filename`: Add execute permission for the current user.
-- `chmod u+w,g+w,o+r filename`: Add write permission for the user and group, and read permission for others.
-- `chmod 777 filename`: Full permissions (read, write, execute) for all.
+`chmod` is used to change the permissions of a file or folder.
+
+#### **Basic Commands:**
+```sh
+chmod +x index.js  # Give execute permission to the current user for this file/folder.
+chmod -x index.js  # Remove execute permission from the current user for this file/folder.
+```
+
+### **Permission Symbols:**
+| Symbol | Meaning |
+|--------|---------|
+| `d` | Directory (folder) |
+| `r` / `4` | Read permission |
+| `w` / `2` | Write permission |
+| `x` / `1` | Execute permission |
+| `-` | Indicates a file (not a directory) |
+
+### **Understanding Permissions:**
+A permission string consists of **10 characters**:
+
+1. **First character:** Indicates whether it is a file (`-`) or a directory (`d`).
+2. **Next three characters (`rwx`):** Represent **user (owner) permissions**.
+3. **Next three characters (`rwx`):** Represent **group permissions**.
+4. **Last three characters (`rwx`):** Represent **other users' (world) permissions**.
+
+#### **Example: `-rwx--x--x`**
+- `-` → Indicates it is a file.
+- `rwx` → Owner has read (`r`), write (`w`), and execute (`x`) permissions.
+- `--x` → Group has only execute (`x`) permission.
+- `--x` → Others (world) have only execute (`x`) permission.
+
+### **Numeric Permissions:**
+We can also set permissions using **numbers**:
+- `777` → Full permissions (read, write, execute for all users).
+- `644` → Owner can read/write, others can only read.
+- `755` → Owner can read/write/execute, others can read/execute.
+- `652` → Owner can read/write, group can read/execute, others can write.
+
+### **Examples:**
+```sh
+chmod u+r,g+r,o+r index.js  # Give read permission to all users.
+chmod +r index.js  # Read permission to all.
+chmod +w index.js  # Write permission only for the current user.
+chmod u+w,g+w index.js  # Give write permission to user and group.
+chmod 777 index.js  # Give all permissions to all users.
+chmod 652 index.js  # Read & write for user, read & execute for group, write for others.
+```
+
 
 ---
 
