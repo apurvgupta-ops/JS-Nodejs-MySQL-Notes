@@ -123,6 +123,22 @@ const promise3 = Promise.resolve("C");
 Promise.all([promise1, promise2, promise3]).then(console.log);
 
 // ===================
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("Promise 1");
+}).then(() => {
+  console.log("Promise 2");
+});
+
+console.log("End");
+
+
+// ===================
 function test() {
   console.log(test.abc);
 }
