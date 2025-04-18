@@ -148,3 +148,31 @@ test.abc = 800;
 test();
 
 
+// =====================================
+async function runSequentially() {
+  //   const items = [1, 2, 3];
+  
+  //   for (const item of items) {
+  //     await doSomething(item);
+  //   }
+  
+  //   console.log('✅ Done with sequential processing');
+  
+       const items = [1, 2, 3];
+  
+    const promises = items.map(item => doSomething(item));
+    await Promise.all(promises);
+  
+    console.log('✅ Done with parallel processing');
+  }
+  
+  async function doSomething(item) {
+  console.time("start");
+    console.log(`⏳ Processing item ${item}`);
+  //   await new Promise(resolve => setTimeout(resolve, 1000)); // simulate 1s async task
+    console.log(`✅ Done with item ${item}`);
+     console.timeEnd("start")
+  }
+  
+  runSequentially();
+  
