@@ -1,8 +1,19 @@
 import { Trash2 } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { deleteCartItems, getCartItems } from "../api/courseApi";
 
-export default function CartItem({ item: { name, image, quantity, price } }) {
-  const { removeFromCart } = useCart();
+export default function CartItem({ item }) {
+  const { id, name, image, quantity, price } = item;
+  const { removeFromCart, setCart } = useCart();
+
+  const handleRemove = async (id) => {
+    const res = await deleteCartItems(id);
+    if (res.message) {
+      const data = await getCartItems();
+      setCart(data);
+    }
+  };
+
   return (
     <div className="flex items-center p-6 space-x-6">
       <img
@@ -22,7 +33,7 @@ export default function CartItem({ item: { name, image, quantity, price } }) {
         </p>
       </div>
       <button
-        onClick={() => removeFromCart(item)}
+        onClick={() => handleRemove(id)}
         className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 cursor-pointer"
       >
         <Trash2 className="w-5 h-5" />

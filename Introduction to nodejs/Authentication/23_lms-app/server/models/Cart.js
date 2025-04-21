@@ -4,7 +4,7 @@ const cartSchema = new mongoose.Schema(
   {
     guestId: {
       type: String,
-      required: true,
+      // required: true,
     },
     courses: [
       {

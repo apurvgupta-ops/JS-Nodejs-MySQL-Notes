@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export async function connectDB() {
   try {
     await mongoose.connect(
-      "mongodb://admin:admin@localhost:27017/lmsApp?authSource=admin"
+      "mongodb://localhost:27017/lmsApp?authSource=admin",
     );
     console.log("Database connected");
   } catch (err) {

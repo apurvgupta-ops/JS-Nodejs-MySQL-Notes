@@ -8,12 +8,21 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { getCartItems } from "../api/courseApi";
 
 export default function Navbar({ darkMode, toggleDarkMode }) {
-  const { cartCount } = useCart();
+  const { cartCount, setCart } = useCart();
   const { user, logout } = useAuth();
+
+  useEffect(() => {
+    (async () => {
+      const CartItems = await getCartItems();
+      console.log({ CartItems });
+      setCart(CartItems);
+    })();
+  }, []);
 
   return (
     <nav className="sticky top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-lg mb-4">
