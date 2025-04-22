@@ -8,14 +8,14 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const courses = await Course.find();
-
-    if(!req.signedCookies.sid) {
-       const sessions = await Session.create({})
-       res.cookie("sid", sessions.id, {
-         httpOnly: true,
-         maxAge: 1000 * 60 * 60, // 1 hour
-         signed : true
-       });
+    const session = await Session.findById(req.signedCookies.sid);
+    if (!session) {
+      const sessions = await Session.create({});
+      res.cookie("sid", sessions.id, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60, // 1 hour
+        signed: true,
+      });
     }
 
     res.status(200).json(courses);

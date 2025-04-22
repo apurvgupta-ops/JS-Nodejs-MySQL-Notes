@@ -11,15 +11,18 @@ import {
 import { Fragment, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getCartItems } from "../api/courseApi";
+import { profileApi } from "../api/authApi";
 
 export default function Navbar({ darkMode, toggleDarkMode }) {
   const { cartCount, setCart } = useCart();
-  const { user, logout } = useAuth();
-
+  const { user, logout, setUser } = useAuth();
+  console.log({ setUser });
   useEffect(() => {
     (async () => {
       const CartItems = await getCartItems();
       console.log({ CartItems });
+      const userData = await profileApi();
+      setUser(userData);
       setCart(CartItems);
     })();
   }, []);

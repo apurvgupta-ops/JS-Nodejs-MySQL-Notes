@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { registrationApi } from "../api/authApi";
 export default function Register() {
   const [name, setName] = useState("Shubham Semwal");
   const [email, setEmail] = useState("shubham@gmail.com");
   const [password, setPassword] = useState("shubham@123");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log({ name, email, password });
+    await registrationApi({ name, email, password });
   };
 
   return (

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const cartSchema = new mongoose.Schema(
   {
-    guestId: {
+    userId: {
       type: String,
       // required: true,
     },
