@@ -1,3 +1,9 @@
 {
-  "github.copilot.chat.completionContext.typescript.mode": "off"
+  "github.copilot.chat.completionContext.typescript.mode": "off",
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  }
 }
