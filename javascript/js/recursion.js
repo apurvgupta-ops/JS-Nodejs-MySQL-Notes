@@ -65,9 +65,31 @@
 // const res = fun([1, 2, 3, 4, 5]);
 // console.log(res);
 
-// ! Palindrome or not
-function fun(n) {
-  if (count > n) return;
-}
+// ! Palindrome or not // 4554
+// function fun(n, reversed = "") {
+//   if (n === 0) return reversed;
+//   const lastDigit = n % 10;
+//   console.log(lastDigit);
+//   reversed = reversed * 10 + lastDigit;
+//   console.log(reversed);
+//   n = Math.floor(n / 10);
+//   return fun(n, reversed);
+// }
 
-console.log(fun(4554));
+// n = 4554;
+// const res = fun(n);
+// if (n === res) {
+//   console.log("This is Palindrone Number");
+// } else {
+//   console.log("This is not a palindron number");
+// }
+
+// ! Fibonacci Series up to Nth term
+// 0 1 1 2 3 5 8
+function fun(n, f1 = 0, f2 = 1, count = 2) {
+  console.log({ f1 });
+  if (count > n) return "Done";
+  count++;
+  return fun(n, f2, f1 + f2, count);
+}
+console.log(fun(5));

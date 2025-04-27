@@ -41,6 +41,11 @@
 //   }
 // }
 
+// function fun(n) {
+//   const reverseNumber = n.toString().split("").reverse().join();
+//   return reverseNumber;
+// }
+
 // console.log(fun(4554));
 
 // ! GCD
