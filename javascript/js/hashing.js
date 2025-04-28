@@ -209,6 +209,22 @@ Output: 4
 Explanation:
 Sequence [1,2,3,4] is of length 4.*/
 
-function fun(arr) {}
-const arr = [100, 4, 200, 1, 3, 2];
+function fun(arr) {
+  let longest = 0;
+  const newSet = new Set(arr);
+  for (let num of newSet) {
+    if (!newSet.has(num - 1)) {
+      let currentNum = num;
+      let currentStreak = 1;
+
+      while (newSet.has(currentNum + 1)) {
+        currentNum += 1;
+        currentStreak += 1;
+      }
+      longest = Math.max(longest, currentStreak);
+    }
+  }
+  return longest;
+}
+const arr = [100, 4, 200, 1, 3, 2, 5];
 console.log(fun(arr));
