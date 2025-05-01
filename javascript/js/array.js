@@ -295,3 +295,51 @@ Union of arr1 and arr2 is {1,2,3,4,5}
 // console.log(fun(arr));
 
 // ! Count Maximum Consecutive One's in the array
+// function fun(arr) {
+//   let count = 0;
+//   let maxCount = 0;
+
+//   for (let i = 0; i < arr.length; i++) {
+//     if (arr[i] === 1) {
+//       count++;
+//       maxCount = Math.max(maxCount, count);
+//     } else {
+//       count = 0;
+//     }
+//   }
+//   return maxCount;
+// }
+
+// const arr = [1, 1, 1, 1, 0, 1, 1, 1];
+// console.log(fun(arr));
+
+// ! Find the number that appears once, and the other numbers twice
+
+// function fun(arr) {
+//   const map = new Map();
+
+//   for (let i = 0; i < arr.length; i++) {
+//     map.set(arr[i], (map.get(arr[i]) || 0) + 1);
+//   }
+//   for (let [i, v] of map) {
+//     if (v == 1) {
+//       return `In this array, only element ${i} appear once and the other elements appear twice. So, is ${i} the answer.`;
+//     }
+//   }
+
+//   return false;
+// }
+// const arr = [4, 4, 1, 1, 2];
+// console.log(fun(arr));
+
+// ! Longest Subarray with given Sum K(Positives)
+/*
+Example 1:
+Input Format: N = 3, k = 5, array[] = {2,3,5}
+Result: 2
+Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
+*/
+
+function fun(arr) {}
+const arr = [2, 3, 5];
+console.log(fun(arr));
