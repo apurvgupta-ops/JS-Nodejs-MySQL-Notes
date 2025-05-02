@@ -71,7 +71,7 @@
 
 // console.log(fun(arr));
 
-// ! Remove Duplicates in-place from Sorted Array
+// ! * Remove Duplicates in-place from Sorted Array
 // ? Brute Force O(n)
 // function fun(arr) {
 //   const newArray = [...new Set(arr)];
@@ -125,7 +125,7 @@ first index will be shifted at last.
 //   return arr;
 // }
 
-// ? Rotation by K
+// ? * Rotation by K
 // function fun(arr) {
 //   for (let i = 0; i < k; i++) {
 //     const firstElement = arr[0];
@@ -191,7 +191,7 @@ first index will be shifted at last.
 // const num = 6;
 // console.log(fun(arr, num));
 
-// ! Union of Two Sorted Arrays
+// ! * Union of Two Sorted Arrays
 /* 
 Example 1:
 Input:
@@ -266,7 +266,7 @@ Union of arr1 and arr2 is {1,2,3,4,5}
 
 // console.log(fun(arr1, arr2));
 
-//  ! Find the missing number in an array
+// ! Find the missing number in an array
 
 // ? Brute Force : O(n)
 // function fun(arr) {
@@ -332,14 +332,137 @@ Union of arr1 and arr2 is {1,2,3,4,5}
 // const arr = [4, 4, 1, 1, 2];
 // console.log(fun(arr));
 
-// ! Longest Subarray with given Sum K(Positives)
+// ! * Longest Subarray with given Sum K(Positives)
 /*
 Example 1:
 Input Format: N = 3, k = 5, array[] = {2,3,5}
 Result: 2
 Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
 */
+// ? Brute Force : O(n2)
+// function fun(arr, k) {
+//   const n = arr.length;
+//   let bestSub = [];
+//   let maxLength = 0;
+//   for (let i = 0; i < n; i++) {
+//     let sum = 0;
+//     let temp = [];
+//     for (let j = i; j < n; j++) {
+//       sum += arr[j];
+//       temp.push(arr[j]);
+//       if (sum == k) {
+//         if (maxLength < temp.length) {
+//           maxLength = temp.length;
+//           bestSub = [...temp];
+//         }
+//       }
+//     }
+//   }
 
-function fun(arr) {}
-const arr = [2, 3, 5];
-console.log(fun(arr));
+//   if (bestSub.length > 0) {
+//     return `The longest subarray with sum ${k} is [${bestSub}] with length ${bestSub.length}.`;
+//   }
+//   return false;
+// }
+
+// ? Optimal  : O(n) **
+// function fun(arr, k) {
+//   const map = new Map();
+//   let currentSum = 0;
+//   let maxLength = 0;
+
+//   for (let i = 0; i < arr.length; i++) {
+//     currentSum += arr[i];
+
+//     // Case 1: If currentSum itself is k
+//     if (currentSum === k) {
+//       maxLength = i + 1;
+//     }
+
+//     // Case 2: If (currentSum - k) was seen before
+//     if (map.has(currentSum - k)) {
+//       const prevIndex = map.get(currentSum - k);
+//       maxLength = Math.max(maxLength, i - prevIndex);
+//     }
+
+//     // Store currentSum if not already stored (first occurrence only)
+//     if (!map.has(currentSum)) {
+//       map.set(currentSum, i);
+//     }
+//   }
+
+//   return maxLength;
+// }
+
+// const arr = [2, 3, 2, 5, 1, 1, 1, 3, 4];
+// const k = 10;
+// console.log(fun(arr, k));
+
+// ! * Longest Subarray with sum K | [Postives and Negatives]
+// function fun(arr, k) {
+//   const n = arr.length;
+//   let bestSubArray = [];
+//   let maxLength = 0;
+
+//   for (let i = 0; i < n; i++) {
+//     let sum = 0;
+//     let temp = [];
+
+//     for (let j = i; j < n; j++) {
+//       sum += arr[j];
+//       temp.push(arr[j]);
+//       if (sum === k) {
+//         if (maxLength < temp.length) {
+//           maxLength = temp.length;
+//           bestSubArray = [...temp];
+//         }
+//       }
+//     }
+//   }
+
+//   if (bestSubArray.length > 0) {
+//     return `The longest subarray with sum ${k} is [${bestSubArray}] with length ${bestSubArray.length}.`;
+//   }
+//   return false;
+// }
+// const arr = [2, 2, 5, 1, -1, 3, 4];
+// const k = 10;
+
+// console.log(fun(arr, k));
+
+// ! * Two Sum : Check if a pair with given sum exists in Array
+
+// ? Brute Force : O(n2)
+// function fun(arr, k) {
+//   const n = arr.length;
+//   for (let i = 0; i < n; i++) {
+//     for (let j = i; j < n; j++) {
+//       if (arr[i] + arr[j] === k) {
+//         return `So, the answer is “YES” for the first variant and [${i}, ${j}] for 2nd variant.`;
+//       }
+//     }
+//   }
+//   return false;
+// }
+
+// ? * Optimal : O(n)
+// function fun(arr, k) {
+//   const set = new Set();
+//   for (let i = 0; i < arr.length; i++) {
+//     const comp = k - arr[i];
+//     console.log(comp);
+//     console.log("Before", set);
+//     if (set.has(comp)) {
+//       return "yes";
+//     }
+//     set.add(arr[i]);
+//     console.log("After", set);
+//   }
+//   return false;
+// }
+
+// const arr = [2, 6, 5, 8, 11];
+// const k = 14;
+// console.log(fun(arr, k));
+
+// ! Sort an array of 0s, 1s and 2s
