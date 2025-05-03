@@ -466,3 +466,176 @@ Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
 // console.log(fun(arr, k));
 
 // ! Sort an array of 0s, 1s and 2s
+
+// ? Brute Force : O(n2)
+// function fun(arr) {
+//   const temp = [];
+//   let count = 0;
+//   for (let i = 0; i < arr.length; i++) {
+//     for (let j = 0; j < arr.length; j++)
+//       if (arr[j] === count) {
+//         temp.push(arr[j]);
+//       }
+//     count++;
+//   }
+//   return temp;
+// }
+
+// ? Optimal : O(n) but space complixity is high.
+// function fun(arr) {
+//   const temp0 = [];
+//   const temp1 = [];
+//   const temp2 = [];
+
+//   for (let i = 0; i < arr.length; i++) {
+//     if (arr[i] == 0) {
+//       temp0.push(arr[i]);
+//     } else if (arr[i] == 1) {
+//       temp1.push(arr[i]);
+//     } else {
+//       temp2.push(arr[i]);
+//     }
+//   }
+
+//   return temp0.concat(temp1, temp2);
+// }
+
+// ? Optimal : O(n) :: Dutch National Flag algorithm - one pass
+// function fun(arr) {
+//   let low = 0;
+//   let mid = 0;
+//   let high = arr.length - 1;
+
+//   while (mid <= high) {
+//     if (arr[mid] == 0) {
+//       [arr[low], arr[mid]] = [arr[mid], arr[low]];
+//       low++;
+//       mid++;
+//     } else if (arr[mid] == 1) {
+//       mid++;
+//     } else {
+//       [arr[mid], arr[high]] = [arr[high], arr[mid]];
+//       high--;
+//     }
+//   }
+//   return arr;
+// }
+
+// const arr = [2, 0, 2, 1, 1, 0];
+// console.log(fun(arr));
+
+// ! Find the Majority Element that occurs more than N/2 times
+/*
+Example 1:
+Input Format: N = 3, nums[] = {3,2,3}
+Result: 3
+Explanation: When we just count the occurrences of each number and compare with half of the size of the array, you will get 3 for the above solution. 
+*/
+
+// function fun(arr) {
+//   const n = arr.length;
+//   const map = new Map();
+
+//   for (let i = 0; i < n; i++) {
+//     map.set(arr[i], (map.get(arr[i]) || 0) + 1);
+//   }
+//   for (let [i, v] of map) {
+//     if (v >= n / 2) {
+//       return { yes: i };
+//     }
+//   }
+//   return map;
+// }
+// const arr = [3, 2, 3, 2, 2];
+// console.log(fun(arr));
+
+// ! * Kadane's Algorithm : Maximum Subarray Sum in an Array
+/*
+Example 1:
+Input: arr = [-2,1,-3,4,-1,2,1,-5,4] 
+Output: 6 
+Explanation: [4,-1,2,1] has the largest sum = 6. 
+*/
+
+// ? Brute Force : O(n2) : This is not a Kadan's Algo
+// function fun(arr) {
+//   const n = arr.length;
+//   let maxSum = arr[0]; // To handle Negative values also
+//   let subArray = [arr[0]];
+
+//   for (let i = 0; i < n; i++) {
+//     let sum = 0;
+//     let temp = [];
+
+//     for (let j = i; j < n; j++) {
+//       sum += arr[j];
+//       temp.push(arr[j]);
+//       if (maxSum < sum) {
+//         maxSum = sum;
+//         subArray = [...temp];
+//       }
+//     }
+//   }
+
+//   console.log(subArray, maxSum);
+//   return { subArray, maxSum };
+// }
+
+// function fun(arr) {}
+
+// const arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
+// console.log(fun(arr));
+
+// ! * Stock Buy And Sell
+/*
+Example 1:
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and 
+sell on day 5 (price = 6), profit = 6-1 = 5.
+*/
+
+// ? Brute Force :  O(n)
+// function fun(arr) {
+//   let maxProfit = 0;
+//   let buyPrice = arr[0];
+//   let sellPrice = arr[0];
+
+//   const n = arr.length;
+//   for (let i = 0; i < n; i++) {
+//     for (let j = i + 1; j < n; j++) {
+//       if (arr[j] - arr[i] > maxProfit) {
+//         maxProfit = arr[j] - arr[i];
+//         buyPrice = arr[i];
+//         sellPrice = arr[j];
+//       }
+//     }
+//   }
+
+//   console.log(`Buy at: ${buyPrice}, Sell at: ${sellPrice}`);
+//   return maxProfit;
+// }
+
+// ? * Optimal : O(n)
+// function fun(arr) {
+//   let maxProfit = 0;
+//   let buyPrice = Infinity;
+//   let sellPrice = -Infinity;
+//   const n = arr.length;
+
+//   for (let i = 0; i < n; i++) {
+//     if (arr[i] < buyPrice) {
+//       buyPrice = arr[i];
+//     } else if (arr[i] - buyPrice > maxProfit) {
+//       maxProfit = arr[i] - buyPrice;
+//       sellPrice = arr[i];
+//     }
+//   }
+//   console.log(`Buy at: ${buyPrice}, Sell at: ${sellPrice}`);
+
+//   return maxProfit;
+// }
+// const arr = [7, 8, 5, 3, 6, 4, 1];
+// console.log(fun(arr));
+
+// ! * Rearrange the array in alternating positive and negative items
