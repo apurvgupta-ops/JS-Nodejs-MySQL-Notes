@@ -639,3 +639,102 @@ sell on day 5 (price = 6), profit = 6-1 = 5.
 // console.log(fun(arr));
 
 // ! * Rearrange the array in alternating positive and negative items
+/*
+Example 1:
+
+Input:
+arr[] = {1,2,-4,-5}, N = 4
+Output:
+1 -4 2 -5
+
+Explanation: 
+
+Positive elements = 1,2
+Negative elements = -4,-5
+To maintain relative ordering, 1 must occur before 2, and -4 must occur before -5.
+*/
+
+// ? Brute Force : O(n + n/2)
+// function fun(arr) {
+//   const n = arr.length;
+//   let posArr = [];
+//   let negArr = [];
+//   let newArr = [];
+
+//   for (let i = 0; i < n; i++) {
+//     if (arr[i] < 0) {
+//       negArr.push(arr[i]);
+//     } else {
+//       posArr.push(arr[i]);
+//     }
+//   }
+//   console.log({ posArr, negArr });
+
+//   for (let i = 0; i < n / 2; i++) {
+//     newArr[2 * i] = posArr[i];
+//     newArr[2 * i + 1] = negArr[i];
+//   }
+//   return newArr;
+// }
+
+// ? Optimal : O(n)
+// function fun(arr) {
+//   const n = arr.length;
+//   let posIdx = 0;
+//   let negIdx = 1;
+//   let newArr = [];
+//   for (let i = 0; i < n; i++) {
+//     if (arr[i] < 0) {
+//       newArr[negIdx] = arr[i];
+//       negIdx += 2;
+//     } else {
+//       newArr[posIdx] = arr[i];
+//       posIdx += 2;
+//     }
+//   }
+//   return newArr;
+// }
+
+// const arr = [1, 2, -4, -5];
+// console.log(fun(arr));
+
+// ! Leaders in an Array
+/*
+Input:
+ arr = [10, 22, 12, 3, 0, 6]
+Output:
+ 22 12 6
+Explanation:
+ 6 is a leader. In addition to that, 12 is greater than all the elements in its right side (3, 0, 6), also 22 is greater than 12, 3, 0, 6.
+*/
+
+// ? Brute Force : O(n2)
+// function fun(arr) {
+//   const n = arr.length;
+//   const newArr = [];
+
+//   for (let i = 0; i < n; i++) {
+//     let isLeader = true;
+//     for (let j = i + 1; j < n; j++) {
+//       if (arr[i] < arr[j]) {
+//         isLeader = false;
+//         break;
+//       }
+//     }
+
+//     if (isLeader) {
+//       newArr.push(arr[i]);
+//     }
+//   }
+//   return newArr;
+// }
+
+// ? Optimal  :
+function fun(arr) {
+  const n = arr.length;
+
+  return newArr;
+}
+
+const arr = [10, 22, 12, 3, 0, 6];
+console.log(fun(arr));
