@@ -1,0 +1,14 @@
+{
+  "name": "google-oidc",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node --no-deprecation app.js",
+    "dev": "node --watch --no-deprecation app.js"
+  },
+  "dependencies": {
+    "google-auth-library": "^9.15.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
+  }
+}

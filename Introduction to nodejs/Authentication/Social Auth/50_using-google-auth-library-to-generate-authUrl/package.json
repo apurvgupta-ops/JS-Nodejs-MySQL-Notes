@@ -1,0 +1,12 @@
+{
+  "name": "google-oidc",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node --no-deprecation app.js",
+    "dev": "node --watch --no-deprecation app.js"
+  },
+  "dependencies": {
+    "google-auth-library": "^9.15.1"
+  }
+}

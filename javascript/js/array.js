@@ -729,12 +729,22 @@ Explanation:
 //   return newArr;
 // }
 
-// ? Optimal  :
-function fun(arr) {
-  const n = arr.length;
+// ? Optimal : O(n)
+// function fun(arr) {
+//   const n = arr.length;
+//   let maxRight = -Infinity;
+//   const newArr = [];
+//   for (let i = n - 1; i >= 0; i--) {
+//     if (arr[i] > maxRight) {
+//       maxRight = arr[i];
+//       newArr.push(arr[i]);
+//     }
+//   }
 
-  return newArr;
-}
+//   return newArr;
+// }
 
-const arr = [10, 22, 12, 3, 0, 6];
-console.log(fun(arr));
+// const arr = [10, 22, 12, 3, 0, 6];
+// console.log(fun(arr));
+
+// ! Longest Consecutive Sequence in an Array
