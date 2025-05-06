@@ -747,4 +747,77 @@ Explanation:
 // const arr = [10, 22, 12, 3, 0, 6];
 // console.log(fun(arr));
 
-// ! Longest Consecutive Sequence in an Array
+// ! * Longest Consecutive Sequence in an Array
+
+// ? * Optimal : O(n)
+// function fun(arr) {
+//   const set = new Set(arr);
+//   let longest = 0;
+//   for (let num of set) {
+//     if (!set.has(num - 1)) {
+//       let currentSum = num;
+//       let currentStreak = 1;
+
+//       while (set.has(currentSum + 1)) {
+//         currentStreak += 1;
+//         currentSum += 1;
+//       }
+//       longest = Math.max(longest, currentStreak);
+//     }
+//   }
+//   return longest;
+// }
+
+// const arr = [100, 3, 200, 201, 202, 203, 204, 205, 0, 1, 2];
+// console.log(fun(arr));
+
+// ! * Set Matrix Zero
+/*
+Input: matrix=[[1,1,1],[1,0,1],[1,1,1]]
+Output: [[1,0,1],[0,0,0],[1,0,1]]
+Explanation: Since matrix[2][2]=0.Therfore the 2nd column and 2nd row wil be set to 0.
+*/
+
+// ? Brute Force : O(n x m)
+// function fun(matrix) {
+//   const rows = matrix.length;
+//   const cols = matrix[0].length;
+//   console.log({ rows, cols });
+
+//   const zeroRows = new Set();
+//   const zeroCols = new Set();
+
+//   for (let i = 0; i < rows; i++) {
+//     for (let j = 0; j < cols; j++) {
+//       if (matrix[i][j] == 0) {
+//         zeroRows.add(i);
+//         zeroCols.add(j);
+//       }
+//     }
+//   }
+
+//   for (let i = 0; i < rows; i++) {
+//     for (let j = 0; j < cols; j++) {
+//       if (zeroRows.has(i) || zeroCols.has(j)) {
+//         matrix[i][j] = 0;
+//       }
+//     }
+//   }
+
+//   console.table(matrix);
+//   return matrix;
+// }
+
+// const matrix = [
+//   [1, 1, 0, 2],
+//   [1, 0, 1, 3],
+//   [1, 1, 0, 4],
+// ];
+// console.log(fun(matrix));
+
+// ! * Rotate Image by 90 degree
+/*
+Input: [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+Explanation: Rotate the matrix simply by 90 degree clockwise and return the matrix.
+*/
