@@ -821,3 +821,57 @@ Input: [[1,2,3],[4,5,6],[7,8,9]]
 Output: [[7,4,1],[8,5,2],[9,6,3]]
 Explanation: Rotate the matrix simply by 90 degree clockwise and return the matrix.
 */
+
+// ? Brute Force : O(n2) : Row to Column
+// function fun(matrix) {
+//   const n = matrix.length;
+//   console.log({ n });
+
+//   const result = Array.from({ length: n }, () => Array(n).fill(0));
+//   console.table(result);
+
+//   for (let i = 0; i < n; i++) {
+//     for (let j = 0; j < n; j++) {
+//       result[j][n - 1 - i] = matrix[i][j];
+//     }
+//   }
+
+//   return result;
+// }
+
+// ? Column to Row
+// function fun(matrix) {
+//   const n = matrix.length;
+//   let result = [];
+//   for (let i = 0; i < n; i++) {
+//     let newRow = [];
+
+//     for (let j = n - 1; j >= 0; j--) {
+//       newRow.push(matrix[j][i]);
+//       console.log({ newRow });
+//     }
+
+//     result.push(newRow);
+//   }
+
+//   return result;
+// }
+
+// const matrix = [
+//   [1, 2, 3],
+//   [4, 5, 6],
+//   [7, 8, 9],
+// ];
+
+// console.table(fun(matrix));
+
+// ! Spiral Traversal of Matrix
+/*
+Input: Matrix[][] = { { 1, 2, 3, 4 },
+		      { 5, 6, 7, 8 },
+		      { 9, 10, 11, 12 },
+	              { 13, 14, 15, 16 } }
+
+Outhput: 1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10.
+Explanation: The output of matrix in spiral form.
+*/
