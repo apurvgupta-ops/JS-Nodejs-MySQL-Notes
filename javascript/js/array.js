@@ -865,7 +865,7 @@ Explanation: Rotate the matrix simply by 90 degree clockwise and return the matr
 
 // console.table(fun(matrix));
 
-// ! Spiral Traversal of Matrix
+// ! * Spiral Traversal of Matrix
 /*
 Input: Matrix[][] = { { 1, 2, 3, 4 },
 		      { 5, 6, 7, 8 },
@@ -875,3 +875,127 @@ Input: Matrix[][] = { { 1, 2, 3, 4 },
 Outhput: 1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10.
 Explanation: The output of matrix in spiral form.
 */
+
+/*
+Approach :
+In each outer loop traversal print the elements of a square in a clockwise manner.
+
+Print the top row, i.e. Print the elements of the top row from column index left to right and increase the count of the top so that it will move to the next row.
+
+Print the right column, i.e. Print the rightmost column from row index top to bottom and decrease the count of right.
+
+Print the bottom row, i.e. if top <= bottom, then print the elements of a bottom row from column right to left and decrease the count of bottom.
+
+Print the left column, i.e. if left <= right, then print the elements of the left column from the bottom row to the top row and increase the count of left.
+
+Run a loop until all the squares of loops are printed.
+
+Note: As we can see in the code snippet below, two edge conditions are being added in the last two ‘for’ loops: when we are moving from right to left and from bottom to top. 
+
+These conditions are added to check if the matrix is a single column or a single row. So, whenever the elements in a single row are traversed they cannot be traversed again backward so the condition is checked in the right-to-left loop. When a single column is present, the condition is checked in the bottom-to-top loop as elements from bottom to top cannot be traversed again
+
+*/
+
+// ? * O(n x m)
+// function fun(mat) {
+//   // Define ans array to store the result.
+//   let ans = [];
+
+//   // Determine the number of rows and columns
+//   let n = mat.length; // no. of rows
+//   let m = mat[0].length; // no. of columns
+
+//   // Initialize the pointers reqd for traversal.
+//   let top = 0,
+//     left = 0,
+//     bottom = n - 1,
+//     right = m - 1;
+
+//   // Loop until all elements are not traversed.
+//   while (top <= bottom && left <= right) {
+//     // For moving left to right
+//     for (let i = left; i <= right; i++) ans.push(mat[top][i]);
+
+//     top++;
+
+//     // For moving top to bottom.
+//     for (let i = top; i <= bottom; i++) ans.push(mat[i][right]);
+
+//     right--;
+
+//     // For moving right to left.
+//     if (top <= bottom) {
+//       for (let i = right; i >= left; i--) ans.push(mat[bottom][i]);
+
+//       bottom--;
+//     }
+
+//     // For moving bottom to top.
+//     if (left <= right) {
+//       for (let i = bottom; i >= top; i--) ans.push(mat[i][left]);
+
+//       left++;
+//     }
+//   }
+//   return ans;
+// }
+
+// const matrix = [
+//   [1, 2, 3, 4],
+//   [5, 6, 7, 8],
+//   [9, 10, 11, 12],
+//   [13, 14, 15, 16],
+// ];
+
+// console.log(fun(matrix));
+
+// ! Count Subarray sum Equals K
+/*
+Input Format: N = 4, array[] = {3, 1, 2, 4}, k = 6
+Result: 2
+Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
+*/
+
+// ? Brute Force :  O(n2)
+// function fun(arr, k) {
+//   const n = arr.length;
+//   let res = [];
+//   let count = 0;
+//   for (let i = 0; i < n; i++) {
+//     let sum = 0;
+//     let temp = [];
+//     for (let j = i; j < n; j++) {
+//       sum += arr[j];
+//       temp.push(arr[j]);
+//       if (sum == k) {
+//         res = [[...temp], ...res];
+//         count++;
+//       }
+//     }
+//   }
+//   return { res, count };
+// }
+
+// ? Optimal : O(n)
+// function fun(arr, k) {
+//   let n = arr.length;
+//   let count = 0;
+//   let map = new Map();
+//   map.set(0, 1);
+//   let sum = 0;
+//   for (let i = 0; i < n; i++) {
+//     sum += arr[i];
+
+//     if (map.has(sum - k)) {
+//       count += map.get(sum - k);
+//     }
+
+//     map.set(sum, (map.get(sum) || 0) + 1);
+//   }
+
+//   return count;
+// }
+
+// const arr = [3, 1, 2, 4];
+// const k = 6;
+// console.log(fun(arr, k));
