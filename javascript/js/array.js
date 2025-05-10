@@ -999,3 +999,51 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 // const arr = [3, 1, 2, 4];
 // const k = 6;
 // console.log(fun(arr, k));
+
+// ! Pascal's Triangle
+
+// ? Brute Force : O(n2)
+// function generateCenteredPascalsTriangle(n) {
+//   const triangle = [];
+
+//   for (let i = 0; i < n; i++) {
+//     const row = [1];
+
+//     for (let j = 1; j < i; j++) {
+//       row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
+//     }
+//     if (i > 0) row.push(1);
+//     triangle.push(row);
+//   }
+
+//   // Calculate max width for spacing
+//   const maxWidth = triangle[n - 1].join(" ").length;
+
+//   // Print centered rows
+//   triangle.forEach((row) => {
+//     const line = row.join(" ");
+//     const padding = " ".repeat(Math.floor((maxWidth - line.length) / 2));
+//     console.log(padding + line);
+//   });
+// }
+
+// generateCenteredPascalsTriangle(10);
+
+// ! Generate Pascal of Nth Row
+
+// ? Optimal : O(N)
+// function generatePascalNthRow(n) {
+//   let row = [];
+//   let value = 1;
+
+//   for (let k = 0; k <= n; k++) {
+//     row.push(value);
+//     value = (value * (n - k)) / (k + 1);
+//   }
+
+//   return row.join(" ");
+// }
+
+// console.log(generatePascalNthRow(9));
+
+// ! Majority Elements(&gt;N/3 times) | Find the elements that appears more than N/3 times in the array
