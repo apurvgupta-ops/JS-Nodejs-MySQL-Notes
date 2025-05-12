@@ -1046,4 +1046,97 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 
 // console.log(generatePascalNthRow(9));
 
-// ! Majority Elements(&gt;N/3 times) | Find the elements that appears more than N/3 times in the array
+// ! Merge Overlapping Sub-intervals
+/*
+Input: intervals=[[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] are overlapping we can merge them to form [1,6]
+ intervals.
+*/
+// ? Brute Force : O(nlogn + n2)
+// function fun(arr) {
+//   const n = arr.length;
+//   let res = [];
+//   arr.sort((a, b) => a[0] - b[0]);
+//   for (let i = 0; i < n; i++) {
+//     let start = arr[i][0];
+//     let end = arr[i][1];
+
+//     if (res.length && arr[i][0] <= res[res.length - 1][1]) {
+//       continue;
+//     }
+//     for (let j = i + 1; j < n; j++) {
+//       if (end >= arr[j][0]) {
+//         end = Math.max(end, arr[j][1]);
+//       } else {
+//         break;
+//       }
+//     }
+//     res.push([start, end]);
+//   }
+//   return res;
+// }
+
+// ? Optimal : O(nlogn + n)
+// function fun(arr) {
+//   const n = arr.length;
+//   arr.sort((a, b) => a[0] - b[0]);
+
+//   const ans = [arr[0]];
+//   console.log({ ans });
+
+//   for (let i = 1; i < n; i++) {
+//     const last = ans[ans.length - 1];
+//     const curr = arr[i];
+//     console.log({ curr, last });
+//     if (curr[0] <= last[1]) {
+//       last[1] = Math.max(last[1], curr[1]);
+//     } else {
+//       ans.push(curr);
+//     }
+//   }
+
+//   return ans;
+// }
+
+// const arr = [
+//   [1, 3],
+//   [2, 6],
+//   [5, 10],
+//   [15, 18],
+// ];
+// console.log(fun(arr));
+
+// ! Merge two Sorted Arrays Without Extra Space
+/*
+Input: 
+n = 4, arr1[] = [1 4 8 10] 
+m = 5, arr2[] = [2 3 9]
+
+Output: 
+arr1[] = [1 2 3 4]
+arr2[] = [8 9 10]
+
+Explanation:
+After merging the two non-decreasing arrays, we get, 1,2,3,4,8,9,10.
+*/
+
+function fun(a1, a2) {
+  const n = a1.length;
+  const m = a2.length;
+
+  for (let i = 0; i < Math.max(n, m); i++) {
+    if (a1[i] > a2[i]) {
+      console.log(a1[i], a2[i]);
+      [a2[i], a1[i]] = [a1[i], a2[i]];
+    } else {
+      [a1[i], a2[i]] = [a2[i], a1[i]];
+    }
+  }
+  console.log({ a1, a2 });
+  return;
+}
+
+const arr1 = [1, 4, 8, 10];
+const arr2 = [2, 3, 9];
+console.log(fun(arr1, arr2));
