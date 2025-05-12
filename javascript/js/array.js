@@ -1107,6 +1107,97 @@ Explanation: Since intervals [1,3] and [2,6] are overlapping we can merge them t
 // ];
 // console.log(fun(arr));
 
+// ! Majority Elements(&gt;N/3 times) | Find the elements that appears more than N/3 times in the array
+// ? Optimal : O(n)
+// function fun(arr) {
+//   const n = arr.length;
+//   const map = new Map();
+//   let res = [];
+
+//   for (let num of arr) {
+//     map.set(num, (map.get(num) || 0) + 1);
+//   }
+//   for (let [i, v] of map) {
+//     if (v > Math.floor(n / 3)) {
+//       res.push(i);
+//     }
+//   }
+
+//   return res.length
+//     ? `The count of ${res} is greater than N/3 times. Hence, ${res} is the answer.`
+//     : false;
+// }
+
+// const arr = [1, 2, 2, 3, 2, 3, 3, 3, 3, 2];
+// console.log(fun(arr));
+
+// ! 3 Sum : Find triplets that add up to a zero
+
+// ? Brute Force : O(n3)
+// function fun(arr) {
+//   const n = arr.length;
+//   const set = new Set();
+//   for (let i = 0; i < n; i++) {
+//     let sum = 0;
+//     let temp = [];
+//     for (let j = i + 1; j < n; j++) {
+//       for (let k = j + 1; k < n; k++) {
+//         sum = arr[i] + arr[j] + arr[k];
+//         temp.push(arr[i], arr[j], arr[k]);
+//         if (sum == 0) {
+//           temp.sort((a, b) => a - b);
+//           set.add(temp);
+//         }
+//         temp = [];
+//       }
+//     }
+//     console.log(set);
+//     return;
+//   }
+
+//   console.log(res);
+//   return res;
+// }
+
+// ? Optimal : O(NlogN)+O(N2)
+// function fun(arr) {
+//   const n = arr.length;
+//   const result = [];
+//   arr.sort((a, b) => a - b);
+
+//   for (let i = 0; i < n - 2; i++) {
+//     // Skip duplicate values for i
+//     if (i > 0 && arr[i] === arr[i - 1]) continue;
+
+//     let j = i + 1;
+//     let k = n - 1;
+
+//     while (j < k) {
+//       let sum = arr[i] + arr[j] + arr[k];
+
+//       if (sum === 0) {
+//         result.push([arr[i], arr[j], arr[k]]);
+
+//         // Skip duplicates for j and k
+//         while (j < k && arr[j] === arr[j + 1]) j++;
+//         while (j < k && arr[k] === arr[k - 1]) k--;
+
+//         j++;
+//         k--;
+//       } else if (sum < 0) {
+//         j++;
+//       } else {
+//         k--;
+//       }
+//     }
+//   }
+
+//   return result;
+// }
+
+// const arr = [-1, 0, 1, 2, -1, -4];
+// console.log(fun(arr));
+
 // ! Merge two Sorted Arrays Without Extra Space
 /*
 Input: 
