@@ -1198,7 +1198,7 @@ Explanation: Since intervals [1,3] and [2,6] are overlapping we can merge them t
 // const arr = [-1, 0, 1, 2, -1, -4];
 // console.log(fun(arr));
 
-// ! Merge two Sorted Arrays Without Extra Space
+// ! Merge two Sorted Arrays
 /*
 Input: 
 n = 4, arr1[] = [1 4 8 10] 
@@ -1212,22 +1212,102 @@ Explanation:
 After merging the two non-decreasing arrays, we get, 1,2,3,4,8,9,10.
 */
 
+// ! With Extra Space
+// ? Brute Force : TC : O(n+m) + O(n+m), SC : O(n+m)
+// function fun(a1, a2) {
+//   const n = a1.length;
+//   const m = a2.length;
+//   const a3 = [];
+//   let left = 0;
+//   let right = 0;
+//   while (left < n && right < m) {
+//     if (a1[left] < a2[right]) {
+//       a3.push(a1[left]);
+//       left++;
+//     } else {
+//       a3.push(a2[right]);
+//       right++;
+//     }
+//   }
+//   while (left < n) {
+//     a3.push(a1[left++]);
+//   }
+//   while (right < m) {
+//     a3.push(a2[right++]);
+//   }
+
+//   for (let i = 0; i < a3.length; i++) {
+//     if (i < n) {
+//       a1[i] = a3[i];
+//     } else {
+//       console.log({ i, m });
+//       a2[i - n] = a3[i];
+//     }
+//   }
+
+//   return { a1, a2 };
+// }
+
+// ! WithOut Extra Space
+// ? TC: O(min(n,m)) + O(nlogn)+ O(mlogm)
+// function fun(a1, a2) {
+//   const n = a1.length;
+//   const m = a2.length;
+//   let leftEnd = n - 1;
+//   let rightStart = 0;
+
+//   while (leftEnd >= 0 && rightStart < m) {
+//     if (a1[leftEnd] > a2[rightStart]) {
+//       [a1[leftEnd], a2[rightStart]] = [a2[rightStart], a1[leftEnd]];
+//       leftEnd--;
+//       rightStart++;
+//     } else {
+//       break;
+//     }
+//   }
+
+//   a1.sort((a, b) => a - b);
+//   a2.sort((a, b) => a - b);
+
+//   return { a1, a2 };
+// }
+
+// ? Gap Method : Shell Sort
 function fun(a1, a2) {
   const n = a1.length;
   const m = a2.length;
+  let gap = Math.ceil(n + m) / 2;
+  while (gap > 0) {
+    let left = 0;
+    let right = gap;
 
-  for (let i = 0; i < Math.max(n, m); i++) {
-    if (a1[i] > a2[i]) {
-      console.log(a1[i], a2[i]);
-      [a2[i], a1[i]] = [a1[i], a2[i]];
-    } else {
-      [a1[i], a2[i]] = [a2[i], a1[i]];
+    while (right < n + m) {
+      const a = left < n ? arr1[left] : arr2[left - n];
+      const b = right < n ? arr1[right] : arr2[right - n];
+
+      if (a > b) {
+        if (left < n && right < n) {
+          // Swap within arr1
+          [arr1[left], arr1[right]] = [arr1[right], arr1[left]];
+        } else if (left < n && right >= n) {
+          // Swap between arr1 and arr2
+          [arr1[left], arr2[right - n]] = [arr2[right - n], arr1[left]];
+        } else {
+          // Swap within arr2
+          [arr2[left - n], arr2[right - n]] = [arr2[right - n], arr2[left - n]];
+        }
+      }
+
+      left++;
+      right++;
     }
+
+    gap = gap <= 1 ? 0 : Math.ceil(gap / 2);
   }
-  console.log({ a1, a2 });
-  return;
+
+  return { a1, a2 };
 }
 
-const arr1 = [1, 4, 8, 10];
-const arr2 = [2, 3, 9];
+const arr1 = [1, 4, 5, 8, 10];
+const arr2 = [2, 3, 9, 11];
 console.log(fun(arr1, arr2));
