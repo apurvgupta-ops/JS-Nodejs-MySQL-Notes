@@ -1046,6 +1046,67 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 
 // console.log(generatePascalNthRow(9));
 
+// ! Merge Overlapping Sub-intervals
+/*
+Input: intervals=[[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] are overlapping we can merge them to form [1,6]
+ intervals.
+*/
+// ? Brute Force : O(nlogn + n2)
+// function fun(arr) {
+//   const n = arr.length;
+//   let res = [];
+//   arr.sort((a, b) => a[0] - b[0]);
+//   for (let i = 0; i < n; i++) {
+//     let start = arr[i][0];
+//     let end = arr[i][1];
+
+//     if (res.length && arr[i][0] <= res[res.length - 1][1]) {
+//       continue;
+//     }
+//     for (let j = i + 1; j < n; j++) {
+//       if (end >= arr[j][0]) {
+//         end = Math.max(end, arr[j][1]);
+//       } else {
+//         break;
+//       }
+//     }
+//     res.push([start, end]);
+//   }
+//   return res;
+// }
+
+// ? Optimal : O(nlogn + n)
+// function fun(arr) {
+//   const n = arr.length;
+//   arr.sort((a, b) => a[0] - b[0]);
+
+//   const ans = [arr[0]];
+//   console.log({ ans });
+
+//   for (let i = 1; i < n; i++) {
+//     const last = ans[ans.length - 1];
+//     const curr = arr[i];
+//     console.log({ curr, last });
+//     if (curr[0] <= last[1]) {
+//       last[1] = Math.max(last[1], curr[1]);
+//     } else {
+//       ans.push(curr);
+//     }
+//   }
+
+//   return ans;
+// }
+
+// const arr = [
+//   [1, 3],
+//   [2, 6],
+//   [5, 10],
+//   [15, 18],
+// ];
+// console.log(fun(arr));
+
 // ! Majority Elements(&gt;N/3 times) | Find the elements that appears more than N/3 times in the array
 // ? Optimal : O(n)
 // function fun(arr) {
@@ -1193,3 +1254,117 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 // const arr = [9, -3, 3, -1, 6, -5];
 // const k = 0;
 // console.log(fun(arr, k));
+
+// ! Merge two Sorted Arrays
+/*
+Input: 
+n = 4, arr1[] = [1 4 8 10] 
+m = 5, arr2[] = [2 3 9]
+
+Output: 
+arr1[] = [1 2 3 4]
+arr2[] = [8 9 10]
+
+Explanation:
+After merging the two non-decreasing arrays, we get, 1,2,3,4,8,9,10.
+*/
+
+// ! With Extra Space
+// ? Brute Force : TC : O(n+m) + O(n+m), SC : O(n+m)
+// function fun(a1, a2) {
+//   const n = a1.length;
+//   const m = a2.length;
+//   const a3 = [];
+//   let left = 0;
+//   let right = 0;
+//   while (left < n && right < m) {
+//     if (a1[left] < a2[right]) {
+//       a3.push(a1[left]);
+//       left++;
+//     } else {
+//       a3.push(a2[right]);
+//       right++;
+//     }
+//   }
+//   while (left < n) {
+//     a3.push(a1[left++]);
+//   }
+//   while (right < m) {
+//     a3.push(a2[right++]);
+//   }
+
+//   for (let i = 0; i < a3.length; i++) {
+//     if (i < n) {
+//       a1[i] = a3[i];
+//     } else {
+//       console.log({ i, m });
+//       a2[i - n] = a3[i];
+//     }
+//   }
+
+//   return { a1, a2 };
+// }
+
+// ! WithOut Extra Space
+// ? TC: O(min(n,m)) + O(nlogn)+ O(mlogm)
+// function fun(a1, a2) {
+//   const n = a1.length;
+//   const m = a2.length;
+//   let leftEnd = n - 1;
+//   let rightStart = 0;
+
+//   while (leftEnd >= 0 && rightStart < m) {
+//     if (a1[leftEnd] > a2[rightStart]) {
+//       [a1[leftEnd], a2[rightStart]] = [a2[rightStart], a1[leftEnd]];
+//       leftEnd--;
+//       rightStart++;
+//     } else {
+//       break;
+//     }
+//   }
+
+//   a1.sort((a, b) => a - b);
+//   a2.sort((a, b) => a - b);
+
+//   return { a1, a2 };
+// }
+
+// ? Gap Method : Shell Sort
+// function fun(a1, a2) {
+//   const n = a1.length;
+//   const m = a2.length;
+//   let gap = Math.ceil(n + m) / 2;
+//   while (gap > 0) {
+//     let left = 0;
+//     let right = gap;
+
+//     while (right < n + m) {
+//       const a = left < n ? arr1[left] : arr2[left - n];
+//       const b = right < n ? arr1[right] : arr2[right - n];
+
+//       if (a > b) {
+//         if (left < n && right < n) {
+//           // Swap within arr1
+//           [arr1[left], arr1[right]] = [arr1[right], arr1[left]];
+//         } else if (left < n && right >= n) {
+//           // Swap between arr1 and arr2
+//           [arr1[left], arr2[right - n]] = [arr2[right - n], arr1[left]];
+//         } else {
+//           // Swap within arr2
+//           [arr2[left - n], arr2[right - n]] = [arr2[right - n], arr2[left - n]];
+//         }
+//       }
+
+//       left++;
+//       right++;
+//     }
+
+//     gap = gap <= 1 ? 0 : Math.ceil(gap / 2);
+//   }
+
+//   return { a1, a2 };
+// }
+
+// const arr1 = [1, 4, 5, 8, 10];
+// const arr2 = [2, 3, 9, 11];
+// console.log(fun(arr1, arr2));
