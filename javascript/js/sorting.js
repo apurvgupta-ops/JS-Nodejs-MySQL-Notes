@@ -52,4 +52,47 @@ Repeat until the whole array is sorted.
 // const arr = [3, 5, 7, 2, 1, 4];
 // console.log(fun(arr));
 
-// ! Insertion Sort
+// ! Merge Sort
+function merge(arr, start, mid, end) {
+  const temp = [];
+  let left = start;
+  let newMid = mid + 1;
+  while (left <= mid && newMid <= end) {
+    // check between 2 half array's
+    if (arr[left] < arr[newMid]) {
+      temp.push(arr[left]);
+      left++;
+    } else {
+      temp.push(arr[newMid]);
+      newMid++;
+    }
+  }
+
+  // push left out element from left side array
+  while (left <= mid) {
+    temp.push(arr[left]);
+    left++;
+  }
+
+  // push left out element from right side array
+  while (newMid <= end) {
+    temp.push(arr[newMid]);
+    newMid++;
+  }
+
+  for (let i = 0; i < temp.length; i++) {
+    arr[start + i] = temp[i];
+  }
+}
+
+function mergeSort(arr, start = 0, end = arr.length - 1) {
+  if (start >= end) return;
+  let mid = Math.floor((start + end) / 2);
+  mergeSort(arr, start, mid);
+  mergeSort(arr, mid + 1, end);
+  merge(arr, start, mid, end);
+}
+
+const arr = [4, 2, 1, 6, 7];
+mergeSort(arr);
+console.log(arr);

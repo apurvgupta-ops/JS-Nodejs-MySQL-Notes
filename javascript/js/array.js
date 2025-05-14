@@ -1273,41 +1273,113 @@ After merging the two non-decreasing arrays, we get, 1,2,3,4,8,9,10.
 // }
 
 // ? Gap Method : Shell Sort
-function fun(a1, a2) {
-  const n = a1.length;
-  const m = a2.length;
-  let gap = Math.ceil(n + m) / 2;
-  while (gap > 0) {
-    let left = 0;
-    let right = gap;
+// function fun(a1, a2) {
+//   const n = a1.length;
+//   const m = a2.length;
+//   let gap = Math.ceil(n + m) / 2;
+//   while (gap > 0) {
+//     let left = 0;
+//     let right = gap;
 
-    while (right < n + m) {
-      const a = left < n ? arr1[left] : arr2[left - n];
-      const b = right < n ? arr1[right] : arr2[right - n];
+//     while (right < n + m) {
+//       const a = left < n ? arr1[left] : arr2[left - n];
+//       const b = right < n ? arr1[right] : arr2[right - n];
 
-      if (a > b) {
-        if (left < n && right < n) {
-          // Swap within arr1
-          [arr1[left], arr1[right]] = [arr1[right], arr1[left]];
-        } else if (left < n && right >= n) {
-          // Swap between arr1 and arr2
-          [arr1[left], arr2[right - n]] = [arr2[right - n], arr1[left]];
-        } else {
-          // Swap within arr2
-          [arr2[left - n], arr2[right - n]] = [arr2[right - n], arr2[left - n]];
-        }
-      }
+//       if (a > b) {
+//         if (left < n && right < n) {
+//           // Swap within arr1
+//           [arr1[left], arr1[right]] = [arr1[right], arr1[left]];
+//         } else if (left < n && right >= n) {
+//           // Swap between arr1 and arr2
+//           [arr1[left], arr2[right - n]] = [arr2[right - n], arr1[left]];
+//         } else {
+//           // Swap within arr2
+//           [arr2[left - n], arr2[right - n]] = [arr2[right - n], arr2[left - n]];
+//         }
+//       }
 
-      left++;
-      right++;
-    }
+//       left++;
+//       right++;
+//     }
 
-    gap = gap <= 1 ? 0 : Math.ceil(gap / 2);
-  }
+//     gap = gap <= 1 ? 0 : Math.ceil(gap / 2);
+//   }
 
-  return { a1, a2 };
-}
+//   return { a1, a2 };
+// }
 
-const arr1 = [1, 4, 5, 8, 10];
-const arr2 = [2, 3, 9, 11];
-console.log(fun(arr1, arr2));
+// const arr1 = [1, 4, 5, 8, 10];
+// const arr2 = [2, 3, 9, 11];
+// console.log(fun(arr1, arr2));
+
+// ! Find the repeating and missing numbers
+/*
+Input Format: array[] = {3,1,2,5,4,6,7,5}
+Result: {5,8)
+Explanation: A = 5 , B = 8 
+Since 5 is appearing twice and 8 is missing
+*/
+// ? TC: O(n), SC : O(n)(map)
+
+// function fun(arr) {
+//   const n = arr.length;
+//   const map = new Map();
+//   let repeating = null;
+//   let missing = null;
+
+//   // Count frequency of each number
+//   for (let num of arr) {
+//     map.set(num, (map.get(num) || 0) + 1);
+//   }
+
+//   // Find repeating and missing
+//   for (let i = 1; i <= n; i++) {
+//     const freq = map.get(i) || 0;
+//     if (freq === 0) {
+//       missing = i;
+//     } else if (freq === 2) {
+//       repeating = i;
+//     }
+//   }
+
+//   return { repeating, missing };
+// }
+
+// ? TC: O(n) , SC :O(1) : Chat gpt
+// function findRepeatingAndMissing(arr) {
+// 	const n = arr.length;
+
+// 	let sum = 0;
+// 	let sumSq = 0;
+
+// 	for (let num of arr) {
+// 	  sum += num;
+// 	  sumSq += num * num;
+// 	}
+
+// 	const actualSum = (n * (n + 1)) / 2;
+// 	const actualSumSq = (n * (n + 1) * (2 * n + 1)) / 6;
+
+// 	const diff = sum - actualSum;           // x - y
+// 	const squareDiff = sumSq - actualSumSq; // x² - y²
+
+// 	const sumXY = squareDiff / diff;        // x + y
+
+// 	const x = (diff + sumXY) / 2;           // x (repeating)
+// 	const y = sumXY - x;                    // y (missing)
+
+// 	return {
+// 	  repeating: x,
+// 	  missing: y
+// 	};
+//   }
+
+// const arr = [3, 1, 2, 5, 4, 6, 7, 5];
+// console.log(fun(arr));
+
+// ! Count inversions in an array
+/*
+Input Format: N = 5, array[] = {5,4,3,2,1}
+Result: 10
+Explanation: we have a reverse sorted array and we will get the maximum inversions as for i < j we will always find a pair such that A[j] < A[i]. Example: 5 has index 0 and 3 has index 2 now (5,3) pair is inversion as 0 < 2 and 5 > 3 which will satisfy out conditions and for reverse sorted array we will get maximum inversions and that is (n)*(n-1) / 2.For above given array there is 4 + 3 + 2 + 1 = 10 inversions.
+*/
