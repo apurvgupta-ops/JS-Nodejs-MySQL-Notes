@@ -1198,6 +1198,63 @@ Explanation: Since intervals [1,3] and [2,6] are overlapping we can merge them t
 // const arr = [-1, 0, 1, 2, -1, -4];
 // console.log(fun(arr));
 
+// ! Length of the longest subarray with zero Sum
+
+// ? Brute Force :  O()
+// function fun(arr, k) {
+//   const n = arr.length;
+//   let maxLength = 0;
+//   let bestSub = [];
+//   for (let i = 0; i < n; i++) {
+//     let sum = 0;
+//     let temp = [];
+
+//     for (let j = i; j < n; j++) {
+//       sum += arr[j];
+//       temp.push(arr[j]);
+//       if (sum == k) {
+//         if (maxLength < temp.length) {
+//           maxLength = temp.length;
+//           //   bestSub = [...temp];
+//         }
+//       }
+//     }
+//   }
+
+//   //   console.log(bestSub);
+//   return maxLength;
+// }
+
+// ? Optimal : O(n)
+// function fun(arr, k) {
+//   const map = new Map();
+//   let sum = 0;
+//   let maxLen = 0;
+
+//   for (let i = 0; i < arr.length; i++) {
+//     sum += arr[i];
+//     console.log({ sum });
+//     if (sum === k) {
+//       maxLen = i + 1;
+//     }
+//     console.log({ maxLen, i });
+//     if (map.has(sum - k)) {
+//       maxLen = Math.max(maxLen, i - map.get(sum - k));
+//     }
+//     console.log({ maxLen });
+//     if (!map.has(sum)) {
+//       map.set(sum, i);
+//     }
+//   }
+
+//   console.log({ map });
+//   return maxLen;
+// }
+
+// const arr = [9, -3, 3, -1, 6, -5];
+// const k = 0;
+// console.log(fun(arr, k));
+
 // ! Merge two Sorted Arrays
 /*
 Input: 
