@@ -1440,3 +1440,97 @@ Input Format: N = 5, array[] = {5,4,3,2,1}
 Result: 10
 Explanation: we have a reverse sorted array and we will get the maximum inversions as for i < j we will always find a pair such that A[j] < A[i]. Example: 5 has index 0 and 3 has index 2 now (5,3) pair is inversion as 0 < 2 and 5 > 3 which will satisfy out conditions and for reverse sorted array we will get maximum inversions and that is (n)*(n-1) / 2.For above given array there is 4 + 3 + 2 + 1 = 10 inversions.
 */
+
+// ? Brute Force : O(n2)
+// function fun(arr) {
+//   const n = arr.length;
+//   const temp = [];
+//   for (let i = 0; i < n; i++) {
+//     for (let j = i + 1; j < n; j++) {
+//       if (i < j && arr[i] > arr[j]) {
+//         temp.push([arr[i], arr[j]]);
+//       }
+//     }
+//   }
+//   return temp.length;
+// }
+
+// ? Optimal: O(nlogn) : Using Merge Sort
+
+// const arr = [5, 3, 2, 1, 4];
+// console.log(fun(arr));
+
+// ! Count Reverse Pairs
+// Input: N = 5, array[] = {1,3,2,3,1)
+// 	Output: 2
+// 	Explanation: The pairs are (3, 1) and (3, 1) as from both the pairs the condition
+//  arr[i] > 2*arr[j] is satisfied.
+
+// ? Brute Force : O(n2)
+// function fun(arr) {
+//   const n = arr.length;
+//   let temp = [];
+//   for (let i = 0; i < n; i++) {
+//     for (let j = i + 1; j < n; j++) {
+//       if (arr[i] > 2 * arr[j]) {
+//         temp.push([arr[i], arr[j]]);
+//       }
+//     }
+//   }
+//   return temp;
+// }
+
+// ? Optimal: O(nlogn)  : Using Merge Sort
+
+// const arr = [1, 3, 2, 3, 1];
+// console.log(fun(arr));
+
+// ! Maximum Product Subarray
+
+// ? Brute Force : O(n2)
+function fun(arr) {
+  const n = arr.length;
+  let max = 0;
+  for (let i = 0; i < n; i++) {
+    let sum = 1;
+    console.log({ sum });
+    for (let j = i; j < n; j++) {
+      sum = sum * arr[j];
+      max = Math.max(sum, max);
+      console.log({ max });
+    }
+  }
+  return max;
+}
+
+// ? Optimal : O(n)
+
+function fun(arr) {
+  const n = arr.length;
+  let max = arr[0];
+  let maxEnd = arr[0];
+  let minEnd = arr[0];
+  console.log({ "before-maxEnd": maxEnd });
+  console.log({ "before-minEnd": minEnd });
+
+  for (let i = 0; i < n; i++) {
+    let num = arr[i];
+    if (num < 0) {
+      [maxEnd, minEnd] = [minEnd, maxEnd];
+      console.log({ "condition-after-maxEnd": maxEnd });
+      console.log({ "condition-after-minEnd": minEnd });
+    }
+
+    maxEnd = Math.max(num, num * maxEnd);
+    console.log({ "after-maxEnd": maxEnd });
+    minEnd = Math.min(num, num * minEnd);
+    console.log({ "after-minEnd": minEnd });
+    max = Math.max(max, maxEnd);
+    console.log({ max });
+  }
+
+  return max;
+}
+
+const arr = [1, 2, -3, 4, 5, 0];
+console.log(fun(arr));
