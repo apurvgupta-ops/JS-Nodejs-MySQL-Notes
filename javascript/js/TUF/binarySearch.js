@@ -124,3 +124,153 @@ Input Format: arr[] = {1,2,4,7}, x = 6
 Result: 3
 Explanation: 6 is not present in the array. So, if we will insert 6 in the 3rd index(0-based indexing), the array will still be sorted. {1,2,4,6,7}.
 */
+
+// ? Optimal : O(logn)
+// function fun(arr, k) {
+//   const n = arr.length;
+//   let low = 0;
+//   let high = n - 1;
+
+//   while (low <= high) {
+//     let mid = Math.floor((low + high) / 2);
+//     if (arr[mid] === k) {
+//       return mid;
+//     } else if (arr[mid] < k) {
+//       low = mid + 1;
+//     } else {
+//       high = mid - 1;
+//     }
+//   }
+
+//   return low;
+// }
+
+// const arr = [1, 2, 4, 7];
+// let k = 3;
+// console.log(fun(arr, k));
+
+// ! Floor and Ceil in Sorted Array
+/*
+Input Format: n = 6, arr[] ={3, 4, 4, 7, 8, 10}, x= 5
+Result: 4 7
+Explanation: The floor of 5 in the array is 4, and the ceiling of 5 in the array is 7.
+*/
+// ? Optimal : O(logn)
+// function fun(arr, k) {
+//   const n = arr.length;
+//   let low = 0;
+//   let high = n - 1;
+//   while (low <= high) {
+//     let mid = Math.floor((low + high) / 2);
+//     if (arr[mid] === k) {
+//       return { floor: arr[mid], ceil: arr[mid] };
+//     } else if (arr[mid] < k) {
+//       low = mid + 1;
+//     } else {
+//       high = mid - 1;
+//     }
+//   }
+//   console.log(low);
+//   return { floor: arr[low - 1], ceil: arr[low] };
+// }
+// const arr = [3, 4, 4, 7, 8, 10];
+// const x = 8;
+
+// console.log(fun(arr, x));
+
+// ! Last occurrence in a sorted array
+/*
+Input: N = 7, target=13, array[] = {3,4,13,13,13,20,40}
+Output: 4
+Explanation: As the target value is 13 , it appears for the first time at index number 2.
+*/
+
+// function fun(arr, k) {
+//   const n = arr.length;
+//   let low = 0;
+//   let high = n - 1;
+//   let idx = 0;
+
+//   while (low <= high) {
+//     let mid = Math.floor((low + high) / 2);
+
+//     if (arr[mid] === k) {
+//       idx = mid;
+//       low = mid + 1;
+//     } else if (arr[mid] < k) {
+//       low = mid + 1;
+//     } else {
+//       high = mid - 1;
+//     }
+//   }
+
+//   return idx;
+// }
+// const arr = [3, 4, 13, 13, 13, 20, 40];
+// const k = 13;
+// console.log(fun(arr, k));
+
+// ! Count Occurrences in Sorted Array
+
+// function firstOccurrence(arr, k) {
+//   const n = arr.length;
+//   let low = 0,
+//     high = n - 1;
+//   let first = -1;
+
+//   while (low <= high) {
+//     let mid = Math.floor((low + high) / 2);
+//     if (arr[mid] === k) {
+//       first = mid;
+//       high = mid - 1;
+//     } else if (arr[mid] < k) {
+//       low = mid + 1;
+//     } else {
+//       high = mid - 1;
+//     }
+//   }
+//   return first;
+// }
+
+// function lastOccurrence(arr, k) {
+//   const n = arr.length;
+//   let low = 0,
+//     high = n - 1;
+//   let last = -1;
+
+//   while (low <= high) {
+//     let mid = Math.floor((low + high) / 2);
+//     if (arr[mid] === k) {
+//       last = mid;
+//       low = mid + 1;
+//     } else if (arr[mid] < k) {
+//       low = mid + 1;
+//     } else {
+//       high = mid - 1;
+//     }
+//   }
+//   return last;
+// }
+
+// function firstAndLastPosition(arr, k) {
+//   let first = firstOccurrence(arr, k);
+//   if (first === -1) return [-1, -1];
+//   let last = lastOccurrence(arr, k);
+//   return [first, last];
+// }
+
+// function count(arr, x) {
+//   let [first, last] = firstAndLastPosition(arr, x);
+//   if (first === -1) return 0;
+//   return last - first + 1;
+// }
+// const arr = [3, 13, 4, 13, 13, 13, 20, 40, 13];
+// const k = 13;
+// console.log(count(arr, k));
+
+// ! Search Element in a Rotated Sorted Array
+/*
+Input Format: arr = [4,5,6,7,0,1,2,3], k = 0
+Result: 4
+Explanation: Here, the target is 0. We can see that 0 is present in the given rotated sorted array, nums. Thus, we get output as 4, which is the index at which 0 is present in the array.
+*/
