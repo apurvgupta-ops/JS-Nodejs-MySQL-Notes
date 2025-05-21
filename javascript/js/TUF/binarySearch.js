@@ -274,3 +274,40 @@ Input Format: arr = [4,5,6,7,0,1,2,3], k = 0
 Result: 4
 Explanation: Here, the target is 0. We can see that 0 is present in the given rotated sorted array, nums. Thus, we get output as 4, which is the index at which 0 is present in the array.
 */
+
+// function fun(arr, k) {
+//   let n = arr.length;
+//   let low = 0;
+//   let high = n - 1;
+
+//   while (low <= high) {
+//     let mid = Math.floor((low + high) / 2);
+
+//     if (arr[mid] === k) return mid;
+//     else if (arr[mid] > arr[low]) {
+//       if (arr[low] <= k && arr[mid] >= k) {
+//         high = mid - 1;
+//       } else {
+//         low = mid + 1;
+//       }
+//     } else {
+//       if (arr[high] >= k && arr[mid] <= k) {
+//         low = mid + 1;
+//       } else {
+//         high = mid - 1;
+//       }
+//     }
+//   }
+
+//   return -1;
+// }
+
+// const arr = [4, 5, 6, 7, 0, 1, 2, 3];
+// console.log(fun(arr, 0));
+
+// ! Find Minimum in Rotated Sorted Array
+/*
+Input Format: arr = [3,4,5,1,2]
+Result: 1
+Explanation: Here, the element 1 is the minimum element in the array.
+*/
