@@ -107,10 +107,10 @@
 Example 1:
 Input: N = 5, array[] = {1,2,3,4,5}
 Output: 2,3,4,5,1
-Explanation: 
-Since all the elements in array will be shifted 
-toward left by one so ‘2’ will now become the 
-first index and and ‘1’ which was present at 
+Explanation:
+Since all the elements in array will be shifted
+toward left by one so ‘2’ will now become the
+first index and and ‘1’ which was present at
 first index will be shifted at last.
 */
 
@@ -139,6 +139,40 @@ first index will be shifted at last.
 // const arr = [1, 2, 3, 4, 5];
 // const k = 3;
 // console.log(fun(arr, k));
+
+// ! Right Rotate the Array by One
+
+// ? Brute Force : O(n2)
+// function fun(arr, k){
+//     const n = arr.length;
+//     k = k%n;
+
+//     for(let i = 0;i<k;i++){
+//         const last = arr[n-1];
+
+//         for(let j = n-1 ;j>0;j--){
+//             arr[j] = arr[j-1]
+//         }
+
+//         arr[0] = last
+//     }
+
+//     return arr
+
+// }
+
+// const arr = [-1,-100,3,99]
+// const k = 2
+// console.log(fun(arr, k))
+
+// ? Optimal : O(n)
+// function fun(arr, k) {
+//   const n = arr.length;
+//   k = k % n;
+
+//   const reversed = arr.slice(n - k).concat(arr.slice(0, n - k));
+//   return reversed;
+// }
 
 // ! Move all Zeros to the end of the array
 
@@ -192,20 +226,20 @@ first index will be shifted at last.
 // console.log(fun(arr, num));
 
 // ! * Union of Two Sorted Arrays
-/* 
+/*
 Example 1:
 Input:
 n = 5,m = 5.
-arr1[] = {1,2,3,4,5}  
+arr1[] = {1,2,3,4,5}
 arr2[] = {2,3,4,4,5}
 Output:
  {1,2,3,4,5}
 
-Explanation: 
+Explanation:
 Common Elements in arr1 and arr2  are:  2,3,4,5
 Distnict Elements in arr1 arFind the missing number in an arraye : 1
 Distnict Elemennts in arr2 are : No distinct elements.
-Union of arr1 and arr2 is {1,2,3,4,5} 
+Union of arr1 and arr2 is {1,2,3,4,5}
 */
 
 // ? Brute Force Approach
@@ -529,7 +563,7 @@ Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
 Example 1:
 Input Format: N = 3, nums[] = {3,2,3}
 Result: 3
-Explanation: When we just count the occurrences of each number and compare with half of the size of the array, you will get 3 for the above solution. 
+Explanation: When we just count the occurrences of each number and compare with half of the size of the array, you will get 3 for the above solution.
 */
 
 // function fun(arr) {
@@ -552,9 +586,9 @@ Explanation: When we just count the occurrences of each number and compare with 
 // ! * Kadane's Algorithm : Maximum Subarray Sum in an Array
 /*
 Example 1:
-Input: arr = [-2,1,-3,4,-1,2,1,-5,4] 
-Output: 6 
-Explanation: [4,-1,2,1] has the largest sum = 6. 
+Input: arr = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
 */
 
 // ? Brute Force : O(n2) : This is not a Kadan's Algo
@@ -591,7 +625,7 @@ Explanation: [4,-1,2,1] has the largest sum = 6.
 Example 1:
 Input: prices = [7,1,5,3,6,4]
 Output: 5
-Explanation: Buy on day 2 (price = 1) and 
+Explanation: Buy on day 2 (price = 1) and
 sell on day 5 (price = 6), profit = 6-1 = 5.
 */
 
@@ -647,7 +681,7 @@ arr[] = {1,2,-4,-5}, N = 4
 Output:
 1 -4 2 -5
 
-Explanation: 
+Explanation:
 
 Positive elements = 1,2
 Negative elements = -4,-5
@@ -868,9 +902,9 @@ Explanation: Rotate the matrix simply by 90 degree clockwise and return the matr
 // ! * Spiral Traversal of Matrix
 /*
 Input: Matrix[][] = { { 1, 2, 3, 4 },
-		      { 5, 6, 7, 8 },
-		      { 9, 10, 11, 12 },
-	              { 13, 14, 15, 16 } }
+          { 5, 6, 7, 8 },
+          { 9, 10, 11, 12 },
+                { 13, 14, 15, 16 } }
 
 Outhput: 1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10.
 Explanation: The output of matrix in spiral form.
@@ -890,7 +924,7 @@ Print the left column, i.e. if left <= right, then print the elements of the lef
 
 Run a loop until all the squares of loops are printed.
 
-Note: As we can see in the code snippet below, two edge conditions are being added in the last two ‘for’ loops: when we are moving from right to left and from bottom to top. 
+Note: As we can see in the code snippet below, two edge conditions are being added in the last two ‘for’ loops: when we are moving from right to left and from bottom to top.
 
 These conditions are added to check if the matrix is a single column or a single row. So, whenever the elements in a single row are traversed they cannot be traversed again backward so the condition is checked in the right-to-left loop. When a single column is present, the condition is checked in the bottom-to-top loop as elements from bottom to top cannot be traversed again
 
@@ -1257,11 +1291,11 @@ Explanation: Since intervals [1,3] and [2,6] are overlapping we can merge them t
 
 // ! Merge two Sorted Arrays
 /*
-Input: 
-n = 4, arr1[] = [1 4 8 10] 
+Input:
+n = 4, arr1[] = [1 4 8 10]
 m = 5, arr2[] = [2 3 9]
 
-Output: 
+Output:
 arr1[] = [1 2 3 4]
 arr2[] = [8 9 10]
 
@@ -1373,7 +1407,7 @@ After merging the two non-decreasing arrays, we get, 1,2,3,4,8,9,10.
 /*
 Input Format: array[] = {3,1,2,5,4,6,7,5}
 Result: {5,8)
-Explanation: A = 5 , B = 8 
+Explanation: A = 5 , B = 8
 Since 5 is appearing twice and 8 is missing
 */
 // ? TC: O(n), SC : O(n)(map)
@@ -1487,50 +1521,50 @@ Explanation: we have a reverse sorted array and we will get the maximum inversio
 
 // ! Maximum Product Subarray
 
-// ? Brute Force : O(n2)
-function fun(arr) {
-  const n = arr.length;
-  let max = 0;
-  for (let i = 0; i < n; i++) {
-    let sum = 1;
-    console.log({ sum });
-    for (let j = i; j < n; j++) {
-      sum = sum * arr[j];
-      max = Math.max(sum, max);
-      console.log({ max });
-    }
-  }
-  return max;
-}
+// // ? Brute Force : O(n2)
+// function fun(arr) {
+//   const n = arr.length;
+//   let max = 0;
+//   for (let i = 0; i < n; i++) {
+//     let sum = 1;
+//     console.log({ sum });
+//     for (let j = i; j < n; j++) {
+//       sum = sum * arr[j];
+//       max = Math.max(sum, max);
+//       console.log({ max });
+//     }
+//   }
+//   return max;
+// }
 
 // ? Optimal : O(n)
 
-function fun(arr) {
-  const n = arr.length;
-  let max = arr[0];
-  let maxEnd = arr[0];
-  let minEnd = arr[0];
-  console.log({ "before-maxEnd": maxEnd });
-  console.log({ "before-minEnd": minEnd });
+// function fun(arr) {
+//   const n = arr.length;
+//   let max = arr[0];
+//   let maxEnd = arr[0];
+//   let minEnd = arr[0];
+//   console.log({ "before-maxEnd": maxEnd });
+//   console.log({ "before-minEnd": minEnd });
 
-  for (let i = 0; i < n; i++) {
-    let num = arr[i];
-    if (num < 0) {
-      [maxEnd, minEnd] = [minEnd, maxEnd];
-      console.log({ "condition-after-maxEnd": maxEnd });
-      console.log({ "condition-after-minEnd": minEnd });
-    }
+//   for (let i = 0; i < n; i++) {
+//     let num = arr[i];
+//     if (num < 0) {
+//       [maxEnd, minEnd] = [minEnd, maxEnd];
+//       console.log({ "condition-after-maxEnd": maxEnd });
+//       console.log({ "condition-after-minEnd": minEnd });
+//     }
 
-    maxEnd = Math.max(num, num * maxEnd);
-    console.log({ "after-maxEnd": maxEnd });
-    minEnd = Math.min(num, num * minEnd);
-    console.log({ "after-minEnd": minEnd });
-    max = Math.max(max, maxEnd);
-    console.log({ max });
-  }
+//     maxEnd = Math.max(num, num * maxEnd);
+//     console.log({ "after-maxEnd": maxEnd });
+//     minEnd = Math.min(num, num * minEnd);
+//     console.log({ "after-minEnd": minEnd });
+//     max = Math.max(max, maxEnd);
+//     console.log({ max });
+//   }
 
-  return max;
-}
+//   return max;
+// }
 
-const arr = [1, 2, -3, 4, 5, 0];
-console.log(fun(arr));
+// const arr = [1, 2, -3, 4, 5, 0];
+// console.log(fun(arr));
