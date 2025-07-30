@@ -522,3 +522,31 @@ Explanation: If Koko eats 5 bananas/hr, he will take 2, 3, 2, and 1 hour to eat 
 // const arr = [7, 15, 6, 3];
 // const h = 8;
 // console.log(fun(arr, h));
+
+// ! Find the Smallest Divisor Given a Threshold
+// function fun(arr, k) {
+//   const n = arr.length;
+//   let low = 1;
+//   let high = Math.max(...arr);
+//   let min = high;
+
+//   while (low <= high) {
+//     let mid = Math.floor((low + high) / 2);
+//     let sum = 0;
+//     for (let i of arr) {
+//       sum += Math.ceil(i / mid);
+//     }
+//     if (sum <= k) {
+//       min = mid;
+//       high = mid - 1;
+//     } else {
+//       low = mid + 1;
+//     }
+//   }
+
+//   return min;
+// }
+
+// const arr = [1, 2, 3, 4, 5];
+// const k = 8;
+// console.log(fun(arr, k));
