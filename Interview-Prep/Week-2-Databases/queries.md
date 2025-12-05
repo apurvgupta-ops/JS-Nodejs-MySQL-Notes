@@ -58,14 +58,35 @@ select * from department;
 -- select e.*, d.* from employee as e
 -- left join department as d on d.emp_id = e.id;
 
-select e.* from employee as e
-left join department as d on d.emp_id = e.id
-where d.department = "software";
+-- select e.* from employee as e
+-- left join department as d on d.emp_id = e.id
+-- where d.department = "software";
 
-select e.* from employee as e
-left join department as d on d.emp_id = e.id
-where d.emp_id is null;
+-- select e.* from employee as e
+-- left join department as d on d.emp_id = e.id
+-- where d.emp_id is null;
 
+-- select e.name, count(d.id) as dept_count from employee as e 
+-- left join department as d on d.emp_id = e.id 
+-- group by  e.id, e.name
+-- having dept_count > 1;
+
+-- select e.name , group_concat(d.department SEPARATOR ", ") as department from employee as e
+-- left join department as d on e.id = d.emp_id
+-- group by e.id, e.name;
  
 
+-- SUB QUERIES
+-- select * from employee where salary > (select avg(salary) from employee);
 
+-- select name , salary, RANK() over (order by salary desc) AS salary_rank from employee 
+
+-- select max(salary) as second_salary from employee
+-- where salary < (select Max(salary) from employee);
+
+-- select d.department , sum(e.salary) as total_salary from department as d
+-- left join employee as e on d.emp_id = e.id
+-- group by d.department;
+
+
+ 
