@@ -88,5 +88,25 @@ select * from department;
 -- left join employee as e on d.emp_id = e.id
 -- group by d.department;
 
+-- update employee 
+-- set salary = salary * 1.1 
+-- where id in 
+-- (select emp_id from department where department = "nodejs");
+
+-- select * from employee
+ 
+ 
+-- select department, avg(e.salary) as average_salary from department as d
+-- left join employee as e on e.id = d.emp_id
+-- group by d.department
+-- having average_salary > 250
+
+select name, salary,
+        case
+            when salary > 300 then "HIGH"
+            when salary > 200 then "MEDIUM"
+            else "LOW"
+        end as salary_categories
+from employee  
 
  
