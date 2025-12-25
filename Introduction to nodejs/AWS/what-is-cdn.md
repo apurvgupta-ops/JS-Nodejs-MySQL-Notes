@@ -8,34 +8,34 @@ A **Content Delivery Network** (**CDN**) is a system of distributed servers that
 
 1. **User Request**
 
-   * A user visits your website or app and requests a file.
+   - A user visits your website or app and requests a file.
 
 2. **Nearest Server**
 
-   * The CDN finds the closest server (called an **edge location**) to the user.
+   - The CDN finds the closest server (called an **edge location**) to the user.
 
 3. **Quick Delivery**
 
-   * The file is delivered from that nearby server, reducing load time and improving the user experience.
+   - The file is delivered from that nearby server, reducing load time and improving the user experience.
 
 ---
 
 ## 🎯 Benefits of a CDN
 
-* **Faster Load Times** – Content is served from servers closer to the user, reducing latency.
-* **Reduced Server Load** – Your main server (origin) handles fewer requests because CDN caches content.
-* **Better Availability** – CDNs have multiple servers, so if one goes down, others can handle the load.
-* **Global Reach** – Serve users efficiently anywhere in the world.
-* **Security Features** – Many CDNs offer DDoS protection and secure delivery options.
+- **Faster Load Times** – Content is served from servers closer to the user, reducing latency.
+- **Reduced Server Load** – Your main server (origin) handles fewer requests because CDN caches content.
+- **Better Availability** – CDNs have multiple servers, so if one goes down, others can handle the load.
+- **Global Reach** – Serve users efficiently anywhere in the world.
+- **Security Features** – Many CDNs offer DDoS protection and secure delivery options.
 
 ---
 
 ## 🛠 Common CDN Examples
 
-* **Amazon CloudFront**
-* **Cloudflare**
-* **Akamai**
-* **Fastly**
+- **Amazon CloudFront**
+- **Cloudflare**
+- **Akamai**
+- **Fastly**
 
 ---
 
