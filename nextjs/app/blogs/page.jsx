@@ -1,5 +1,9 @@
 import Link from "next/link";
-import React from "react";
+
+// dynamic metadata
+export const metadata = {
+  title: "Blogs",
+};
 
 const blogs = () => {
   return (
@@ -12,7 +16,8 @@ const blogs = () => {
         <Link href={`/blogs/2`}> Blog 2</Link>
       </p>
       <p>
-        <Link href={`/blogs/3`}> Blog 4</Link>
+        <Link href={`/blogs/3`}> Blog 3</Link>
+        <Link href={"/blogs/3/comments"}>Comments</Link>
       </p>
     </div>
   );
