@@ -559,7 +559,6 @@
 //     return true;
 // }
 
-
 // function pangram(str) {
 //     const set = new Set()
 //     for (let i of str) {
@@ -570,7 +569,6 @@
 //     return set.size === 26 ? true : false;
 // }
 // console.log(pangram("The quick brown fox jumps over the lazy dog"));
-
 
 // 6️⃣ Remove All Duplicate Words From a Sentence
 // Input: "this is is a test test string"
@@ -595,10 +593,7 @@
 //     return [...seen.keys()].join(" ")
 // }
 
-
-
 // console.log(existOrNot("this is is a test test string"))
-
 
 // 7️⃣ Find the Longest Palindromic Substring (Brute Force Allowed)
 // Input: "babad"
@@ -638,9 +633,7 @@
 //     return res
 // }
 
-
 // console.log(isPalindromic("babad"))
-
 
 // 8️⃣ Find All Anagram Pairs in an Array of Strings
 // Input: ["cat", "tac", "act", "dog"]
@@ -669,29 +662,27 @@
 
 // console.log(allAnagramPairs(["cat", "tac", "act", "dog"]))
 
-
 // 9️⃣ Find the Longest Substring Without Repeating Characters (Sliding Window)
 // Input: "abcabcbb"
 // Output: "abc" ✨ Introduction to sliding windows, hash maps, and window shrinking logic.
 
 function longestSubstring(str) {
-    let longest = ""
-    for (let i = 0; i < str.length; i++) {
-        const seen = new Set()
-        let current = ""
-        for (let j = i; j < str.length; j++) {
-            if (seen.has(str[j])) break
-            seen.add(str[j])
-            current += str[j]
-
-        }
-
-        if (current.length > longest.length) {
-            longest = current
-        }
+  let longest = "";
+  for (let i = 0; i < str.length; i++) {
+    const seen = new Set();
+    let current = "";
+    for (let j = i; j < str.length; j++) {
+      if (seen.has(str[j])) break;
+      seen.add(str[j]);
+      current += str[j];
     }
 
-    return longest
+    if (current.length > longest.length) {
+      longest = current;
+    }
+  }
+
+  return longest;
 }
 
-console.log(longestSubstring("abcabcbb"))
+console.log(longestSubstring("abcabcbb"));
