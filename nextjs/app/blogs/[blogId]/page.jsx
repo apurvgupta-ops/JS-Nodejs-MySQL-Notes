@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import React from "react";
 
 export async function generateMetadata({ params }) {
@@ -11,6 +12,10 @@ export async function generateMetadata({ params }) {
 
 const blog = async ({ params }) => {
   const { blogId: id } = await params;
+
+  if (!/^\d+$/.test(id)) {
+    notFound();
+  }
 
   return <div>blog {id}</div>;
 };
