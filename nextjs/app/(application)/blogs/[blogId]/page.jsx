@@ -2,6 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
+// If we do this false, then if we visit any page which is not generated then is shows 404 not found.
+// By default it is true,
+export const dynamicParams = false;
+
+// Incremental Site Regeneration(ISR) (Only works if do SSG)
+export const revalidate = 5; // in seconds
+
 // static site generation
 export async function generateStaticParams() {
   const res = await fetch("https://jsonplaceholder.typicode.com/todos/");
@@ -13,6 +20,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { blogId: id } = await params;
+
+  // Other way of ISR
+  // const res = await fetch("https://jsonplaceholder.typicode.com/todos/1",{
+  //     next :{
+  //       revalidate : 5
+  //     }
+  //   });
+  // const data = await res.json();
 
   console.log({ id });
   return {
