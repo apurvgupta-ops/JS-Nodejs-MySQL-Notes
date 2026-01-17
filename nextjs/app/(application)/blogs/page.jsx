@@ -1,4 +1,7 @@
+import Likes from "@/Components/Likes";
+import Views from "@/Components/Views";
 import Link from "next/link";
+import { Suspense } from "react";
 
 // dynamic metadata
 export const metadata = {
@@ -19,6 +22,14 @@ const blogs = () => {
         <Link href={`/blogs/3`}> Blog 3</Link>
         <Link href={"/blogs/3/comments"}>Comments</Link>
       </p>
+      <div>
+        <Suspense fallback={"Loading Views"}>
+          <Views />
+        </Suspense>
+        <Suspense fallback={"Loading Likes"}>
+          <Likes />
+        </Suspense>
+      </div>
     </div>
   );
 };
