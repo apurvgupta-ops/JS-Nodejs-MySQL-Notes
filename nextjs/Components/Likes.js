@@ -1,6 +1,10 @@
 import React from "react";
+import Button from "./Button";
 
 export default async function Likes() {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  return <div> 300k Likes</div>;
+  return (
+    <div>
+      <Button title={"Increse Likes"} />
+    </div>
+  );
 }
