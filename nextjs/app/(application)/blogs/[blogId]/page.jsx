@@ -43,6 +43,16 @@ const blog = async ({ params }) => {
     notFound();
   }
 
+  // if (id % 2 === 0) {
+  //   return  "BlogId should be odd number";
+  // }
+
+  const randomNumber = Math.random();
+  console.log(randomNumber);
+  if (randomNumber > 0.5) {
+    throw new Error("Error Occured in blogId page");
+  }
+
   return <div>blog {id}</div>;
 };
 

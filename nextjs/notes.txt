@@ -1,0 +1,1 @@
+If we want to store logs in the file , then we can do npm start >> server.log 2>&1

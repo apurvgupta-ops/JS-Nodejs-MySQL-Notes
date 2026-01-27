@@ -11,6 +11,12 @@ export const metadata = {
 };
 
 const blogs = () => {
+  const randomNumber = Math.random();
+  console.log(randomNumber);
+  if (randomNumber > 0.5) {
+    throw new Error("Error Occured");
+  }
+
   return (
     <div>
       blogs
