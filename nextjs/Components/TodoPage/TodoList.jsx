@@ -1,4 +1,4 @@
-import { DeleteButton } from "../Button";
+import { DeleteButton, EditCheckbox } from "../Button";
 export default async function TodoList() {
   let todos = [];
 
@@ -21,8 +21,8 @@ export default async function TodoList() {
         {todos.map(({ _id, title, completed }) => (
           <>
             <li key={_id}>
-              {title}{" "}
-              <input type="checkbox" defaultChecked={completed} readOnly />
+              {title}
+              <EditCheckbox id={_id} completed={completed} />
               <DeleteButton id={_id} />
             </li>
           </>

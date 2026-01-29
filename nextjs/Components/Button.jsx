@@ -39,3 +39,33 @@ export const DeleteButton = ({ id }) => {
     </>
   );
 };
+
+export const EditCheckbox = ({ id, title, completed }) => {
+  const router = useRouter();
+  console.log(completed);
+
+  const handleEdit = async (e) => {
+    const newCompleted = e.target.checked;
+    try {
+      const res = await fetch(`/api/todos/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({ title, completed: newCompleted }),
+      });
+      if (!res.ok) throw new Error("Failed to edit");
+      router.refresh();
+    } catch (error) {
+      alert("Failed to edit todo");
+    }
+  };
+
+  return (
+    <>
+      <input
+        placeholder="edit"
+        type="checkbox"
+        defaultChecked={completed}
+        onChange={handleEdit}
+      />
+    </>
+  );
+};
