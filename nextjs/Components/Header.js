@@ -38,6 +38,14 @@ export default function Header() {
             Services
           </Link>
         </li>
+        <li>
+          <Link
+            href="/todos"
+            className={pathname === "/todos" ? "nav-link active" : "nav-link"}
+          >
+            Todos
+          </Link>
+        </li>
       </ul>
 
       <button onClick={themeToggle}>

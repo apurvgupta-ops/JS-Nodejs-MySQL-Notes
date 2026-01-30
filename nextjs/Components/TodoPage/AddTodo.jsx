@@ -1,6 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
+
+// import styles from "../../app/todos/todo.module.css";
 
 export default function AddTodo({ onAdd }) {
   const [title, setTitle] = useState("");
@@ -28,16 +30,24 @@ export default function AddTodo({ onAdd }) {
     }
   };
   return (
-    <form onSubmit={handleAdd}>
+    <form
+      onSubmit={handleAdd}
+      className="flex gap-3 mb-8 w-full max-w-xl mx-auto"
+    >
       <input
+        className="flex-1 px-4 py-3 border border-gray-200 rounded-lg text-base bg-gray-50 focus:outline-none focus:border-violet-500 transition"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Add Todo"
+        placeholder="Add a new todo..."
         disabled={loading}
         required
       />
-      <button type="submit" disabled={loading}>
-        {loading ? "Adding" : "Add"}
+      <button
+        type="submit"
+        disabled={loading}
+        className="bg-linear-to-r from-violet-500 to-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition hover:from-violet-600 hover:to-indigo-600 disabled:opacity-70 disabled:cursor-not-allowed"
+      >
+        {loading ? "Adding..." : "Add"}
       </button>
     </form>
   );

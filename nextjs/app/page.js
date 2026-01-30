@@ -9,10 +9,11 @@ export default function Home() {
       <Header />
       Technical Agency
       <ImageComponent />
-      <Link href={"/about"}>About US</Link>
+      {/* <Link href={"/about"}>About US</Link>
       <Link href={"/services"}>Services</Link>
       <Link href={"/blogs"}>Blogs</Link>
       <Link href={"/files"}>Files</Link>
+      <Link href={"/todos"}>Todos</Link> */}
     </div>
   );
 }
