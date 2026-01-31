@@ -22,4 +22,3 @@ user2.init("Appu", "Nodes");
 
 console.log(user1.getInfo());
 console.log(user2.getInfo());
-11;
