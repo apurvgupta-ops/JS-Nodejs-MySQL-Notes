@@ -16,7 +16,6 @@ export async function POST(request) {
   await connectDB();
 
   const todoBody = await request.json();
-  console.log(todoBody);
   await Todo.create(todoBody);
   return NextResponse.json({
     message: "Todo Created",
