@@ -1,6 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { MdOutlineDelete } from "react-icons/md";
 
 export default function Button({ title }) {
@@ -16,56 +15,39 @@ export default function Button({ title }) {
   );
 }
 
-export const DeleteButton = ({ id }) => {
-  const router = useRouter();
+export const DeleteButton = ({ id, onDelete }) => {
+  const [isPending, startTransition] = useTransition();
 
-  const handleDelete = async () => {
-    try {
-      const res = await fetch(`/api/todos/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Failed to delete");
-      router.refresh();
-    } catch (error) {
-      alert("Failed to delete todo");
-    }
+  const handleDelete = () => {
+    startTransition(() => onDelete(id));
   };
 
   return (
-    <>
-      <button onClick={handleDelete} aria-label="Delete todo">
-        <MdOutlineDelete />
-      </button>
-    </>
+    <button
+      onClick={handleDelete}
+      aria-label="Delete todo"
+      disabled={isPending}
+      className="disabled:opacity-50"
+    >
+      <MdOutlineDelete />
+    </button>
   );
 };
 
-export const EditCheckbox = ({ id, title, completed }) => {
-  const router = useRouter();
-  console.log(completed);
+export const EditCheckbox = ({ id, completed, onToggle }) => {
+  const [isPending, startTransition] = useTransition();
 
-  const handleEdit = async (e) => {
-    const newCompleted = e.target.checked;
-    try {
-      const res = await fetch(`/api/todos/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({ title, completed: newCompleted }),
-      });
-      if (!res.ok) throw new Error("Failed to edit");
-      router.refresh();
-    } catch (error) {
-      alert("Failed to edit todo");
-    }
+  const handleEdit = () => {
+    startTransition(() => onToggle(id));
   };
 
   return (
-    <>
-      <input
-        placeholder="edit"
-        type="checkbox"
-        defaultChecked={completed}
-        onChange={handleEdit}
-      />
-    </>
+    <input
+      type="checkbox"
+      checked={completed}
+      onChange={handleEdit}
+      disabled={isPending}
+      className="disabled:opacity-50"
+    />
   );
 };

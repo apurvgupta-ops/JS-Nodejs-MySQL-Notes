@@ -642,6 +642,848 @@ Your Todo application is a great start and follows modern Next.js patterns (App 
 
 ---
 
+## ✅ Todo Application - Modern Implementation with Server Actions & Optimistic UI
+
+### Architecture Overview
+
+The Todo application has been upgraded to use **Next.js Server Actions** with **Optimistic UI** for the best user experience. This implementation combines instant UI feedback with guaranteed data consistency.
+
+### File Structure
+
+```
+app/
+  ├── todos/
+  │   └── page.jsx           # Main todo page with Suspense
+  └── actions/
+      └── todosActions.js    # Server Actions (create, delete, update)
+
+Components/
+  ├── TodoPage/
+  │   ├── AddTodo.jsx        # Form with useActionState
+  │   ├── TodoList.jsx       # Server Component - fetches todos
+  │   └── TodoItems.jsx      # Client Component - optimistic updates
+  └── Button.jsx             # DeleteButton & EditCheckbox components
+
+models/
+  └── todoModel.js           # Mongoose schema
+
+lib/
+  └── connectDb.js           # MongoDB connection
+```
+
+---
+
+### 1. Server Actions (`app/actions/todosActions.js`)
+
+**Purpose:** Server-side mutations with automatic revalidation
+
+```javascript
+"use server";
+
+import { connectDB } from "@/lib/connectDb";
+import { Todo } from "@/models/todoModel";
+import { revalidatePath } from "next/cache";
+
+// Create new todo
+export async function createTodoAction(_, formData) {
+  try {
+    await connectDB();
+    const { title } = formData;
+    await Todo.create({ title });
+    revalidatePath("/todos");
+    return { message: "Todo Created", success: true };
+  } catch (error) {
+    return { message: "Failed to create todo", success: false };
+  }
+}
+
+// Delete todo
+export async function deleteTodoAction(id) {
+  try {
+    await connectDB();
+    await Todo.findByIdAndDelete(id);
+    revalidatePath("/todos");
+    return { message: "Todo Deleted", success: true };
+  } catch (error) {
+    return { message: "Failed to delete todo", success: false };
+  }
+}
+
+// Update todo completion status
+export async function updateTodoAction(id, completed) {
+  try {
+    await connectDB();
+    await Todo.findByIdAndUpdate(id, { completed });
+    revalidatePath("/todos");
+    return { message: "Todo Updated", success: true };
+  } catch (error) {
+    return { message: "Failed to update todo", success: false };
+  }
+}
+```
+
+**Key Features:**
+- ✅ `"use server"` directive for server-only execution
+- ✅ `revalidatePath("/todos")` refreshes data after mutations
+- ✅ Error handling with success/failure responses
+- ✅ Direct database access without API routes
+
+---
+
+### 2. Todo Page (`app/todos/page.jsx`)
+
+**Purpose:** Server Component that renders the todo interface
+
+```javascript
+import AddTodo from "@/Components/TodoPage/AddTodo";
+import TodoList from "@/Components/TodoPage/TodoList";
+import { Suspense } from "react";
+
+export default async function TodosPage() {
+  return (
+    <div className="bg-white rounded-2xl shadow-lg p-8 max-w-xl w-full mx-auto mt-12">
+      <h1 className="text-4xl font-extrabold mb-8 text-center text-gray-900">
+        Todos
+      </h1>
+      <AddTodo />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TodoList />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+**Key Features:**
+- ✅ Server Component (default)
+- ✅ Suspense for streaming todo list
+- ✅ Clean separation of concerns
+
+---
+
+### 3. Add Todo Form (`Components/TodoPage/AddTodo.jsx`)
+
+**Purpose:** Client Component for adding new todos with useActionState
+
+```javascript
+"use client";
+import { createTodoAction } from "@/app/actions/todosActions";
+import { useActionState, useState } from "react";
+
+export default function AddTodo() {
+  const [state, action, pending] = useActionState(createTodoAction, {});
+  const [title, setTitle] = useState("");
+
+  const handleAdd = async () => {
+    if (!title.trim()) return;
+    const data = { title };
+    await action(data);
+    if (state.success !== false) {
+      setTitle("");
+    }
+  };
+
+  return (
+    <form action={handleAdd} className="flex gap-3 mb-8 w-full max-w-xl mx-auto">
+      <input
+        className="flex-1 px-4 py-3 border border-gray-200 rounded-lg"
+        name="title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Add a new todo..."
+        disabled={pending}
+        required
+      />
+      <button
+        type="submit"
+        disabled={pending}
+        className="bg-violet-500 text-white font-semibold px-6 py-3 rounded-lg disabled:opacity-70"
+      >
+        {pending ? "Adding..." : "Add"}
+      </button>
+      {state.message}
+    </form>
+  );
+}
+```
+
+**Key Features:**
+- ✅ `useActionState` hook for server action integration
+- ✅ Automatic pending state management
+- ✅ Clears input after successful submission
+- ✅ Disabled state during submission
+
+---
+
+### 4. Todo List (`Components/TodoPage/TodoList.jsx`)
+
+**Purpose:** Server Component that fetches todos from database
+
+```javascript
+import { connectDB } from "@/lib/connectDb";
+import { Todo } from "@/models/todoModel";
+import TodoItems from "./TodoItems";
+
+export default async function TodoList() {
+  await connectDB();
+  const todosData = await Todo.find().lean();
+
+  // Convert MongoDB documents to plain objects for Client Components
+  const todos = todosData.map((todo) => ({
+    _id: todo._id.toString(),
+    title: todo.title,
+    completed: todo.completed,
+  }));
+
+  if (!todos.length) {
+    return (
+      <div className="bg-white rounded-2xl shadow-lg p-8">
+        No Todos Found
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-2xl shadow-lg p-8">
+      <h2 className="text-2xl font-bold mb-6 text-center">Your Todos</h2>
+      <TodoItems todos={todos} />
+    </div>
+  );
+}
+```
+
+**Key Features:**
+- ✅ Direct database access (Server Component)
+- ✅ Converts MongoDB ObjectIds to strings for Client Components
+- ✅ Uses `.lean()` for better performance
+- ✅ Passes plain objects to avoid serialization issues
+
+**Important:** MongoDB documents must be converted to plain objects before passing to Client Components. The `_id` field must be converted to string.
+
+---
+
+### 5. Todo Items with Optimistic UI (`Components/TodoPage/TodoItems.jsx`)
+
+**Purpose:** Client Component that handles optimistic updates with non-blocking transitions
+
+```javascript
+"use client";
+import React, { useOptimistic, useTransition } from "react";
+import { DeleteButton, EditCheckbox } from "../Button";
+import { deleteTodoAction, updateTodoAction } from "@/app/actions/todosActions";
+
+export default function TodoItems({ todos }) {
+  const [isPending, startTransition] = useTransition();
+  const [optimisticTodos, updateOptimisticTodos] = useOptimistic(
+    todos,
+    (state, { action, todo }) => {
+      switch (action) {
+        case "delete":
+          return state.filter((t) => t._id !== todo._id);
+        case "toggle":
+          return state.map((t) =>
+            t._id === todo._id ? { ...t, completed: !t.completed } : t
+          );
+        default:
+          return state;
+      }
+    }
+  );
+
+  const handleDelete = (id) => {
+    const todoToDelete = optimisticTodos.find((t) => t._id === id);
+    updateOptimisticTodos({ action: "delete", todo: todoToDelete });
+    startTransition(async () => {
+      const result = await deleteTodoAction(id);
+      if (!result.success) {
+        alert(result.message);
+      }
+    });
+  };
+
+  const handleToggle = (id) => {
+    const todoToToggle = optimisticTodos.find((t) => t._id === id);
+    updateOptimisticTodos({ action: "toggle", todo: todoToToggle });
+    startTransition(async () => {
+      const result = await updateTodoAction(id, !todoToToggle.completed);
+      if (!result.success) {
+        alert(result.message);
+      }
+    });
+  };
+
+  return (
+    <div>
+      <ul className="space-y-4">
+        {optimisticTodos.map(({ _id, title, completed }) => (
+          <li
+            key={_id}
+            className={`flex items-center justify-between bg-gray-50 rounded-lg px-5 py-4 ${
+              completed ? "opacity-60 line-through" : ""
+            }`}
+          >
+            <span className="text-lg">{title}</span>
+            <div className="flex gap-2">
+              <EditCheckbox id={_id} completed={completed} onToggle={handleToggle} />
+              <DeleteButton id={_id} onDelete={handleDelete} />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+**Key Features:**
+- ✅ `useOptimistic` hook for instant UI updates
+- ✅ `useTransition` for non-blocking server actions
+- ✅ Handles both delete and toggle operations
+- ✅ Updates UI immediately before server responds
+- ✅ Shows alerts only on server errors
+- ✅ Automatic rollback on failure
+- ✅ Keeps UI responsive during async operations
+
+**How it Works:**
+
+1. User clicks delete/toggle → UI updates **instantly** (optimistic)
+2. Server action executes **non-blocking** (transition)
+3. `revalidatePath` refreshes with real data
+4. If error occurs, user gets an alert
+5. User can continue interacting with UI (responsive)
+
+**Comparison: With vs Without `startTransition`**
+
+| Aspect                | Without `startTransition` | With `startTransition`      |
+| --------------------- | ------------------------- | --------------------------- |
+| **UI Responsiveness** | ⚠️ May feel sluggish       | ✅ Always responsive         |
+| **User Interaction**  | ❌ Can be blocked          | ✅ Can interrupt             |
+| **Priority**          | All equal                 | Server action deprioritized |
+| **Perceived Speed**   | ⭐⭐⭐                       | ⭐⭐⭐⭐⭐                       |
+
+---
+
+### 6. Button Components (`Components/Button.jsx`)
+
+**Purpose:** Reusable delete and checkbox components with transitions
+
+```javascript
+"use client";
+import React, { useState, useTransition } from "react";
+import { MdOutlineDelete } from "react-icons/md";
+
+// Delete Button with transition
+export const DeleteButton = ({ id, onDelete }) => {
+  const [isPending, startTransition] = useTransition();
+
+  const handleDelete = () => {
+    startTransition(() => onDelete(id));
+  };
+
+  return (
+    <button
+      onClick={handleDelete}
+      aria-label="Delete todo"
+      disabled={isPending}
+      className="disabled:opacity-50"
+    >
+      <MdOutlineDelete />
+    </button>
+  );
+};
+
+// Checkbox with transition
+export const EditCheckbox = ({ id, completed, onToggle }) => {
+  const [isPending, startTransition] = useTransition();
+
+  const handleEdit = () => {
+    startTransition(() => onToggle(id));
+  };
+
+  return (
+    <input
+      type="checkbox"
+      checked={completed}
+      onChange={handleEdit}
+      disabled={isPending}
+      className="disabled:opacity-50"
+    />
+  );
+};
+```
+
+**Key Features:**
+- ✅ `useTransition` for non-blocking updates
+- ✅ Controlled checkbox with `checked` prop
+- ✅ Disabled state during transitions
+- ✅ Callbacks passed from parent for flexibility
+
+---
+
+### 7. Data Model (`models/todoModel.js`)
+
+**Purpose:** Mongoose schema for todos
+
+```javascript
+import mongoose from "mongoose";
+
+export const Todo =
+  mongoose.models.Todo ||
+  mongoose.model("Todo", {
+    title: {
+      type: String,
+      required: true,
+    },
+    completed: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+  });
+```
+
+**Recommended Enhancement:**
+```javascript
+// Add timestamps for better tracking
+const todoSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    completed: { type: Boolean, default: false },
+  },
+  { timestamps: true } // Adds createdAt and updatedAt
+);
+
+export const Todo = mongoose.models.Todo || mongoose.model("Todo", todoSchema);
+```
+
+---
+
+## 🎯 Key Concepts Explained
+
+### Server Actions vs API Routes
+
+**Old Approach (API Routes):**
+```javascript
+// Client Component
+const response = await fetch('/api/todos', {
+  method: 'POST',
+  body: JSON.stringify({ title }),
+});
+router.refresh(); // Manual refresh
+```
+
+**New Approach (Server Actions):**
+```javascript
+// Server Action
+"use server"
+export async function createTodo(formData) {
+  await Todo.create({ title: formData.title });
+  revalidatePath("/todos"); // Automatic refresh
+}
+
+// Client Component
+const [state, action] = useActionState(createTodo, {});
+```
+
+**Benefits:**
+- ✅ Less boilerplate code
+- ✅ Automatic revalidation
+- ✅ Type-safe with TypeScript
+- ✅ No need for API routes
+- ✅ Progressive enhancement (works without JS)
+
+---
+
+### Optimistic UI Pattern
+
+**Why Both Optimistic UI + revalidatePath?**
+
+| Feature              | Optimistic UI Only   | revalidatePath Only | Both Combined ⭐   |
+| -------------------- | -------------------- | ------------------- | ----------------- |
+| **Instant Feedback** | ✅ Yes                | ❌ No                | ✅ Yes             |
+| **Data Consistency** | ❌ Can be out of sync | ✅ Always accurate   | ✅ Always accurate |
+| **Error Handling**   | ⚠️ Manual rollback    | ✅ Automatic         | ✅ Automatic       |
+| **User Experience**  | ⭐⭐⭐⭐⭐                | ⭐⭐⭐                 | ⭐⭐⭐⭐⭐             |
+| **Network Delays**   | ✅ Hidden             | ❌ Visible           | ✅ Hidden          |
+
+**Flow with Both:**
+```
+User Action → Optimistic Update (instant)
+           ↓
+    Server Action Executes
+           ↓
+    revalidatePath() Refreshes Real Data
+           ↓
+    UI Syncs with Database (guaranteed consistency)
+```
+
+---
+
+### useActionState Hook
+
+**Purpose:** Manages server action state in forms
+
+```javascript
+const [state, action, pending] = useActionState(serverAction, initialState);
+```
+
+**Returns:**
+- `state` - Current state from server action
+- `action` - Function to trigger the server action
+- `pending` - Boolean indicating if action is running
+
+**Benefits:**
+- ✅ Built-in pending state
+- ✅ Progressive enhancement
+- ✅ No need for useState + useTransition
+- ✅ Automatic form handling
+
+---
+
+### useOptimistic Hook
+
+**Purpose:** Instantly update UI before server confirms
+
+```javascript
+const [optimisticState, addOptimistic] = useOptimistic(
+  serverState,
+  (currentState, optimisticValue) => {
+    // Return new state based on optimistic update
+    return [...currentState, optimisticValue];
+  }
+);
+```
+
+**When to Use:**
+- ✅ Delete operations (remove from list)
+- ✅ Toggle states (checkboxes, likes)
+- ✅ Add operations (add to list)
+- ✅ Any mutation where instant feedback improves UX
+
+---
+
+### useTransition Hook
+
+**Purpose:** Mark updates as non-blocking transitions for better UI responsiveness
+
+```javascript
+const [isPending, startTransition] = useTransition();
+
+startTransition(async () => {
+  // Non-urgent updates wrapped here
+  const result = await serverAction(data);
+  if (!result.success) {
+    alert(result.message);
+  }
+});
+```
+
+**Benefits:**
+- ✅ Keeps UI responsive
+- ✅ Doesn't block user input
+- ✅ Shows pending state via `isPending`
+- ✅ Can be interrupted by urgent updates
+- ✅ React deprioritizes these updates
+- ✅ Perfect for data mutations (delete, update)
+
+**Real-World Example (Todo App):**
+
+```javascript
+const [isPending, startTransition] = useTransition();
+
+const handleDelete = (id) => {
+  // 1. Update UI optimistically (instant)
+  updateOptimisticTodos({ action: "delete", todo: todoToDelete });
+  
+  // 2. Execute server action non-blocking
+  startTransition(async () => {
+    const result = await deleteTodoAction(id);
+    if (!result.success) {
+      alert(result.message);
+    }
+  });
+};
+```
+
+**Combined Pattern: `useOptimistic` + `useTransition` + `revalidatePath`**
+
+```
+User clicks delete
+      ↓
+optimisticTodos updates instantly (useOptimistic)
+      ↓
+startTransition wraps server action (non-blocking)
+      ↓
+UI stays responsive for other interactions
+      ↓
+deleteTodoAction executes & calls revalidatePath
+      ↓
+Page revalidates with real data from database
+      ↓
+Perfect UX: Instant feedback + Data consistency
+```
+
+**Comparison: useTransition vs useActionState**
+
+| Feature           | `useTransition`               | `useActionState`                |
+| ----------------- | ----------------------------- | ------------------------------- |
+| **Use Case**      | Manual state management       | Form submissions                |
+| **Pending State** | ✅ Yes (`isPending`)           | ✅ Yes (`pending`)               |
+| **Non-blocking**  | ✅ Yes                         | ❌ No                            |
+| **State Update**  | Manual via callback           | Automatic                       |
+| **Best For**      | Mutations + UI responsiveness | Forms + progressive enhancement |
+
+---
+
+## 🔧 Best Practices Implemented
+
+### 1. **Server Actions with Error Handling**
+```javascript
+try {
+  await databaseOperation();
+  revalidatePath("/path");
+  return { success: true, message: "Success!" };
+} catch (error) {
+  return { success: false, message: "Failed!" };
+}
+```
+
+### 2. **Optimistic UI + Transitions + Revalidation (Triple Threat!)**
+
+```javascript
+"use client";
+import { useOptimistic, useTransition } from "react";
+
+export function TodoItems({ todos }) {
+  // 1. Non-blocking transitions
+  const [isPending, startTransition] = useTransition();
+  
+  // 2. Optimistic updates
+  const [optimisticTodos, updateOptimisticTodos] = useOptimistic(todos, reducer);
+  
+  const handleDelete = (id) => {
+    // Instant UI feedback
+    updateOptimisticTodos({ action: "delete", todo });
+    
+    // Non-blocking server action
+    startTransition(async () => {
+      const result = await deleteTodoAction(id);
+      // revalidatePath happens in server action
+      if (!result.success) alert(result.message);
+    });
+  };
+}
+```
+
+**Why This Combination Works:**
+- ✅ **Instant feedback** from `useOptimistic`
+- ✅ **Responsive UI** from `startTransition`
+- ✅ **Data consistency** from `revalidatePath`
+- ✅ **Perfect UX** with all three combined
+
+### 3. **Plain Object Serialization**
+```javascript
+// ❌ Don't pass MongoDB documents directly
+<ClientComponent todos={await Todo.find().lean()} />
+
+// ✅ Convert to plain objects
+const todos = (await Todo.find().lean()).map(todo => ({
+  _id: todo._id.toString(),
+  title: todo.title,
+  completed: todo.completed,
+}));
+<ClientComponent todos={todos} />
+```
+
+### 3. **Optimistic Updates with Rollback**
+```javascript
+// Update UI optimistically
+updateOptimisticState({ action: "delete", id });
+
+// Execute server action
+const result = await serverAction(id);
+
+// Show error if failed (UI already updated)
+if (!result.success) {
+  alert(result.message);
+}
+```
+
+### 4. **Progressive Enhancement**
+```javascript
+// Works without JavaScript
+<form action={serverAction}>
+  <input name="title" />
+  <button type="submit">Add</button>
+</form>
+
+// Enhanced with JavaScript
+const [state, action, pending] = useActionState(serverAction, {});
+```
+
+### 5. **Controlled vs Uncontrolled Inputs**
+```javascript
+// ❌ Uncontrolled (can cause issues with optimistic updates)
+<input defaultChecked={completed} />
+
+// ✅ Controlled (syncs with optimistic state)
+<input checked={completed} onChange={handler} />
+```
+
+---
+
+## 🚀 Performance Optimizations
+
+### 1. **Suspense Streaming**
+```javascript
+<Suspense fallback={<Loading />}>
+  <TodoList />
+</Suspense>
+```
+- Streams content as it loads
+- Shows loading state immediately
+- Doesn't block page render
+
+### 2. **Lean Queries**
+```javascript
+await Todo.find().lean(); // Returns plain objects, faster
+```
+- Skips Mongoose hydration
+- 2-3x faster than regular queries
+- Use for read-only operations
+
+### 3. **Selective Revalidation**
+```javascript
+revalidatePath("/todos"); // Only revalidates todo page
+// vs
+revalidatePath("/", "layout"); // Revalidates entire app
+```
+
+### 4. **Parallel Data Fetching**
+```javascript
+// ✅ Parallel (faster)
+const [todos, users] = await Promise.all([
+  Todo.find(),
+  User.find()
+]);
+
+// ❌ Sequential (slower)
+const todos = await Todo.find();
+const users = await User.find();
+```
+
+---
+
+## 📊 Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     app/todos/page.jsx                       │
+│                   (Server Component)                         │
+│  ┌──────────────────────┐   ┌──────────────────────────┐   │
+│  │    <AddTodo />       │   │  <Suspense>              │   │
+│  │  (Client Component)  │   │    <TodoList />          │   │
+│  │                      │   │  (Server Component)      │   │
+│  │  useActionState()    │   │                          │   │
+│  └──────────────────────┘   │  Direct DB Access        │   │
+│            │                 │       ↓                  │   │
+│            │                 │  <TodoItems />           │   │
+│            │                 │  (Client Component)      │   │
+│            │                 │                          │   │
+│            │                 │  useOptimistic()         │   │
+│            │                 └──────────────────────────┘   │
+│            ↓                            ↓                    │
+│   ┌─────────────────────────────────────────────────┐      │
+│   │      app/actions/todosActions.js                 │      │
+│   │         (Server Actions)                         │      │
+│   │                                                   │      │
+│   │  • createTodoAction()                            │      │
+│   │  • deleteTodoAction()                            │      │
+│   │  • updateTodoAction()                            │      │
+│   │                                                   │      │
+│   │  revalidatePath("/todos") after each mutation    │      │
+│   └─────────────────────────────────────────────────┘      │
+│                           ↓                                  │
+│   ┌─────────────────────────────────────────────────┐      │
+│   │           MongoDB Database                       │      │
+│   │                                                   │      │
+│   │  Collection: todos                               │      │
+│   │  { _id, title, completed }                       │      │
+│   └─────────────────────────────────────────────────┘      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🎓 Learning Takeaways
+
+### 1. **Server Actions are the Future**
+- Replace most API routes
+- Simpler code, better DX
+- Progressive enhancement built-in
+
+### 2. **Optimistic UI + Revalidation = Best UX**
+- Instant feedback for users
+- Guaranteed data consistency
+- Automatic error recovery
+
+### 3. **Server Components First**
+- Default to server rendering
+- Add `"use client"` only when needed
+- Keep client bundles small
+
+### 4. **Proper Serialization Matters**
+- Convert MongoDB ObjectIds to strings
+- Use plain objects for props
+- Avoid passing class instances
+
+### 5. **Hooks for Modern React**
+- `useActionState` for forms
+- `useOptimistic` for instant updates
+- `useTransition` for non-blocking updates
+
+---
+
+## 🐛 Common Issues & Solutions
+
+### Issue 1: "Objects with toJSON methods not supported"
+**Problem:** Passing MongoDB documents to Client Components
+**Solution:**
+```javascript
+const todos = todosData.map(todo => ({
+  _id: todo._id.toString(), // Convert ObjectId to string
+  title: todo.title,
+  completed: todo.completed,
+}));
+```
+
+### Issue 2: Checkbox not updating
+**Problem:** Using `defaultChecked` instead of `checked`
+**Solution:**
+```javascript
+// ❌ Uncontrolled
+<input defaultChecked={completed} />
+
+// ✅ Controlled
+<input checked={completed} onChange={handler} />
+```
+
+### Issue 3: Page not refreshing after mutation
+**Problem:** Missing `revalidatePath()`
+**Solution:**
+```javascript
+export async function createTodo(formData) {
+  await Todo.create({ title: formData.title });
+  revalidatePath("/todos"); // Add this!
+}
+```
+
+### Issue 4: Too many database connections
+**Problem:** Creating new connection on every request
+**Solution:** Use connection caching in `lib/connectDb.js`
+
+---
+
 ## 📌 Next.js File Naming Conventions
 
 ### Reserved File Names (Special Behavior)

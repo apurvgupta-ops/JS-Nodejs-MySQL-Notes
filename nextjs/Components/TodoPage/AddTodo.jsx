@@ -1,6 +1,5 @@
 "use client";
 import { createTodoAction } from "@/app/actions/todosActions";
-import { useRouter } from "next/navigation";
 import { useActionState, useState } from "react";
 
 // import styles from "../../app/todos/todo.module.css";
@@ -9,11 +8,15 @@ export default function AddTodo() {
   const [state, action, pending] = useActionState(createTodoAction, {});
   const [title, setTitle] = useState("");
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
+    if (!title.trim()) return;
     const data = {
       title,
     };
-    action(data);
+    await action(data);
+    if (state.success !== false) {
+      setTitle("");
+    }
   };
 
   // !OLD WAY

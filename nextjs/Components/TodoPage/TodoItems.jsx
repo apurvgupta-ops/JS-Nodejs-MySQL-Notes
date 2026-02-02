@@ -1,10 +1,47 @@
-import React, { useOptimistic } from "react";
+"use client";
+import React, { useOptimistic, useTransition } from "react";
+import { DeleteButton, EditCheckbox } from "../Button";
+import { deleteTodoAction, updateTodoAction } from "@/app/actions/todosActions";
 
 export default function TodoItems({ todos }) {
-  const [optimisticTodos, addOptimisticTodo] = useOptimistic(
-    initialTodos,
-    (state, newTodo) => [newTodo, ...state],
+  const [isPending, startTransition] = useTransition();
+  const [optimisticTodos, updateOptimisticTodos] = useOptimistic(
+    todos,
+    (state, { action, todo }) => {
+      switch (action) {
+        case "delete":
+          return state.filter((t) => t._id !== todo._id);
+        case "toggle":
+          return state.map((t) =>
+            t._id === todo._id ? { ...t, completed: !t.completed } : t,
+          );
+        default:
+          return state;
+      }
+    },
   );
+
+  const handleDelete = (id) => {
+    const todoToDelete = optimisticTodos.find((t) => t._id === id);
+    updateOptimisticTodos({ action: "delete", todo: todoToDelete });
+    startTransition(async () => {
+      const result = await deleteTodoAction(id);
+      if (!result.success) {
+        alert(result.message);
+      }
+    });
+  };
+
+  const handleToggle = (id) => {
+    const todoToToggle = optimisticTodos.find((t) => t._id === id);
+    updateOptimisticTodos({ action: "toggle", todo: todoToToggle });
+    startTransition(async () => {
+      const result = await updateTodoAction(id, !todoToToggle.completed);
+      if (!result.success) {
+        alert(result.message);
+      }
+    });
+  };
 
   return (
     <div>
@@ -16,8 +53,12 @@ export default function TodoItems({ todos }) {
           >
             <span className="text-lg">{title}</span>
             <div className="flex gap-2">
-              <EditCheckbox id={_id} completed={completed} />
-              <DeleteButton id={_id} />
+              <EditCheckbox
+                id={_id}
+                completed={completed}
+                onToggle={handleToggle}
+              />
+              <DeleteButton id={_id} onDelete={handleDelete} />
             </div>
           </li>
         ))}

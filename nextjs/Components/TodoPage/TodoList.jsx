@@ -1,7 +1,6 @@
 // import styles from "../../app/todos/todo.module.css";
 
 import { connectDB } from "@/lib/connectDb";
-import { DeleteButton, EditCheckbox } from "../Button";
 import { Todo } from "@/models/todoModel";
 import TodoItems from "./TodoItems";
 
@@ -23,9 +22,15 @@ export default async function TodoList() {
   // }
 
   await connectDB();
-  const todos = await Todo.find().lean();
+  const todosData = await Todo.find().lean();
 
-  console.log(todos);
+  // Convert MongoDB documents to plain objects for Client Components
+  const todos = todosData.map((todo) => ({
+    _id: todo._id.toString(),
+    title: todo.title,
+    completed: todo.completed,
+  }));
+
   if (!todos.length)
     return (
       <div className="bg-white rounded-2xl shadow-lg p-8 max-w-xl w-full mx-auto mt-8">
