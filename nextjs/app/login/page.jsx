@@ -1,5 +1,5 @@
 "use client";
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { loginUserAction } from "../actions/userActions";
 import { loginSchema } from "@/lib/validationSchemas";
@@ -14,6 +14,12 @@ export default function Login() {
   });
   const [clientErrors, setClientErrors] = React.useState({});
 
+  useEffect(() => {
+    if (state.success) {
+      router.push("/");
+    }
+  }, [state.success, router]);
+
   const clientAction = async (formData) => {
     setClientErrors({});
 
@@ -27,10 +33,6 @@ export default function Login() {
     }
 
     formAction(formData);
-
-    if (state.success) {
-      router.push("/todos");
-    }
   };
   const errors =
     Object.keys(clientErrors).length > 0 ? clientErrors : state.errors;

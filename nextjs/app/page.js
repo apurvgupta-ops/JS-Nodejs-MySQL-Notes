@@ -5,10 +5,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="">
-      <Header />
-      {/* Technical Agency */}
-      {/* <ImageComponent /> */}
+    <div className="h-[calc(100vh-76px)] flex items-center justify-center overflow-hidden">
+      <h1 className="text-7xl">Technical Agency </h1>
     </div>
   );
 }

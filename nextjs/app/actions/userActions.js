@@ -2,11 +2,14 @@
 import { connectDB } from "@/lib/connectDb";
 import Auth from "@/models/authModel";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 import {
   registrationSchema,
   loginSchema,
   validateData,
 } from "@/lib/validationSchemas";
+import { redirect } from "next/navigation";
 
 export async function registerUserAction(prevState, formData) {
   try {
@@ -61,10 +64,32 @@ export async function registerUserAction(prevState, formData) {
 
     await newUser.save();
 
+    // Generate JWT token for new user
+    const token = jwt.sign(
+      { id: newUser._id.toString(), email: newUser.email },
+      process.env.JWT_SECRET || "your-secret-key",
+      { expiresIn: "7d" },
+    );
+
+    // Set token in cookies
+    const cookieStore = await cookies();
+    cookieStore.set("authToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+      path: "/",
+    });
+
     return {
       success: true,
-      message: "Account created successfully! You can now log in.",
+      message: "Account created successfully! You are now logged in.",
       field: null,
+      user: {
+        id: newUser._id.toString(),
+        email: newUser.email,
+        username: newUser.username,
+      },
     };
   } catch (error) {
     console.error("Registration error:", error);
@@ -141,7 +166,23 @@ export async function loginUserAction(prevState, formData) {
       };
     }
 
-    // TODO: Create session/JWT token here
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id.toString(), email: user.email },
+      process.env.JWT_SECRET || "your-secret-key",
+      { expiresIn: "7d" },
+    );
+
+    // Set token in cookies
+    const cookieStore = await cookies();
+    cookieStore.set("authToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+      path: "/",
+    });
+
     return {
       success: true,
       message: "Login successful!",
@@ -159,6 +200,23 @@ export async function loginUserAction(prevState, formData) {
       errors: {
         general: ["An unexpected error occurred. Please try again later."],
       },
+    };
+  }
+}
+
+export async function logoutUserAction() {
+  try {
+    const cookieStore = await cookies();
+    cookieStore.delete("authToken");
+    return {
+      success: true,
+      message: "Logged out successfully!",
+    };
+  } catch (error) {
+    console.error("Logout error:", error);
+    return {
+      success: false,
+      message: "Failed to logout",
     };
   }
 }

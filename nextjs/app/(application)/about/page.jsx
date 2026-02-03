@@ -13,7 +13,7 @@ export default function About() {
       {fruit.map((item) => (
         <p key={item}> {item}</p>
       ))}
-      // for cause the error
+      {/* // for cause the error */}
       <button onClick={() => setFruit(null)}>To trigger error</button>
     </div>
   );

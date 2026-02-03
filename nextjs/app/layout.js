@@ -1,3 +1,4 @@
+import Header from "@/Components/Header";
 import "./globals.css";
 import { ThemeProvider } from "@/Context/ThemeContext";
 
@@ -12,7 +13,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <Header />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
