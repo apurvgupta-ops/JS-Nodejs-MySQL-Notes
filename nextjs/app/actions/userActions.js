@@ -25,7 +25,6 @@ export async function registerUserAction(prevState, formData) {
       };
     }
 
-    console.log("Connecting to database...");
     await connectDB();
 
     const existingUser = await Auth.findOne({
@@ -118,17 +117,13 @@ export async function loginUserAction(prevState, formData) {
 
     await connectDB();
 
-    const user = await Auth.findOne({
-      $or: [{ email }],
-    });
+    const user = await Auth.findOne({ email });
 
     if (!user) {
       return {
         success: false,
         errors: {
-          email: [
-            "Invalid credentials. Please check your email/username and password.",
-          ],
+          email: ["Invalid credentials. Please check your email and password."],
         },
       };
     }
@@ -139,7 +134,7 @@ export async function loginUserAction(prevState, formData) {
       return {
         success: false,
         errors: {
-          email: [
+          password: [
             "Invalid credentials. Please check your email/username and password.",
           ],
         },
@@ -151,7 +146,7 @@ export async function loginUserAction(prevState, formData) {
       success: true,
       message: "Login successful!",
       user: {
-        id: user._id,
+        id: user._id.toString(),
         email: user.email,
         username: user.username,
       },

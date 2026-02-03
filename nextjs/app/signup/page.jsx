@@ -24,6 +24,9 @@ export default function Signup() {
     }
 
     formAction(formData);
+    if (state.success) {
+      router.push("/login");
+    }
   };
   console.log(state);
   const errors =

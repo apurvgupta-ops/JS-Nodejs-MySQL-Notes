@@ -4,8 +4,10 @@ import Link from "next/link";
 import { loginUserAction } from "../actions/userActions";
 import { loginSchema } from "@/lib/validationSchemas";
 import z from "zod";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(loginUserAction, {
     success: false,
     errors: {},
@@ -25,10 +27,14 @@ export default function Login() {
     }
 
     formAction(formData);
+
+    if (state.success) {
+      router.push("/todos");
+    }
   };
   const errors =
     Object.keys(clientErrors).length > 0 ? clientErrors : state.errors;
-  console.log(errors);
+
   return (
     <div>
       <h1>Login Page</h1>
@@ -58,6 +64,7 @@ export default function Login() {
           )}
         </div>
         <br />
+        {state.message && <p className="text-green-500">{state.message}</p>}
         <button type="submit" disabled={isPending}>
           Login
         </button>
