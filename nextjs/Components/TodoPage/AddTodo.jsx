@@ -1,6 +1,6 @@
 "use client";
 import { createTodoAction } from "@/app/actions/todosActions";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 // import styles from "../../app/todos/todo.module.css";
 
@@ -8,16 +8,19 @@ export default function AddTodo() {
   const [state, action, pending] = useActionState(createTodoAction, {});
   const [title, setTitle] = useState("");
 
+  useEffect(() => {
+    if (state.success) {
+      setTitle("");
+      alert(state.message);
+    }
+  }, [state.success]);
+
   const handleAdd = async () => {
     if (!title.trim()) return;
     const data = {
       title,
     };
     await action(data);
-    if (state.success !== false) {
-      setTitle("");
-      alert(state.message);
-    }
   };
 
   return (
