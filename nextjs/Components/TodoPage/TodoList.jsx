@@ -1,7 +1,7 @@
 // import styles from "../../app/todos/todo.module.css";
 
 import { connectDB } from "@/lib/connectDb";
-import { Todo } from "@/models/todoModel";
+import Todo from "@/models/todoModel";
 import TodoItems from "./TodoItems";
 
 export default async function TodoList() {

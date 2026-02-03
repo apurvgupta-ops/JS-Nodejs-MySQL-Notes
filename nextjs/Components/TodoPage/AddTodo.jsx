@@ -16,30 +16,9 @@ export default function AddTodo() {
     await action(data);
     if (state.success !== false) {
       setTitle("");
+      alert(state.message);
     }
   };
-
-  // !OLD WAY
-  // const handleAdd = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   try {
-  //     const res = await fetch("/api/todos", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ title }),
-  //     });
-  //     if (!res.ok) throw new Error("Failed to add");
-  //     setTitle("");
-  //     router.refresh();
-  //   } catch (error) {
-  //     console.log("Failed To Add");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   return (
     <form

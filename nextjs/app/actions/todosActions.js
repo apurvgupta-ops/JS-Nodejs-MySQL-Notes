@@ -1,7 +1,7 @@
 "use server";
 
 import { connectDB } from "@/lib/connectDb";
-import { Todo } from "@/models/todoModel";
+import Todo from "@/models/todoModel";
 import { revalidatePath } from "next/cache";
 
 export async function createTodoAction(_, formData) {
@@ -19,7 +19,15 @@ export async function createTodoAction(_, formData) {
 export async function deleteTodoAction(id) {
   try {
     await connectDB();
-    await Todo.findByIdAndDelete(id);
+
+    const deletedTodo = await Todo.findByIdAndDelete(id);
+
+    if (!deletedTodo) {
+      return {
+        success: false,
+        message: "Todo not found",
+      };
+    }
     revalidatePath("/todos");
     return { message: "Todo Deleted", success: true };
   } catch (error) {
