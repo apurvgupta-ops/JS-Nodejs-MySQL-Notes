@@ -1,6 +1,7 @@
 import Header from "@/Components/Header";
 import "./globals.css";
 import { ThemeProvider } from "@/Context/ThemeContext";
+import { cookies } from "next/headers";
 
 export const metadata = {
   title: {
@@ -9,11 +10,14 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const cookieStore = await cookies();
+  const theme = cookieStore.get("theme")?.value;
+  const isDark = theme === "dark";
   return (
-    <html lang="en">
+    <html lang="en" className={isDark ? "dark" : ""} suppressHydrationWarning>
       <body>
-        <ThemeProvider>
+        <ThemeProvider initialTheme={isDark}>
           <Header />
           {children}
         </ThemeProvider>

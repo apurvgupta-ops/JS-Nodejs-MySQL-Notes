@@ -8,19 +8,16 @@ export const useTheme = () => {
   return useContext(ThemeContext);
 };
 
-export const ThemeProvider = ({ children }) => {
-  const [isDark, setIsDark] = useState(false);
+export const ThemeProvider = ({ children, initialTheme = false }) => {
+  const [isDark, setIsDark] = useState(initialTheme);
 
   const themeToggle = () => {
     setIsDark((prev) => !prev);
   };
 
   useEffect(() => {
-    setIsDark(localStorage.getItem("isDark") === "true");
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("isDark", isDark);
+    const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+    document.cookie = `theme=${isDark ? "dark" : "light"}; path=/; expires=${expires.toUTCString()}`;
     if (isDark) {
       document.documentElement.classList.add("dark");
     } else {
