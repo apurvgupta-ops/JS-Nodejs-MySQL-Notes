@@ -30,13 +30,22 @@ export default async function Profile() {
         <div className="px-6 pb-6">
           {/* Avatar & Name */}
           <div className="flex flex-col items-center -mt-16 mb-6">
-            <div className="w-32 h-32 bg-linear-to-br from-blue-400 to-purple-500 rounded-full border-4 border-white dark:border-slate-800 flex items-center justify-center text-white text-4xl font-bold shadow-lg mb-4">
-              {/* {user.name?.charAt(0).toUpperCase() ||
-                user.email?.charAt(0).toUpperCase()} */}
-              <img src={user.image} className="rounded-[100] w-full" />
+            <div className="w-32 h-32 bg-linear-to-br from-blue-400 to-purple-500 rounded-full border-4 border-white dark:border-slate-800 flex items-center justify-center text-white text-4xl font-bold shadow-lg mb-4 overflow-hidden">
+              {user.image ? (
+                <img
+                  src={user.image}
+                  alt={user.name || "User"}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span>
+                  {user.name?.charAt(0).toUpperCase() ||
+                    user.email?.charAt(0).toUpperCase()}
+                </span>
+              )}
             </div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white text-center">
-              {user.name || "User"}
+              {user.name || user.email?.split("@")[0] || "User"}
             </h1>
           </div>
 

@@ -1,13 +1,57 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
 import { connectDB } from "./lib/connectDb";
 import Auth from "./models/authModel";
+import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials: any) {
+        console.log("Credentials authorize - credentials:", credentials);
+
+        try {
+          await connectDB();
+
+          const user = await Auth.findOne({ email: credentials.email });
+
+          if (!user) {
+            console.log("User not found");
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password,
+          );
+
+          if (!isPasswordValid) {
+            console.log("Invalid password");
+            return null;
+          }
+
+          console.log("User authenticated:", user);
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.username,
+            image: user.image || null,
+          };
+        } catch (error) {
+          console.error("Authorize error:", error);
+          return null;
+        }
+      },
     }),
   ],
   session: {
@@ -61,6 +105,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
+        token.image = user.image;
       }
 
       console.log("JWT Token:", token);
@@ -73,6 +118,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email;
+        session.user.name = token.name;
+        session.user.image = token.image;
       }
 
       console.log("Session Object:", session);

@@ -2,14 +2,13 @@
 import { connectDB } from "@/lib/connectDb";
 import Auth from "@/models/authModel";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import {
   registrationSchema,
   loginSchema,
   validateData,
 } from "@/lib/validationSchemas";
 import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
 
 export async function registerUserAction(prevState, formData) {
   try {
@@ -64,21 +63,11 @@ export async function registerUserAction(prevState, formData) {
 
     await newUser.save();
 
-    // Generate JWT token for new user
-    const token = jwt.sign(
-      { id: newUser._id.toString(), email: newUser.email },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "7d" },
-    );
-
-    // Set token in cookies
-    const cookieStore = await cookies();
-    cookieStore.set("authToken", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60, // 7 days
-      path: "/",
+    // Auto-login after signup using NextAuth credentials
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
     });
 
     return {
@@ -140,57 +129,29 @@ export async function loginUserAction(prevState, formData) {
 
     const { email, password } = validation.data;
 
-    await connectDB();
+    // Use NextAuth signIn with credentials provider
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    const user = await Auth.findOne({ email });
+    console.log("SignIn result:", result);
 
-    if (!user) {
+    if (result?.error) {
       return {
         success: false,
         errors: {
-          email: ["Invalid credentials. Please check your email and password."],
-        },
-      };
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return {
-        success: false,
-        errors: {
-          password: [
-            "Invalid credentials. Please check your email/username and password.",
+          general: [
+            "Invalid credentials. Please check your email and password.",
           ],
         },
       };
     }
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { id: user._id.toString(), email: user.email },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "7d" },
-    );
-
-    // Set token in cookies
-    const cookieStore = await cookies();
-    cookieStore.set("authToken", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60, // 7 days
-      path: "/",
-    });
-
     return {
       success: true,
       message: "Login successful!",
-      user: {
-        id: user._id.toString(),
-        email: user.email,
-        username: user.username,
-      },
     };
   } catch (error) {
     console.error("Login error:", error);
@@ -198,7 +159,7 @@ export async function loginUserAction(prevState, formData) {
     return {
       success: false,
       errors: {
-        general: ["An unexpected error occurred. Please try again later."],
+        general: ["Invalid credentials. Please check your email and password."],
       },
     };
   }
@@ -207,7 +168,6 @@ export async function loginUserAction(prevState, formData) {
 export async function logoutUserAction() {
   try {
     const cookieStore = await cookies();
-    cookieStore.delete("authToken");
     cookieStore.delete("authjs.session-token");
     return {
       success: true,

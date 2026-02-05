@@ -37,13 +37,12 @@ export default function Header() {
     }
   }, [session]);
 
-  const handleLogout = async () => {
-    const res = await logoutUserAction();
-    console.log(res);
-    if (res?.success) {
-      router.push("/login");
-    }
-  };
+  // const handleLogout = async () => {
+  //   const res = await logoutUserAction();
+  //   if (res?.success) {
+  //     router.push("/login");
+  //   }
+  // };
 
   return (
     <nav className="flex items-center justify-evenly p-4 dark:text-white transition">
@@ -74,8 +73,8 @@ export default function Header() {
       >
         {isDark ? <SunIcon /> : <MoonIcon />}
       </button>
-      <SignIn />
-      <SignOut handleLogout={handleLogout} />
+      {/* <SignIn /> */}
+      <SignOut />
       {/* <button onClick={handleLogout}>Logout</button> */}
     </nav>
   );
