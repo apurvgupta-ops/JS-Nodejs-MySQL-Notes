@@ -7,6 +7,10 @@ import MoonIcon from "./MoonIcon";
 import { useTheme } from "@/Context/ThemeContext";
 import { logoutUserAction } from "@/app/actions/userActions";
 import { useRouter } from "next/navigation";
+import SignIn from "./Auth/SignIn";
+import SignOut from "./Auth/SignOut";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -25,6 +29,13 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { isDark, themeToggle } = useTheme();
+  const session = useSession();
+  console.log(session);
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/");
+    }
+  }, [session]);
 
   const handleLogout = async () => {
     const res = await logoutUserAction();
@@ -63,7 +74,9 @@ export default function Header() {
       >
         {isDark ? <SunIcon /> : <MoonIcon />}
       </button>
-      <button onClick={handleLogout}>Logout</button>
+      <SignIn />
+      <SignOut handleLogout={handleLogout} />
+      {/* <button onClick={handleLogout}>Logout</button> */}
     </nav>
   );
 }

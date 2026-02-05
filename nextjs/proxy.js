@@ -3,13 +3,14 @@ import { NextResponse } from "next/server";
 export const proxy = (request) => {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("authToken")?.value;
+  const authjsToken = request.cookies.get("authjs.session-token")?.value;
   const isAuthRoute = pathname === "/login" || pathname === "/signup";
 
-  if (!token && !isAuthRoute) {
+  if (!token && !authjsToken && !isAuthRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (token && isAuthRoute) {
+  if ((token || authjsToken) && isAuthRoute) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 

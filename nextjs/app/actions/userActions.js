@@ -208,6 +208,7 @@ export async function logoutUserAction() {
   try {
     const cookieStore = await cookies();
     cookieStore.delete("authToken");
+    cookieStore.delete("authjs.session-token");
     return {
       success: true,
       message: "Logged out successfully!",

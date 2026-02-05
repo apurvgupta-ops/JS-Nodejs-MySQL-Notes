@@ -22,8 +22,18 @@ const authSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: false, // Optional for OAuth users (Google login)
       minlength: [8, "Password must be at least 8 characters long"],
+    },
+    provider: {
+      type: String,
+      enum: ["google", "credentials"],
+      default: "credentials",
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
     },
   },
   { timestamps: true },

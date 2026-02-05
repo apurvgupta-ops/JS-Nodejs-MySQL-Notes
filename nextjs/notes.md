@@ -2101,6 +2101,599 @@ export default function Error({ error, reset }) {
 
 ---
 
+## 🔐 NextAuth v5 Implementation & Debugging Guide
+
+### Architecture Overview
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                    Google OAuth Flow                      │
+├──────────────────────────────────────────────────────────┤
+│  1. User clicks "Sign In With Google"                    │
+│  2. SignIn.jsx calls AuthGoogleLogin (Server Action)     │
+│  3. signIn("google") redirects to Google login page      │
+│  4. Google authenticates user                            │
+│  5. Callback returns to /api/auth/[...nextauth]          │
+│  6. signIn callback creates/finds user in MongoDB        │
+│  7. JWT token is created                                 │
+│  8. Session is established                               │
+│  9. User redirected to home page                         │
+│  10. useSession() in Header should return authenticated  │
+└──────────────────────────────────────────────────────────┘
+```
+
+### Critical Files Setup
+
+#### 1. **auth.ts** - NextAuth Configuration
+
+```typescript
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import { connectDB } from "@/lib/connectDb";
+import Auth from "@/models/authModel";
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true, // For OAuth testing
+    }),
+  ],
+  session: {
+    strategy: "jwt", // Use JWT instead of database sessions
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  jwt: {
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  pages: {
+    signIn: "/login",
+    error: "/login",
+  },
+  callbacks: {
+    // ✅ JWT Callback: Called when JWT token is created/updated
+    async jwt({ token, account, user }: any) {
+      console.log("JWT Callback - user:", user, "account:", account);
+      
+      if (account) {
+        token.accessToken = account.access_token;
+        token.provider = account.provider;
+      }
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+      }
+      
+      console.log("JWT Token:", token);
+      return token;
+    },
+    
+    // ✅ Session Callback: Called when session is retrieved
+    async session({ session, token }: any) {
+      console.log("Session Callback - token:", token);
+      
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.email = token.email;
+      }
+      
+      console.log("Session Object:", session);
+      return session;
+    },
+    
+    // ✅ SignIn Callback: Called when user signs in
+    async signIn({ user, account, profile }: any) {
+      console.log("SignIn Callback - user:", user, "account:", account);
+      
+      try {
+        await connectDB();
+        console.log("Database connected");
+        
+        // Check if user exists
+        const existingUser = await Auth.findOne({ email: user.email });
+        console.log("Existing user:", existingUser);
+        
+        if (!existingUser) {
+          // Create new user from Google profile
+          const username = user.email?.split("@")[0] || user.name || "user";
+          const newUser = await Auth.create({
+            email: user.email,
+            username: username,
+            password: "", // Google login, no password needed
+            provider: "google",
+            googleId: user.id,
+          });
+          console.log("New user created:", newUser);
+        }
+        
+        return true; // ✅ Allow sign in
+      } catch (error) {
+        console.error("SignIn callback error:", error);
+        return false; // ❌ Deny sign in on error
+      }
+    },
+    
+    // ✅ Redirect Callback: Called after successful redirect
+    async redirect({ url, baseUrl }: any) {
+      console.log("Redirect callback - url:", url, "baseUrl:", baseUrl);
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl; // Fallback to home
+    },
+  },
+  trustHost: true, // Important for deployment
+  debug: process.env.NODE_ENV === "development", // Show debug logs
+});
+```
+
+**Key Points:**
+- ✅ `strategy: "jwt"` - Uses JWT tokens (stateless, no database sessions needed)
+- ✅ Three callbacks: `jwt`, `session`, `signIn`
+- ✅ `signIn` callback creates users in MongoDB on first Google login
+- ✅ `debug: true` shows detailed logs in console
+
+#### 2. **API Route** - `/app/api/auth/[...nextauth]/route.js`
+
+```javascript
+import { handlers } from "@/auth";
+
+export const { GET, POST } = handlers;
+```
+
+**Important:** The folder MUST be named `[...nextauth]` not `[auth0]` or any other name!
+
+**Why this matters:**
+- NextAuth v5 expects the catch-all route to be `[...nextauth]`
+- The handlers export GET and POST methods to handle OAuth callbacks
+- Without this route, Google redirects won't work
+
+#### 3. **SessionProvider** - `app/layout.js`
+
+```javascript
+import { SessionProvider } from "next-auth/react";
+
+export default async function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <SessionProvider>  {/* ← Wraps entire app */}
+          {children}
+        </SessionProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+**Important:**
+- `<SessionProvider>` MUST wrap the entire app
+- It provides session context to `useSession()` hook
+- Must be a Client Component (SessionProvider is from 'next-auth/react')
+
+#### 4. **Auth Model** - `models/authModel.js`
+
+```javascript
+import mongoose from "mongoose";
+
+const authSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    username: {
+      type: String,
+      required: [true, "Username is required"],
+    },
+    password: {
+      type: String,
+      required: false, // ← Optional for OAuth users
+    },
+    provider: {
+      type: String,
+      enum: ["google", "credentials"],
+      default: "credentials",
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+  },
+  { timestamps: true }
+);
+
+const Auth = mongoose.models.Auth || mongoose.model("Auth", authSchema);
+export default Auth;
+```
+
+**Key Points:**
+- ✅ `password` is optional (for Google OAuth users)
+- ✅ `provider` field tracks auth method
+- ✅ `googleId` links to Google account
+
+#### 5. **Server Action** - `app/actions/authActions.js`
+
+```javascript
+"use server";
+
+import { signIn } from "@/auth";
+
+export async function AuthGoogleLogin(formData) {
+  await signIn("google", { redirect: "/" });
+}
+```
+
+**Important:**
+- This is a Server Action (marked with `"use server"`)
+- Imports `signIn` from `@/auth` (not from next-auth/react)
+- Redirects to Google OAuth provider
+- After authentication, redirects back to `/`
+
+#### 6. **SignIn Component** - `Components/Auth/SignIn.jsx`
+
+```jsx
+"use client";
+import { AuthGoogleLogin } from "@/app/actions/authActions";
+import React from "react";
+
+export default function SignIn() {
+  return (
+    <form action={AuthGoogleLogin} className="border rounded-2xl p-2">
+      <button>Sign In With Google</button>
+    </form>
+  );
+}
+```
+
+**Important:**
+- Form action directly calls server action
+- No need for onClick handlers
+
+#### 7. **Header with Session** - `Components/Header.js`
+
+```javascript
+"use client";
+import { useSession } from "next-auth/react";
+
+export default function Header() {
+  const session = useSession();
+  
+  console.log("Session Status:", session?.status);
+  console.log("Session Data:", session?.data);
+  
+  return (
+    <nav>
+      {session?.status === "authenticated" ? (
+        <div>
+          Logged in as: {session.data?.user?.email}
+          <SignOut />
+        </div>
+      ) : (
+        <SignIn />
+      )}
+    </nav>
+  );
+}
+```
+
+---
+
+### ❌ Common Issues & Fixes
+
+#### Issue 1: Session is `null` after Google login
+
+**Symptoms:**
+```javascript
+session: {
+  data: null,
+  status: "unauthenticated",
+  update: ƒ
+}
+```
+
+**Root Causes & Fixes:**
+
+1. **Wrong API route folder name**
+   ```bash
+   # ❌ Wrong
+   app/api/auth/[auth0]/route.js
+   app/api/auth/[...auth]/route.js
+   
+   # ✅ Correct
+   app/api/auth/[...nextauth]/route.js
+   ```
+   **Fix:** Rename folder to `[...nextauth]`
+
+2. **SessionProvider not wrapping app**
+   ```javascript
+   // ❌ Wrong - SessionProvider in child component
+   <div>
+     <Header /> {/* Can't use useSession here */}
+   </div>
+   
+   // ✅ Correct - SessionProvider in root layout
+   <SessionProvider>
+     <Header />
+   </SessionProvider>
+   ```
+
+3. **Missing environment variables**
+   ```bash
+   # Check .env.local
+   AUTH_GOOGLE_ID=your-id
+   AUTH_GOOGLE_SECRET=your-secret
+   AUTH_SECRET=generated-secret
+   NEXTAUTH_URL=http://localhost:3000
+   ```
+   **Fix:** Add all required env variables
+
+4. **JWT callback not returning token**
+   ```javascript
+   // ❌ Wrong - doesn't return token
+   async jwt({ token, user }) {
+     if (user) token.id = user.id;
+     // Missing return!
+   }
+   
+   // ✅ Correct
+   async jwt({ token, user }) {
+     if (user) token.id = user.id;
+     return token; // ← Must return
+   }
+   ```
+
+5. **Session callback not populating user data**
+   ```javascript
+   // ❌ Wrong - session.user not updated
+   async session({ session, token }) {
+     // Not updating session.user
+     return session;
+   }
+   
+   // ✅ Correct
+   async session({ session, token }) {
+     if (session.user) {
+       session.user.id = token.id;
+     }
+     return session;
+   }
+   ```
+
+6. **Database error in signIn callback**
+   ```javascript
+   // ❌ Wrong - returns false, denies sign in
+   async signIn({ user, account }) {
+     try {
+       // ... database operation
+       return true;
+     } catch (error) {
+       return false; // ← Denies login on error!
+     }
+   }
+   
+   // ✅ Better - logs error but checks if user exists
+   async signIn({ user, account }) {
+     try {
+       await connectDB();
+       const existing = await Auth.findOne({ email: user.email });
+       if (!existing) {
+         await Auth.create({ email: user.email, username: ... });
+       }
+       return true;
+     } catch (error) {
+       console.error("SignIn error:", error);
+       return false; // Still deny on critical errors
+     }
+   }
+   ```
+
+7. **`useSession()` showing loading state**
+   ```javascript
+   // Status can be: "loading" | "authenticated" | "unauthenticated"
+   const session = useSession();
+   
+   if (session.status === "loading") return <div>Loading...</div>;
+   if (session.status === "unauthenticated") return <SignIn />;
+   if (session.status === "authenticated") {
+     return <div>Welcome {session.data.user.email}</div>;
+   }
+   ```
+
+---
+
+### ✅ Debugging Checklist
+
+```bash
+# 1. Check Console Logs
+# Browser DevTools Console:
+- "Session Status: authenticated" ✅
+- "Session Data: {...}" ✅
+
+# 2. Check Server Logs
+# Terminal output should show:
+- "JWT Callback - user: {...}"
+- "Session Callback - token: {...}"
+- "SignIn Callback - user: {...}"
+- "Database connected"
+- "New user created: {...}" (for first login)
+
+# 3. Check Browser DevTools > Network
+# Look for requests:
+- POST /api/auth/signin/google - ✅ 307/302
+- GET /api/auth/callback/google - ✅ 307/302
+- GET /api/auth/session - ✅ 200 with user data
+
+# 4. Check Browser DevTools > Cookies
+# Should have:
+- __Secure-next-auth.session-token (or similar)
+- __Secure-next-auth.callback-url
+
+# 5. Check MongoDB
+# User should be created:
+db.auths.find({ provider: "google" })
+
+# 6. Check Environment Variables
+# In terminal:
+echo $AUTH_GOOGLE_ID
+echo $AUTH_GOOGLE_SECRET
+
+# Should not be empty!
+```
+
+---
+
+### 📊 Complete NextAuth Flow Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     USER CLICKS SIGN IN                          │
+│                                                                  │
+│  <SignIn /> → AuthGoogleLogin() → signIn("google")              │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│              REDIRECTED TO GOOGLE LOGIN PAGE                     │
+│                                                                  │
+│  Google OAuth consent page                                       │
+│  User logs in with Google account                               │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│           GOOGLE REDIRECTS BACK WITH AUTH CODE                   │
+│                                                                  │
+│  GET /api/auth/callback/google?code=...&state=...              │
+│  NextAuth exchanges code for ID token                           │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│              JWT CALLBACK RUNS                                   │
+│                                                                  │
+│  async jwt({ token, account, user })                           │
+│  - token.id = user.id                                           │
+│  - token.email = user.email                                     │
+│  return token ← TOKEN CREATED                                   │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│            SIGNIN CALLBACK RUNS                                  │
+│                                                                  │
+│  async signIn({ user, account })                               │
+│  - Connect to MongoDB                                           │
+│  - Check if user exists by email                                │
+│  - If not, create new user                                      │
+│  return true ← ALLOW LOGIN                                      │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│            SESSION CALLBACK RUNS                                 │
+│                                                                  │
+│  async session({ session, token })                             │
+│  - session.user.id = token.id                                   │
+│  - session.user.email = token.email                             │
+│  return session ← SESSION READY                                 │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│           JWT TOKEN STORED IN COOKIE                             │
+│                                                                  │
+│  Cookie: __Secure-next-auth.session-token=eyJ...               │
+│  Secure, HttpOnly, SameSite=Lax                                 │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│              REDIRECT TO HOME PAGE                               │
+│                                                                  │
+│  Redirect: / (or custom redirect URL)                           │
+│  User sees authenticated page                                   │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│      useSession() HOOK RETRIEVES SESSION                        │
+│                                                                  │
+│  const session = useSession()                                   │
+│  → session.status === "authenticated"                           │
+│  → session.data.user = { id, email, name, ... }                │
+│                                                                  │
+│  Display: "Welcome user@example.com" ✅                         │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 🧪 Testing Checklist
+
+- [ ] Google OAuth credentials configured in Google Cloud Console
+- [ ] `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` in `.env.local`
+- [ ] `AUTH_SECRET` generated (run `npx auth secret`)
+- [ ] `/app/api/auth/[...nextauth]/route.js` file exists
+- [ ] `SessionProvider` wraps root layout
+- [ ] `auth.ts` has all three callbacks: `jwt`, `session`, `signIn`
+- [ ] `authModel` has `password` as optional field
+- [ ] MongoDB connection works
+- [ ] Console shows "JWT Callback" logs when signing in
+- [ ] Database shows new user created on first login
+- [ ] `useSession()` returns authenticated status
+- [ ] `session.data.user` has email and id
+
+---
+
+### Production Deployment Notes
+
+When deploying to production:
+
+1. **Set `NEXTAUTH_URL` to production domain**
+   ```bash
+   NEXTAUTH_URL=https://yourdomain.com
+   ```
+
+2. **Generate strong `NEXTAUTH_SECRET`**
+   ```bash
+   npx auth secret
+   ```
+
+3. **Use environment variables**, not hardcoded values
+
+4. **Enable `trustHost: true` in auth.ts** (for proper domain detection)
+
+5. **Configure Google OAuth redirect URIs**
+   ```
+   http://localhost:3000/api/auth/callback/google
+   https://yourdomain.com/api/auth/callback/google
+   ```
+
+6. **Set cookies to Secure, HttpOnly, SameSite**
+   (Handled automatically by NextAuth)
+
+7. **Monitor session token expiration** (default 30 days)
+
+---
+
+## 🎉 Summary
+
+Your NextAuth implementation now:
+- ✅ Creates users in MongoDB on Google login
+- ✅ Maintains JWT sessions (stateless)
+- ✅ Provides session data via `useSession()` hook
+- ✅ Has proper debugging with console logs
+- ✅ Handles errors gracefully
+- ✅ Works with the Todo app's authentication
+
+The issue with `session: null` should be resolved. Try:
+1. Clear browser cookies
+2. Hard refresh (Ctrl+Shift+R)
+3. Check browser console for session status
+4. Check terminal for callback logs
+5. Verify MongoDB has the new user created
+```
+
+---
+
 ## 🎉 Summary
 
 This Next.js project demonstrates:

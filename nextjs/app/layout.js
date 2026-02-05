@@ -2,6 +2,7 @@ import Header from "@/Components/Header";
 import "./globals.css";
 import { ThemeProvider } from "@/Context/ThemeContext";
 import { cookies } from "next/headers";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata = {
   title: {
@@ -17,10 +18,12 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={isDark ? "dark" : ""} suppressHydrationWarning>
       <body>
-        <ThemeProvider initialTheme={isDark}>
-          <Header />
-          {children}
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider initialTheme={isDark}>
+            <Header />
+            {children}
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
