@@ -30,7 +30,7 @@ export default function Header() {
   const router = useRouter();
   const { isDark, themeToggle } = useTheme();
   const session = useSession();
-  console.log(session);
+
   useEffect(() => {
     if (session?.status === "authenticated") {
       router.push("/");

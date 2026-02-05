@@ -13,28 +13,28 @@ const authSchema = new mongoose.Schema(
         "Please provide a valid email address",
       ],
     },
+    image: {
+      type: String,
+    },
     username: {
       type: String,
-      required: [true, "Username is required"],
       trim: true,
-      minlength: [3, "Username must be at least 3 characters long"],
-      maxlength: [30, "Username cannot exceed 30 characters"],
     },
     password: {
       type: String,
-      required: false, // Optional for OAuth users (Google login)
-      minlength: [8, "Password must be at least 8 characters long"],
+      // required: false, // Optional for OAuth users (Google login)
+      // minlength: [8, "Password must be at least 8 characters long"],
     },
-    provider: {
-      type: String,
-      enum: ["google", "credentials"],
-      default: "credentials",
-    },
-    googleId: {
-      type: String,
-      unique: true,
-      sparse: true,
-    },
+    // provider: {
+    //   type: String,
+    //   enum: ["google", "credentials"],
+    //   default: "google",
+    // },
+    // googleId: {
+    //   type: String,
+    //   unique: true,
+    //   sparse: true,
+    // },
   },
   { timestamps: true },
 );
