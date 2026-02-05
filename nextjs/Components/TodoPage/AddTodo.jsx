@@ -13,14 +13,16 @@ export default function AddTodo() {
       setTitle("");
       alert(state.message);
     }
-  }, [state.success]);
+
+    console.log(state);
+  }, [state]);
 
   const handleAdd = async () => {
     if (!title.trim()) return;
     const data = {
       title,
     };
-    await action(data);
+    action(data);
   };
 
   return (
