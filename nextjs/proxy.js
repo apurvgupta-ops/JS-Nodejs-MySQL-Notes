@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const middleware = (request) => {
+export const proxy = (request) => {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("authToken")?.value;
   const isAuthRoute = pathname === "/login" || pathname === "/signup";

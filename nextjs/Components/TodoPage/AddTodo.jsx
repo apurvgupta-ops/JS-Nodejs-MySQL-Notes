@@ -45,7 +45,6 @@ export default function AddTodo() {
       >
         {pending ? "Adding..." : "Add"}
       </button>
-      {state.message}
     </form>
   );
 }
