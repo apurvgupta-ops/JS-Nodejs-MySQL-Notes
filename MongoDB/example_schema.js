@@ -113,7 +113,7 @@ userSchema.pre(/^find/, function () {
 });
 
 // Model Middleware
-userSchema.pre("insertMant", function (next, docs) {
+userSchema.pre("insertMany", function (next, docs) {
   console.log(docs);
 
   next();
