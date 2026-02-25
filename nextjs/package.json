@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@mux/mux-player-react": "^3.11.4",
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.22.0",

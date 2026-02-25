@@ -1,6 +1,5 @@
 import Button from "@/Components/Button";
 import Likes from "@/Components/Likes";
-import Todos from "@/Components/Todos";
 import Views from "@/Components/Views";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -37,10 +36,6 @@ const blogs = () => {
         </Suspense>
         <Suspense fallback={"Loading Likes"}>
           <Likes />
-        </Suspense>
-
-        <Suspense>
-          <Todos />
         </Suspense>
       </div>
     </div>
