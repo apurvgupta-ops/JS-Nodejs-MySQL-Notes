@@ -105,3 +105,29 @@
 
 // const res = moveZeros();
 // console.log(res);
+
+// Container water
+function containWater(arr = [1, 8, 6, 2, 5, 4, 8, 3, 7]) {
+  const n = arr.length;
+  let left = 0;
+  let maxArea = 0;
+  let right = n - 1;
+
+  while (left <= right) {
+    let minHeight = Math.min(arr[left], arr[right]);
+    let width = right - left;
+    let area = minHeight * width;
+
+    maxArea = Math.max(area, maxArea);
+
+    if (arr[left] < arr[right]) {
+      left++;
+    } else {
+      right--;
+    }
+  }
+
+  return maxArea;
+}
+const res = containWater();
+console.log(res);
