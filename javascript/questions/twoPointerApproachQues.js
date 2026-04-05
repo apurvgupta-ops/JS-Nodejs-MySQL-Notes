@@ -107,27 +107,53 @@
 // console.log(res);
 
 // Container water
-function containWater(arr = [1, 8, 6, 2, 5, 4, 8, 3, 7]) {
-  const n = arr.length;
-  let left = 0;
-  let maxArea = 0;
-  let right = n - 1;
+// function containWater(arr = [1, 8, 6, 2, 5, 4, 8, 3, 7]) {
+//   const n = arr.length;
+//   let left = 0;
+//   let maxArea = 0;
+//   let right = n - 1;
 
-  while (left <= right) {
-    let minHeight = Math.min(arr[left], arr[right]);
-    let width = right - left;
-    let area = minHeight * width;
+//   while (left <= right) {
+//     let minHeight = Math.min(arr[left], arr[right]);
+//     let width = right - left;
+//     let area = minHeight * width;
 
-    maxArea = Math.max(area, maxArea);
+//     maxArea = Math.max(area, maxArea);
 
-    if (arr[left] < arr[right]) {
-      left++;
-    } else {
-      right--;
-    }
-  }
+//     if (arr[left] < arr[right]) {
+//       left++;
+//     } else {
+//       right--;
+//     }
+//   }
 
-  return maxArea;
-}
-const res = containWater();
-console.log(res);
+//   return maxArea;
+// }
+// const res = containWater();
+// console.log(res);
+
+// Trapping Rain Water
+// function trappingWater(arr = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) {
+//   const n = arr.length;
+//   let left = 0;
+//   let right = n - 1;
+//   let leftMax = arr[left];
+//   let rightMax = arr[right];
+//   let totalUnit = 0;
+
+//   while (left <= right)
+//     if (leftMax < rightMax) {
+//       leftMax = Math.max(leftMax, arr[left]);
+//       totalUnit += leftMax - arr[left];
+//       left++;
+//     } else {
+//       rightMax = Math.max(rightMax, arr[right]);
+//       totalUnit += rightMax - arr[right];
+//       right--;
+//     }
+
+//   return totalUnit;
+// }
+
+// const res = trappingWater();
+// console.log(res);

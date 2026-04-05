@@ -1,0 +1,16 @@
+{
+  "name": "11_intrumenting-express-app-for-prometheus",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "node --watch app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1",
+    "prom-client": "^15.1.3"
+  }
+}
