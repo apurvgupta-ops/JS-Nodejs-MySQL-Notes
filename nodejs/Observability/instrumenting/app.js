@@ -1,5 +1,6 @@
 import express from "express";
 import fs from "fs";
+import promClient from "prom-client";
 
 const app = express();
 const PORT = 4000;
@@ -72,6 +73,15 @@ app.get("/cpu-usage", (req, res) => {
     total: (user + system) / 1000,
     uptime: performance.now(),
   });
+});
+
+// Prom Client
+promClient.collectDefaultMetrics();
+app.get("/metrics", async (req, res) => {
+  const metrics = await promClient.register.metrics();
+  res.set("Content-type", promClient.register.contentType);
+
+  res.end(metrics);
 });
 
 app.listen(PORT, () => {
