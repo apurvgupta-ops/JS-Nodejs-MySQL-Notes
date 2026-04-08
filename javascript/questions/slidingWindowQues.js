@@ -125,3 +125,35 @@
 
 // const res = ones();
 // console.log(res);
+
+// 1004. Max Consecutive Ones III
+// function maxConsecutiv(arr = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0], k = 2) {
+//   const n = arr.length;
+//   let left = 0;
+//   let right = 0;
+//   let maxlen = 0;
+//   let zero = 0;
+
+//   while (right < n) {
+//     if (arr[right] === 0) {
+//       zero++;
+//     }
+
+//     if (zero > k) {
+//       if (arr[left] === 0) {
+//         zero--;
+//       }
+//       left++;
+//     }
+
+//     if (zero <= k) {
+//       len = right - left + 1;
+//       maxlen = Math.max(maxlen, len);
+//     }
+//     right++;
+//   }
+
+//   return maxlen;
+// }
+// const res = maxConsecutiv();
+// console.log(res);
