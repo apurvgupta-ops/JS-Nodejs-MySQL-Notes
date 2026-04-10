@@ -157,3 +157,47 @@
 // }
 // const res = maxConsecutiv();
 // console.log(res);
+
+// 209. Minimum Size Subarray Sum
+// function minimunSize(target = 7, nums = [2, 3, 1, 2, 4, 3]) {
+//   let minlen = Infinity;
+//   let left = 0;
+//   let sum = 0;
+//   for (let i = 0; i < nums.length; i++) {
+//     sum += nums[i];
+
+//     while (sum >= target) {
+//       let len = i - left + 1;
+//       minlen = Math.min(minlen, len);
+//       sum -= nums[left];
+//       left++;
+//     }
+//   }
+
+//   return minlen === Infinity ? 0 : minlen;
+// }
+// const res = minimunSize();
+// console.log(res);
+
+// 713. Subarray Product Less Than K
+// function numSubarrayProductLessThanK(nums = [10, 5, 2, 6], k = 100) {
+//   if (k <= 1) return 0;
+//   let left = 0;
+//   let product = 1;
+//   let count = 0;
+//   for (let i = 0; i < nums.length; i++) {
+//     product *= nums[i];
+
+//     while (product >= k) {
+//       product /= nums[left];
+//       left++;
+//     }
+
+//     let len = i - left + 1;
+//     count += len;
+//   }
+
+//   return count;
+// }
+// const res = numSubarrayProductLessThanK();
+// console.log(res);
