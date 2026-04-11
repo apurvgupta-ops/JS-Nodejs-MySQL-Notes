@@ -201,3 +201,57 @@
 // }
 // const res = numSubarrayProductLessThanK();
 // console.log(res);
+
+// 904. Fruit Into Baskets
+// function maxFruitLen(fruits = [1, 2, 1], k = 2) {
+//   let maxlen = 0;
+//   let left = 0;
+//   let map = new Map();
+
+//   for (let right = 0; right < fruits.length; right++) {
+//     map.set(fruits[right], (map.get(fruits[right]) || 0) + 1);
+
+//     while (map.size > 2) {
+//       map.set(fruits[left], map.get(fruits[left]) - 1);
+//       if (map.get(fruits[left]) === 0) {
+//         map.delete(fruits[left]);
+//       }
+//       left++;
+//     }
+//     let len = right - left + 1;
+//     maxlen = Math.max(maxlen, len);
+//   }
+
+//   return maxlen;
+// }
+// const res = maxFruitLen();
+// console.log(res);
+
+// 992. Subarrays with K Different Integers
+// function subarraysWithKDistinct(nums = [1, 2, 1, 2, 3], k = 2) {
+//   return atMost(nums, k) - atMost(nums, k - 1);
+// }
+
+// function atMost(nums = [1, 2, 1, 2, 3], k = 2) {
+//   let count = 0;
+//   let map = new Map();
+//   let left = 0;
+
+//   for (let right = 0; right < nums.length; right++) {
+//     map.set(nums[right], (map.get(nums[right]) || 0) + 1);
+
+//     while (map.size > k) {
+//       map.set(nums[left], map.get(nums[left]) - 1);
+//       if (map.get(nums[left]) === 0) {
+//         map.delete(nums[left]);
+//       }
+//       left++;
+//     }
+//     count += right - left + 1;
+//   }
+//   return count;
+// }
+// const res = subarraysWithKDistinct();
+// console.log(res);
+
+// 239. Sliding Window Maximum
