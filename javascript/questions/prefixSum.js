@@ -41,3 +41,23 @@
 
 // const res = pivotIndex();
 // console.log(res);
+
+// 238. Product of Array Except Self
+// function productExceptself(nums = [1, 2, 3, 4]) {
+//   let res = [];
+//   res[0] = 1;
+
+//   for (let i = 1; i < nums.length; i++) {
+//     res[i] = res[i - 1] * nums[i - 1];
+//   }
+
+//   let rightProduct = 1;
+
+//   for (let j = res.length - 1; j >= 0; j--) {
+//     res[j] *= rightProduct;
+//     rightProduct *= nums[j];
+//   }
+//   return res;
+// }
+// const res = productExceptself();
+// console.log(res);
