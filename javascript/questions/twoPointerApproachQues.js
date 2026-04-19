@@ -1,3 +1,8 @@
+function print(fn) {
+  const res = fn();
+  console.log(res);
+}
+
 // 2 sum problem
 // function twosum(arr, target) {
 //   let n = arr.length;
@@ -157,3 +162,87 @@
 
 // const res = trappingWater();
 // console.log(res);
+
+// !----------------------------
+// !26. Remove Duplicates from Sorted Array
+// function removeDup(nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]) {
+//   let left = 0;
+
+//   for (let right = 1; right < nums.length; right++) {
+//     if (nums[left] !== nums[right]) {
+//       nums[++left] = nums[right];
+//     }
+//   }
+//   const k = left + 1;
+
+//   for (let i = k; i < nums.length; i++) {
+//     nums[i] = "_";
+//   }
+//   console.log(nums);
+//   return k;
+// }
+
+// print(removeDup);
+
+// !27. Remove Element
+// ?Approach 1
+// function removeEle(nums = [3, 2, 2, 3], val = 3) {
+//   let left = 0;
+//   for (let right = 0; right < nums.length; right++) {
+//     if (nums[right] !== val) {
+//       nums[left++] = nums[right];
+//     }
+//   }
+//   return left;
+// }
+
+// ?Approach 2 if asked how many non-val elements are there
+// function removeEle(nums = [0, 1, 2, 2, 3, 0, 4, 2], val = 2) {
+//   let count = 0;
+//   for (let right = 0; right < nums.length; right++) {
+//     if (nums[right] === val) {
+//       count++;
+//     }
+//   }
+//   return nums.length - count;
+// }
+
+// print(removeEle);
+
+// !283. Move Zeroes
+// function moveZeros(nums = [0, 1, 0, 3, 12]) {
+//   let left = 0;
+//   for (let right = 0; right < nums.length; right++) {
+//     if (nums[right] !== 0) {
+//       [nums[left], nums[right]] = [nums[right], nums[left]];
+//       left++;
+//     }
+//   }
+
+//   return nums;
+// }
+// print(moveZeros);
+
+// !977. Squares of a Sorted Array
+// function sqSortedArray(nums = [-4, -1, 0, 3, 10]) {
+//   let left = 0;
+//   let right = nums.length - 1;
+//   let pos = nums.length - 1;
+//   let res = [];
+
+//   while (left <= right) {
+//     let lsq = nums[left] ** 2;
+//     let rsq = nums[right] ** 2;
+
+//     if (lsq > rsq) {
+//       res[pos--] = lsq;
+//       left++;
+//     } else {
+//       res[pos--] = rsq;
+//       right--;
+//     }
+//   }
+//   return res;
+// }
+
+// print(sqSortedArray);
