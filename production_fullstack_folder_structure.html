@@ -1,0 +1,302 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-mono);font-size:12px}
+.root{padding:16px 0}
+.entry{display:flex;align-items:flex-start;gap:0;cursor:default;user-select:none;line-height:1.7}
+.entry:hover>.label{background:var(--color-background-secondary);border-radius:4px}
+.indent{display:inline-block;width:20px;flex-shrink:0;color:var(--color-border-secondary)}
+.toggle{width:16px;flex-shrink:0;color:var(--color-text-tertiary);cursor:pointer;text-align:center;font-size:10px;padding-top:2px}
+.icon{width:18px;flex-shrink:0;font-size:12px;padding-top:1px}
+.label{display:flex;align-items:baseline;gap:8px;flex:1;padding:1px 4px;cursor:pointer}
+.name{color:var(--color-text-primary);font-weight:500}
+.name.dir{color:#3B8BD4}
+.name.file{color:var(--color-text-secondary);font-weight:400}
+.name.config{color:#85B7EB}
+.name.env{color:#E8593C}
+.name.entry{color:#EF9F27}
+.desc{color:var(--color-text-tertiary);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{font-size:10px;padding:1px 6px;border-radius:9px;white-space:nowrap;font-family:var(--font-sans);font-weight:500;flex-shrink:0}
+.badge.ai{background:#3C3489;color:#CECBF6}
+.badge.core{background:#085041;color:#9FE1CB}
+.badge.infra{background:#632806;color:#FAC775}
+.badge.sec{background:#711B0C;color:#F5C4B3}
+.badge.shared{background:#444441;color:#D3D1C7}
+.children{overflow:hidden;transition:max-height .2s ease}
+.collapsed>.children{max-height:0!important}
+.header-bar{display:flex;align-items:center;justify-content:space-between;padding:0 16px 10px;border-bottom:1px solid var(--color-border-tertiary);margin-bottom:4px}
+.header-bar h2{font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.legend{display:flex;gap:8px;flex-wrap:wrap}
+.expand-all{font-family:var(--font-sans);font-size:11px;color:var(--color-text-tertiary);cursor:pointer;padding:2px 8px;border:1px solid var(--color-border-tertiary);border-radius:4px;background:none}
+.expand-all:hover{color:var(--color-text-secondary);border-color:var(--color-border-secondary)}
+</style>
+<div style="padding:0">
+<div class="header-bar">
+  <h2>Production monorepo — apurv-stack/</h2>
+  <div style="display:flex;gap:8px;align-items:center">
+    <div class="legend">
+      <span class="badge ai">AI/GenAI</span>
+      <span class="badge core">core</span>
+      <span class="badge infra">infra</span>
+      <span class="badge sec">security</span>
+      <span class="badge shared">shared</span>
+    </div>
+    <button class="expand-all" onclick="toggleAll()">expand all</button>
+  </div>
+</div>
+<div class="root" id="tree"></div>
+</div>
+<script>
+const T={
+  name:'apurv-stack/',type:'dir',open:true,children:[
+    {name:'apps/',type:'dir',desc:'deployable services',open:true,children:[
+      {name:'web/',type:'dir',desc:'Next.js 14 — App Router',badge:'core',open:false,children:[
+        {name:'src/',type:'dir',open:true,children:[
+          {name:'app/',type:'dir',desc:'route segments, layouts, pages',children:[
+            {name:'(auth)/',type:'dir',desc:'auth group routes (login, register)'},
+            {name:'(dashboard)/',type:'dir',desc:'protected routes'},
+            {name:'api/',type:'dir',desc:'route handlers (Next.js API)'},
+            {name:'layout.tsx',type:'entry',desc:'root layout + providers'},
+            {name:'page.tsx',type:'entry'},
+          ]},
+          {name:'components/',type:'dir',children:[
+            {name:'ui/',type:'dir',desc:'shadcn/ui primitives'},
+            {name:'features/',type:'dir',desc:'feature-scoped components'},
+            {name:'layouts/',type:'dir'},
+          ]},
+          {name:'hooks/',type:'dir',desc:'custom React hooks'},
+          {name:'lib/',type:'dir',desc:'utils, constants, formatters'},
+          {name:'store/',type:'dir',desc:'Redux Toolkit slices + RTK Query'},
+          {name:'types/',type:'dir',desc:'shared TS types for this app'},
+        ]},
+        {name:'public/',type:'dir'},
+        {name:'next.config.ts',type:'config'},
+        {name:'tailwind.config.ts',type:'config'},
+        {name:'.env.local',type:'env',desc:'client-side env (NEXT_PUBLIC_*)'},
+      ]},
+      {name:'api/',type:'dir',desc:'Express.js / NestJS REST + GraphQL',badge:'core',open:false,children:[
+        {name:'src/',type:'dir',open:true,children:[
+          {name:'modules/',type:'dir',desc:'domain modules (NestJS style)',children:[
+            {name:'auth/',type:'dir',children:[
+              {name:'auth.controller.ts',type:'file'},
+              {name:'auth.service.ts',type:'file'},
+              {name:'auth.module.ts',type:'file'},
+              {name:'strategies/',type:'dir',desc:'Passport JWT, OAuth'},
+              {name:'guards/',type:'dir',desc:'AuthGuard, RolesGuard'},
+            ]},
+            {name:'users/',type:'dir',children:[
+              {name:'users.controller.ts',type:'file'},
+              {name:'users.service.ts',type:'file'},
+              {name:'users.repository.ts',type:'file'},
+              {name:'dto/',type:'dir',desc:'CreateUserDto, UpdateUserDto'},
+            ]},
+          ]},
+          {name:'common/',type:'dir',children:[
+            {name:'decorators/',type:'dir'},
+            {name:'filters/',type:'dir',desc:'global exception filters'},
+            {name:'interceptors/',type:'dir',desc:'logging, transform'},
+            {name:'middleware/',type:'dir',desc:'rate-limit, helmet, morgan'},
+            {name:'pipes/',type:'dir',desc:'validation, parse'},
+          ]},
+          {name:'config/',type:'dir',desc:'ConfigModule, env validation (Joi/Zod)'},
+          {name:'database/',type:'dir',children:[
+            {name:'migrations/',type:'dir'},
+            {name:'seeds/',type:'dir'},
+            {name:'entities/',type:'dir',desc:'TypeORM / Mongoose schemas'},
+          ]},
+          {name:'graphql/',type:'dir',desc:'resolvers, schema, dataloaders'},
+          {name:'main.ts',type:'entry',desc:'bootstrap, CORS, Swagger, global pipes'},
+        ]},
+        {name:'test/',type:'dir',children:[
+          {name:'unit/',type:'dir'},
+          {name:'integration/',type:'dir'},
+          {name:'e2e/',type:'dir'},
+        ]},
+        {name:'Dockerfile',type:'config'},
+        {name:'.env',type:'env'},
+        {name:'.env.production',type:'env',badge:'sec'},
+      ]},
+      {name:'ai-service/',type:'dir',desc:'LangChain · RAG · Agentic workflows',badge:'ai',open:false,children:[
+        {name:'src/',type:'dir',open:true,children:[
+          {name:'chains/',type:'dir',desc:'LangChain chain definitions',children:[
+            {name:'rag.chain.ts',type:'file',desc:'retrieval-augmented generation'},
+            {name:'agent.chain.ts',type:'file',desc:'tool-calling agent'},
+            {name:'summarizer.chain.ts',type:'file'},
+          ]},
+          {name:'tools/',type:'dir',desc:'LangChain custom tools',children:[
+            {name:'search.tool.ts',type:'file'},
+            {name:'calculator.tool.ts',type:'file'},
+            {name:'db-query.tool.ts',type:'file'},
+          ]},
+          {name:'embeddings/',type:'dir',children:[
+            {name:'embed.service.ts',type:'file',desc:'OpenAI / Cohere embedding wrapper'},
+            {name:'chunker.ts',type:'file',desc:'RecursiveCharacterTextSplitter config'},
+          ]},
+          {name:'vectorstore/',type:'dir',children:[
+            {name:'pinecone.store.ts',type:'file'},
+            {name:'chroma.store.ts',type:'file'},
+            {name:'store.factory.ts',type:'file',desc:'runtime store selector'},
+          ]},
+          {name:'memory/',type:'dir',desc:'ConversationBufferMemory, Redis-backed'},
+          {name:'prompts/',type:'dir',desc:'PromptTemplates, system prompts'},
+          {name:'routers/',type:'dir',desc:'Express routes exposing AI endpoints'},
+          {name:'index.ts',type:'entry'},
+        ]},
+        {name:'evals/',type:'dir',desc:'LangSmith / custom eval harness',badge:'ai'},
+        {name:'Dockerfile',type:'config'},
+        {name:'.env',type:'env'},
+      ]},
+      {name:'workers/',type:'dir',desc:'BullMQ background jobs',open:false,children:[
+        {name:'src/',type:'dir',children:[
+          {name:'queues/',type:'dir',desc:'queue definitions'},
+          {name:'processors/',type:'dir',desc:'job processor handlers'},
+          {name:'schedulers/',type:'dir',desc:'cron-style recurring jobs'},
+        ]},
+        {name:'Dockerfile',type:'config'},
+      ]},
+    ]},
+    {name:'packages/',type:'dir',desc:'shared internal packages (npm workspaces)',open:true,children:[
+      {name:'config/',type:'dir',desc:'shared ESLint, TS, Tailwind base configs',badge:'shared',open:false,children:[
+        {name:'eslint/',type:'dir',children:[{name:'index.js',type:'file',desc:'extended shared ESLint rule set'}]},
+        {name:'typescript/',type:'dir',children:[{name:'base.json',type:'config'},{name:'nextjs.json',type:'config'},{name:'nestjs.json',type:'config'}]},
+        {name:'tailwind/',type:'dir',children:[{name:'base.ts',type:'config'}]},
+      ]},
+      {name:'ui/',type:'dir',desc:'design system — shared React components',badge:'shared',open:false,children:[
+        {name:'src/',type:'dir',children:[
+          {name:'components/',type:'dir'},
+          {name:'tokens/',type:'dir',desc:'colors, typography, spacing'},
+          {name:'index.ts',type:'entry'},
+        ]},
+        {name:'package.json',type:'config'},
+      ]},
+      {name:'sdk/',type:'dir',desc:'typed API client (openapi-fetch / zod)',badge:'shared',open:false,children:[
+        {name:'src/',type:'dir',children:[
+          {name:'client.ts',type:'file',desc:'base fetch wrapper'},
+          {name:'endpoints/',type:'dir'},
+          {name:'types/',type:'dir',desc:'generated from OpenAPI spec'},
+        ]},
+      ]},
+      {name:'utils/',type:'dir',desc:'pure shared utilities (no framework deps)',badge:'shared'},
+      {name:'db/',type:'dir',desc:'Prisma/Drizzle schema + migrations',badge:'shared',open:false,children:[
+        {name:'prisma/',type:'dir',children:[
+          {name:'schema.prisma',type:'config',desc:'single source of truth'},
+          {name:'migrations/',type:'dir'},
+          {name:'seed.ts',type:'file'},
+        ]},
+        {name:'src/',type:'dir',children:[
+          {name:'client.ts',type:'file',desc:'singleton PrismaClient'},
+          {name:'repositories/',type:'dir'},
+        ]},
+      ]},
+    ]},
+    {name:'infra/',type:'dir',desc:'IaC · Docker · CI/CD',badge:'infra',open:false,children:[
+      {name:'docker/',type:'dir',children:[
+        {name:'docker-compose.yml',type:'config',desc:'local dev: all services'},
+        {name:'docker-compose.prod.yml',type:'config'},
+      ]},
+      {name:'terraform/',type:'dir',desc:'AWS — VPC, ECS, RDS, ElastiCache',children:[
+        {name:'modules/',type:'dir',children:[
+          {name:'vpc/',type:'dir'},{name:'ecs/',type:'dir'},{name:'rds/',type:'dir'},{name:'s3/',type:'dir'},
+        ]},
+        {name:'environments/',type:'dir',children:[
+          {name:'dev/',type:'dir'},{name:'staging/',type:'dir'},{name:'prod/',type:'dir'},
+        ]},
+        {name:'main.tf',type:'file'},{name:'variables.tf',type:'file'},{name:'outputs.tf',type:'file'},
+      ]},
+      {name:'k8s/',type:'dir',desc:'Kubernetes manifests (optional)',children:[
+        {name:'deployments/',type:'dir'},{name:'services/',type:'dir'},{name:'ingress/',type:'dir'},
+        {name:'configmaps/',type:'dir'},{name:'secrets/',type:'dir',badge:'sec'},
+      ]},
+      {name:'nginx/',type:'dir',desc:'reverse proxy config'},
+    ]},
+    {name:'.github/',type:'dir',badge:'infra',open:false,children:[
+      {name:'workflows/',type:'dir',children:[
+        {name:'ci.yml',type:'config',desc:'lint → test → build on PR'},
+        {name:'cd-staging.yml',type:'config',desc:'deploy on merge to main'},
+        {name:'cd-prod.yml',type:'config',desc:'deploy on release tag'},
+        {name:'security-scan.yml',type:'config',desc:'Trivy + npm audit',badge:'sec'},
+        {name:'ai-evals.yml',type:'config',desc:'LangSmith eval gate',badge:'ai'},
+      ]},
+      {name:'PULL_REQUEST_TEMPLATE.md',type:'file'},
+      {name:'CODEOWNERS',type:'file'},
+    ]},
+    {name:'scripts/',type:'dir',desc:'dev automation (bash / ts-node)',open:false,children:[
+      {name:'setup.sh',type:'file',desc:'bootstrap local env'},
+      {name:'seed-db.ts',type:'file'},
+      {name:'generate-sdk.ts',type:'file',desc:'openapi-typescript codegen'},
+      {name:'build-all.sh',type:'file'},
+    ]},
+    {name:'docs/',type:'dir',open:false,children:[
+      {name:'architecture/',type:'dir',desc:'ADRs, system design'},
+      {name:'api/',type:'dir',desc:'OpenAPI / GraphQL docs'},
+      {name:'runbooks/',type:'dir',desc:'incident playbooks'},
+    ]},
+    {name:'.env.example',type:'env',desc:'committed reference — no secrets'},
+    {name:'.env.vault',type:'env',desc:'dotenv-vault encrypted backup',badge:'sec'},
+    {name:'package.json',type:'config',desc:'workspaces root'},
+    {name:'pnpm-workspace.yaml',type:'config'},
+    {name:'turbo.json',type:'config',desc:'Turborepo pipeline config'},
+    {name:'.commitlintrc.json',type:'config'},
+    {name:'.husky/',type:'dir',desc:'pre-commit, commit-msg hooks'},
+    {name:'Makefile',type:'file',desc:'common dev commands'},
+  ]
+};
+
+function badge(b){return b?`<span class="badge ${b}">${b}</span>`:'';}
+
+function icon(type,isDir){
+  if(isDir)return'📁';
+  if(type==='config')return'⚙';
+  if(type==='env')return'🔐';
+  if(type==='entry')return'▶';
+  return'·';
+}
+
+let eid=0;
+function render(node,depth){
+  const id='n'+(eid++);
+  const isDir=node.type==='dir'||node.children;
+  const hasChildren=node.children&&node.children.length;
+  const open=node.open!==false;
+  const typeClass=node.type==='config'?'config':node.type==='env'?'env':node.type==='entry'?'entry':isDir?'dir':'file';
+
+  let inner=`<div class="entry" onclick="${hasChildren?`toggleNode('${id}')`:''}" style="cursor:${hasChildren?'pointer':'default'}">`;
+  for(let i=0;i<depth;i++)inner+=`<span class="indent">│</span>`;
+  inner+=`<span class="toggle">${hasChildren?(open?'▾':'▸'):' '}</span>`;
+  inner+=`<span class="icon">${icon(node.type,isDir)}</span>`;
+  inner+=`<span class="label"><span class="name ${typeClass}">${node.name}</span>`;
+  if(node.desc)inner+=`<span class="desc">${node.desc}</span>`;
+  inner+=`</span>`;
+  if(node.badge)inner+=badge(node.badge);
+  inner+=`</div>`;
+
+  if(hasChildren){
+    const ch=node.children.map(c=>render(c,depth+1)).join('');
+    const mh=open?'9999px':'0';
+    return`<div id="${id}" class="${open?'':'collapsed'}" data-open="${open}">${inner}<div class="children" style="max-height:${mh}">${ch}</div></div>`;
+  }
+  return inner;
+}
+
+function toggleNode(id){
+  const el=document.getElementById(id);
+  const open=el.dataset.open==='true';
+  el.dataset.open=String(!open);
+  const ch=el.querySelector('.children');
+  if(open){el.classList.add('collapsed');ch.style.maxHeight='0';}
+  else{el.classList.remove('collapsed');ch.style.maxHeight='9999px';}
+}
+
+let allOpen=false;
+function toggleAll(){
+  allOpen=!allOpen;
+  document.querySelectorAll('[data-open]').forEach(el=>{
+    const ch=el.querySelector('.children');
+    if(allOpen){el.dataset.open='true';el.classList.remove('collapsed');ch.style.maxHeight='9999px';}
+    else{el.dataset.open='false';el.classList.add('collapsed');ch.style.maxHeight='0';}
+  });
+  document.querySelector('.expand-all').textContent=allOpen?'collapse all':'expand all';
+}
+
+document.getElementById('tree').innerHTML=render(T,0);
+</script>
