@@ -230,6 +230,7 @@ function print(fn) {
 //   let pos = nums.length - 1;
 //   let res = [];
 
+// ? With While Loop (can do with for loop as well)
 //   while (left <= right) {
 //     let lsq = nums[left] ** 2;
 //     let rsq = nums[right] ** 2;
@@ -244,5 +245,79 @@ function print(fn) {
 //   }
 //   return res;
 // }
-
 // print(sqSortedArray);
+
+// !15. 3Sum
+// function threeSum(nums = [-1, 0, 1, 2, -1, -4]) {
+//   const n = nums.length;
+//   nums.sort((a, b) => a - b);
+//   let res = [];
+//   for (let i = 0; i < n - 1; i++) {
+//     // to i remove duplicate
+//     if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+//     let left = i + 1;
+//     let right = n - 1;
+//     while (left < right) {
+//       let sum = nums[i] + nums[left] + nums[right];
+
+//       if (sum === 0) {
+//         res.push([nums[i], nums[left], nums[right]]);
+
+//         // to remove left duplicates
+//         while (left < right && nums[left] === nums[left + 1]) left++;
+
+//         // to remove right duplicates
+//         while (left < right && nums[right] === nums[right - 1]) right--;
+
+//         left++;
+//         right--;
+//       } else if (sum > 0) right--;
+//       else left++;
+//     }
+//   }
+//   return res;
+// }
+// print(threeSum);
+
+// !11. Container With Most Water
+// function maxArea(height = [1, 8, 6, 2, 5, 4, 8, 3, 7]) {
+//   let n = height.length;
+//   let left = 0;
+//   let right = n - 1;
+
+//   let maxarea = 0;
+
+//   while (left <= right) {
+//     let minHeight = Math.min(height[left], height[right]);
+//     let breadth = right - left;
+//     let area = minHeight * breadth;
+
+//     maxarea = Math.max(area, maxarea);
+
+//     if (height[left] < height[right]) left++;
+//     else right--;
+//   }
+
+//   return maxarea;
+// }
+
+// print(maxArea);
+
+// !167. Two Sum II - Input Array Is Sorted
+// function twosum(nums = [2, 7, 11, 15], target = 9) {
+//   let left = 0;
+//   let right = nums.length - 1;
+
+//   while (left < right) {
+//     let sum = nums[left] + nums[right];
+
+//     if (sum === target) {
+//       return [left + 1, right + 1];
+//     } else if (sum > target) {
+//       right--;
+//     } else left++;
+//   }
+//   return [-1, -1];
+// }
+// print(twosum);
