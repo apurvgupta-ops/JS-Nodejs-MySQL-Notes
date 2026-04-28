@@ -1,3 +1,8 @@
+function print(fn) {
+  const res = fn();
+  console.log(res);
+}
+
 // Max Sum Subarray of size K with 2 loops
 // function maxSubArrSum(arr = [1, 4, 2, 10, 23, 3, 1, 0, 20], k = 4) {
 //   let n = arr.length;
@@ -255,3 +260,117 @@
 // console.log(res);
 
 // 239. Sliding Window Maximum
+
+// !----------------------------
+// !643. Maximum Average Subarray I
+// ?(With 2 loops)
+// var findMaxAverage = function (nums = [1, 12, -5, -6, 50, 3], k = 4) {
+//   let maxAvg = 0;
+//   let sum = 0;
+//   for (let right = 0; right < k; right++) {
+//     sum += nums[right];
+//   }
+//   maxAvg = sum / k;
+//   for (let i = k; i < nums.length; i++) {
+//     sum += nums[i] - nums[i - k];
+//     maxAvg = Math.max(maxAvg, sum / k);
+//   }
+//   return maxAvg;
+// };
+
+// ?(With 1 loops)
+// var findMaxAverage = function (nums = [-1], k = 1) {
+//   let maxAvg = -Infinity;
+//   let sum = 0;
+//   for (let right = 0; right < nums.length; right++) {
+//     sum += nums[right];
+//     if (right >= k) {
+//       sum -= nums[right - k];
+//     }
+//     if (right >= k - 1) maxAvg = Math.max(maxAvg, sum / k);
+//   }
+//   return maxAvg;
+// };
+// print(findMaxAverage);
+
+// !1480. Running Sum of 1d Array
+// var runningSum = function (nums = [1, 2, 3, 4]) {
+//   let sum = 0;
+//   //   const res = [];
+//   for (let i = 0; i < nums.length; i++) {
+//     sum += nums[i];
+//     // res.push(sum);
+//     nums[i] = sum;
+//   }
+//   return nums;
+// };
+// print(runningSum);
+
+// !1343. Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+// var numOfSubarrays = function (
+//   arr = [2, 2, 2, 2, 5, 5, 5, 8],
+//   k = 3,
+//   threshold = 4,
+// ) {
+//   let avg = -Infinity;
+//   let sum = 0;
+//   let count = 0;
+//   for (let i = 0; i < arr.length; i++) {
+//     sum += arr[i];
+
+//     avg = sum / k;
+//     console.log({ avg, sum });
+
+//     if (i >= k) {
+//       sum -= arr[i - k];
+//     }
+
+//     if (i >= k - 1) {
+//       avg = sum / k;
+//       if (avg >= threshold) {
+//         count++;
+//       }
+//     }
+//   }
+//   return count;
+// };
+
+// print(numOfSubarrays);
+
+// !438. Find All Anagrams in a String
+// var findAnagrams = function (s = "cbaebabacd", p = "abc") {
+//   let res = [];
+//   let pmap = new Map();
+//   let wmap = new Map();
+//   let k = p.length;
+
+//   for (let ch of p) {
+//     pmap.set(ch, (pmap.get(ch) || 0) + 1);
+//   }
+
+//   for (let i = 0; i < s.length; i++) {
+//     wmap.set(s[i], (wmap.get(s[i]) || 0) + 1);
+
+//     if (i >= k) {
+//       let out = s[i - k];
+//       if (wmap.get(out) === 1) wmap.delete(out);
+//       else {
+//         wmap.set(out, wmap.get(out) - 1);
+//       }
+//     }
+
+//     if (i >= k - 1 && isSameMap(pmap, wmap)) {
+//       res.push(i - k + 1);
+//     }
+//   }
+//   return res;
+// };
+// function isSameMap(map1, map2) {
+//   if (map1.size !== map2.size) return false;
+//   for (let [key, val] of map1) {
+//     if (map2.get(key) !== val) return false;
+//   }
+//   return true;
+// }
+
+// print(findAnagrams);
