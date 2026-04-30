@@ -374,3 +374,94 @@ function print(fn) {
 // }
 
 // print(findAnagrams);
+
+// !567. Permutation in String
+// var checkInclusion = function (s2 = "eidbaooo", s1 = "ab") {
+//   let pmap = new Map();
+//   let wmap = new Map();
+//   let k = s1.length;
+
+//   for (let ch of s1) {
+//     pmap.set(ch, (pmap.get(ch) || 0) + 1);
+//   }
+
+//   for (let i = 0; i < s2.length; i++) {
+//     wmap.set(s2[i], (wmap.get(s2[i]) || 0) + 1);
+
+//     if (i >= k) {
+//       let out = s2[i - k];
+//       if (wmap.get(out) === 1) wmap.delete(out);
+//       else {
+//         wmap.set(out, wmap.get(out) - 1);
+//       }
+//     }
+
+//     if (i >= k - 1 && isSameMap(pmap, wmap)) {
+//       return true;
+//     }
+//   }
+//   return false;
+// };
+// function isSameMap(map1, map2) {
+//   if (map1.size !== map2.size) return false;
+//   for (let [key, val] of map1) {
+//     if (map2.get(key) !== val) return false;
+//   }
+//   return true;
+// }
+
+// print(checkInclusion);
+
+// !239. Sliding Window Maximum
+// var maxSlidingWindow = function (nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3) {
+//   const deque = [];
+//   const res = [];
+
+//   for (let i = 0; i < nums.length; i++) {
+//     if (deque.length > 0 && deque[0] <= i - k) {
+//       deque.shift();
+//     }
+
+//     while (deque.length > 0 && nums[deque[deque.length - 1]] < nums[i]) {
+//       deque.pop();
+//     }
+
+//     deque.push(i);
+
+//     if (i >= k - 1) {
+//       res.push(nums[deque[0]]);
+//     }
+//   }
+//   return res;
+// };
+
+// print(maxSlidingWindow);
+
+// !1052. Grumpy Bookstore Owner
+// var maxSatisfied = function (
+//   customers = [1, 0, 1, 2, 1, 1, 7, 5],
+//   grumpy = [0, 1, 0, 1, 0, 1, 0, 1],
+//   minutes = 3,
+// ) {
+//   let zerosum = 0;
+//   let maxWindowSum = 0;
+//   let currwindowsum = 0;
+
+//   for (let i = 0; i < customers.length; i++) {
+//     if (grumpy[i] === 0) zerosum += customers[i];
+
+//     if (grumpy[i] === 1) currwindowsum += customers[i];
+
+//     if (i >= minutes) {
+//       if (grumpy[i - minutes] === 1) {
+//         currwindowsum -= customers[i - minutes];
+//       }
+//     }
+
+//     maxWindowSum = Math.max(maxWindowSum, currwindowsum);
+//   }
+
+//   return zerosum + maxWindowSum;
+// };
+
+// console.log(maxSatisfied());
