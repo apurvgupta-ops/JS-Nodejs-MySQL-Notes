@@ -232,35 +232,6 @@ function print(fn) {
 // const res = maxFruitLen();
 // console.log(res);
 
-// 992. Subarrays with K Different Integers
-// function subarraysWithKDistinct(nums = [1, 2, 1, 2, 3], k = 2) {
-//   return atMost(nums, k) - atMost(nums, k - 1);
-// }
-
-// function atMost(nums = [1, 2, 1, 2, 3], k = 2) {
-//   let count = 0;
-//   let map = new Map();
-//   let left = 0;
-
-//   for (let right = 0; right < nums.length; right++) {
-//     map.set(nums[right], (map.get(nums[right]) || 0) + 1);
-
-//     while (map.size > k) {
-//       map.set(nums[left], map.get(nums[left]) - 1);
-//       if (map.get(nums[left]) === 0) {
-//         map.delete(nums[left]);
-//       }
-//       left++;
-//     }
-//     count += right - left + 1;
-//   }
-//   return count;
-// }
-// const res = subarraysWithKDistinct();
-// console.log(res);
-
-// 239. Sliding Window Maximum
-
 // !----------------------------
 // !643. Maximum Average Subarray I
 // ?(With 2 loops)
@@ -449,19 +420,41 @@ function print(fn) {
 
 //   for (let i = 0; i < customers.length; i++) {
 //     if (grumpy[i] === 0) zerosum += customers[i];
-
 //     if (grumpy[i] === 1) currwindowsum += customers[i];
-
 //     if (i >= minutes) {
 //       if (grumpy[i - minutes] === 1) {
 //         currwindowsum -= customers[i - minutes];
 //       }
 //     }
-
 //     maxWindowSum = Math.max(maxWindowSum, currwindowsum);
 //   }
-
 //   return zerosum + maxWindowSum;
 // };
-
 // console.log(maxSatisfied());
+
+// !992. Subarrays with K Different Integers
+// function subarraysWithKDistinct(nums = [1, 2, 1, 2, 3], k = 2) {
+//   return atMost(nums, k) - atMost(nums, k - 1);
+// }
+
+// function atMost(nums = [1, 2, 1, 2, 3], k = 2) {
+//   let count = 0;
+//   let map = new Map();
+//   let left = 0;
+
+//   for (let right = 0; right < nums.length; right++) {
+//     map.set(nums[right], (map.get(nums[right]) || 0) + 1);
+
+//     while (map.size > k) {
+//       map.set(nums[left], map.get(nums[left]) - 1);
+//       if (map.get(nums[left]) === 0) {
+//         map.delete(nums[left]);
+//       }
+//       left++;
+//     }
+//     count += right - left + 1;
+//   }
+//   return count;
+// }
+// const res = subarraysWithKDistinct();
+// console.log(res);
