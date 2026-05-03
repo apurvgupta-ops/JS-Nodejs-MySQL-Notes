@@ -45,72 +45,6 @@ function print(fn) {
 // const res = maxSubArrSum();
 // console.log(res);
 
-// SubArray of the distinct element 2 loop
-// function distinctSubArrSum(nums = [1, 2, 3, 3], k = 1) {
-//   let maxSum = 0;
-//   let sum = 0;
-//   let map = new Map();
-
-//   for (let i = 0; i < k; i++) {
-//     map.set(nums[i], (map.get(nums[i]) || 0) + 1);
-//     sum += nums[i];
-//   }
-
-//   if (map.size === k) {
-//     maxSum = sum;
-//   }
-//   for (let j = k; j < nums.length; j++) {
-//     map.set(nums[j], (map.get(nums[j]) || 0) + 1);
-//     sum += nums[j];
-
-//     const out = nums[j - k];
-//     if (map.get(out) === 1) {
-//       map.delete(out);
-//     } else {
-//       map.set(out, map.get(out) - 1);
-//     }
-
-//     sum -= out;
-
-//     if (map.size === k) {
-//       maxSum = Math.max(maxSum, sum);
-//     }
-//   }
-
-//   return maxSum;
-// }
-
-// const res = distinctSubArrSum();
-// console.log(res);
-
-// SubArray of the distinct element one loop
-// function distinctSubArrSum(nums = [1, 2, 3, 3], k = 1) {
-//   let maxSum = 0;
-//   let sum = 0;
-//   let map = new Map();
-
-//   for (let i = 0; i < nums.length; i++) {
-//     map.set(nums[i], (map.get(nums[i]) || 0) + 1);
-//     sum += nums[i];
-
-//     if (i >= k) {
-//       const out = nums[i - k];
-//       if (map.get(out) === 1) map.delete(out);
-//       else map.set(out, map.get(out) - 1);
-//       sum -= out;
-//     }
-
-//     if (i >= k - 1 && map.size === k) {
-//       maxSum = Math.max(maxSum, sum);
-//     }
-//   }
-
-//   return maxSum;
-// }
-
-// const res = distinctSubArrSum();
-// console.log(res);
-
 // 485. Max Consecutive Ones
 // function ones(arr = [1, 1, 0, 1, 1, 1]) {
 //   let current_ones = 0;
@@ -205,31 +139,6 @@ function print(fn) {
 //   return count;
 // }
 // const res = numSubarrayProductLessThanK();
-// console.log(res);
-
-// 904. Fruit Into Baskets
-// function maxFruitLen(fruits = [1, 2, 1], k = 2) {
-//   let maxlen = 0;
-//   let left = 0;
-//   let map = new Map();
-
-//   for (let right = 0; right < fruits.length; right++) {
-//     map.set(fruits[right], (map.get(fruits[right]) || 0) + 1);
-
-//     while (map.size > 2) {
-//       map.set(fruits[left], map.get(fruits[left]) - 1);
-//       if (map.get(fruits[left]) === 0) {
-//         map.delete(fruits[left]);
-//       }
-//       left++;
-//     }
-//     let len = right - left + 1;
-//     maxlen = Math.max(maxlen, len);
-//   }
-
-//   return maxlen;
-// }
-// const res = maxFruitLen();
 // console.log(res);
 
 // !----------------------------
@@ -458,3 +367,30 @@ function print(fn) {
 // }
 // const res = subarraysWithKDistinct();
 // console.log(res);
+
+// !2461. Maximum Sum of Distinct Subarrays With Length K
+// function distinctSubArrSum(nums = [1, 5, 4, 2, 9, 9, 9], k = 3) {
+//   let maxSum = 0;
+//   let sum = 0;
+//   let map = new Map();
+
+//   for (let i = 0; i < nums.length; i++) {
+//     map.set(nums[i], (map.get(nums[i]) || 0) + 1);
+//     sum += nums[i];
+
+//     if (i >= k) {
+//       const out = nums[i - k];
+//       if (map.get(out) === 1) map.delete(out);
+//       else map.set(out, map.get(out) - 1);
+//       sum -= out;
+//     }
+
+//     if (i >= k - 1 && map.size === k) {
+//       maxSum = Math.max(maxSum, sum);
+//     }
+//   }
+
+//   return maxSum;
+// }
+
+// console.log(distinctSubArrSum());
