@@ -162,4 +162,44 @@ var findMaxLength = function (nums = [0, 1, 1, 1, 1, 1, 0, 0, 0]) {
 
 console.log(findMaxLength());
 // !974. Subarray Sums Divisible K
+// var subarraysDivByK = function (nums = [4, 5, 0, -2, -3, 1], k = 5) {
+//   let count = 0;
+//   let currsum = 0;
+//   let map = new Map();
+//   map.set(0, 1);
+
+//   for (let i = 0; i < nums.length; i++) {
+//     currsum += nums[i];
+
+//     let remainder = ((currsum % k) + k) % k;
+//     if (map.has(remainder)) {
+//       count += map.get(remainder);
+//     }
+//     map.set(remainder, (map.get(remainder) || 0) + 1);
+//   }
+//   return count;
+// };
+
+// console.log(subarraysDivByK());
 // !523. Continuous Subarray Sum
+var checkSubarraySum = function (nums = [23, 2, 4, 6, 7], k = 6) {
+  let currsum = 0;
+  let map = new Map();
+  map.set(0, -1);
+  for (let i = 0; i < nums.length; i++) {
+    currsum += nums[i];
+
+    let remainder = currsum % k;
+
+    if (map.has(remainder)) {
+      if (i - map.get(remainder)) {
+        return true;
+      }
+    } else {
+      map.set(remainder, i);
+    }
+  }
+
+  return false;
+};
+console.log(checkSubarraySum());

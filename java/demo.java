@@ -58,6 +58,79 @@ public class demo {
         double q = 2.5;
         double result = p + q; // int promoted to double
         System.out.println("Type promotion in expressions: " + result);
+
+        // Bitwise operations
+        int r = 5; // 0101 in binary
+        int s = 3; // 0011 in binary
+        int andResult = r & s; // Bitwise AND
+        int orResult = r | s;  // Bitwise OR
+        int xorResult = r ^ s; // Bitwise XOR
+        System.out.println("Bitwise AND: " + andResult);
+        System.out.println("Bitwise OR: " + orResult);
+        System.out.println("Bitwise XOR: " + xorResult);
+
+        // Logical operations
+        boolean t = true;
+        boolean u = false;
+        boolean andLogical = t && u; // Logical AND
+        boolean orLogical = t || u;  // Logical OR
+        boolean notLogical = !t;     // Logical NOT
+        System.out.println("Logical AND: " + andLogical);
+        System.out.println("Logical OR: " + orLogical);
+        System.out.println("Logical NOT: " + notLogical);
+
+        // Ternary operator
+        int v = 10;
+        String ternaryResult = (v > 5) ? "Greater than 5" : "Less than or equal to 5";
+        System.out.println("Ternary operator result: " + ternaryResult);
+
+        // String concatenation
+        String str1 = "Hello";
+        String str2 = "World";
+        String concatenated = str1 + " " + str2; // Using + operator
+        System.out.println("String concatenation: " + concatenated);
+
+        // String methods
+        String str3 = "Java Programming";
+        int length = str3.length(); // Length of the string
+        String upperCase = str3.toUpperCase(); // Convert to uppercase
+        String lowerCase = str3.toLowerCase(); // Convert to lowercase
+        String substring = str3.substring(5, 16); // Extract substring
+        System.out.println("String length: " + length);
+        System.out.println("Uppercase: " + upperCase);
+        System.out.println("Lowercase: " + lowerCase);
+        System.out.println("Substring: " + substring);
+
+        // String comparison
+        String str4 = "Hello";
+        String str5 = "Hello";
+        String str6 = new String("Hello");
+        System.out.println("String comparison using == : " + (str4 == str5));
+        System.out.println("String comparison using == : " + (str4 == str6));
+        System.out.println("String comparison using equals() : " + str4.equals(str6));
+
+        // if-else statement
+        int w = 15;
+        if (w > 10) {
+            System.out.println("w is greater than 10");
+        } else {
+            System.out.println("w is less than or equal to 10");
+        }
+
+        //  ladder if-else statement
+        int x1 = 85;
+        if (x1 >= 90) {
+            System.out.println("Grade: A");
+        } else if (x1 >= 80) {
+            System.out.println("Grade: B");
+        } else if (x1 >= 70) {
+            System.out.println("Grade: C");
+        } else if (x1 >= 60) {
+            System.out.println("Grade: D");
+        } else {
+            System.out.println("Grade: F");
+        }
+
     }
 
 }
