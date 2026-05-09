@@ -165,5 +165,84 @@ public class demo {
         // 3. Maintainability: Switch statements can be easier to maintain and modify, as adding new cases is straightforward without affecting existing logic.
         // jump table in switch statement
         // A jump table is a data structure used in switch statements to optimize the execution of multiple cases. It allows the program to jump directly to the relevant case based on the value of the switch expression, rather than evaluating each case sequentially. This can improve performance, especially when there are many cases to evaluate.
+//        // Loops
+        // for loop
+        System.out.println("For loop:");
+        for (int i1 = 0; i1 < 5; i1++) {
+            System.out.println(i1);
+        }
+
+        // while loop
+        System.out.println("While loop:");
+        int j1 = 0;
+        while (j1 < 5) {
+            System.out.println(j1);
+            j1++;
+        }
+
+        // do-while loop
+        System.out.println("Do-while loop:");
+        int k1 = 0;
+        do {
+            System.out.println(k1);
+            k1++;
+        } while (k1 < 5);
+
+        // for-each loop
+        System.out.println("For-each loop:");
+        int[] arr = {1, 2, 3, 4, 5};
+        for (int num : arr) {
+            System.out.println(num);
+        }
+
+        // break statement
+        System.out.println("Break statement:");
+        for (int i2 = 0; i2 < 10; i2++) {
+            if (i2 == 5) {
+                break; // Exit the loop when i2 is 5    
+            }
+        }
+
+        // continue statement
+        System.out.println("Continue statement:");
+        for (int i3 = 0; i3 < 10; i3++) {
+            if (i3 % 2 == 0) {
+                continue; // Skip even numbers
+            }
+        }
+
+        // Nested loops
+        System.out.println("Nested loops:");
+        for (int i4 = 1; i4 <= 3; i4++) {
+            for (int j2 = 1; j2 <= 3; j2++) {
+                System.out.println("i4: " + i4 + ", j2: " + j2);
+            }
+        }
+
+        // labeled break and continue
+        System.out.println("Labeled break and continue:");
+        outerLoop:
+        for (int i5 = 1; i5 <= 3; i5++) {
+            innerLoop:
+            for (int j3 = 1; j3 <= 3; j3++) {
+                if (i5 == 2 && j3 == 2) {
+                    break outerLoop; // Exit the outer loop when i5 is 2 and j3 is 2
+                }
+            }
+        }
+
+        // Enhanced for loop with arrays
+        System.out.println("Enhanced for loop with arrays:");
+        String[] fruits = {"Apple", "Banana", "Cherry"};
+        for (String fruit : fruits) {
+            System.out.println(fruit);
+        }
+
+        // Enhanced for loop with collections
+        System.out.println("Enhanced for loop with collections:");
+        java.util.List<String> colors = java.util.Arrays.asList("Red", "Green", "Blue");
+        for (String color : colors) {
+            System.out.println(color);
+        }
     }
 }
