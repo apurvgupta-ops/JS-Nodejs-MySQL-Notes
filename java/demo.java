@@ -131,6 +131,39 @@ public class demo {
             System.out.println("Grade: F");
         }
 
-    }
+        //  switch statement
+        int day = 3;
+        switch (day) {
+            case 1:
+                System.out.println("Monday");
+                break;
+            case 2:
+                System.out.println("Tuesday");
+                break;
+            case 3:
+                System.out.println("Wednesday");
+                break;
+            case 4:
+                System.out.println("Thursday");
+                break;
+            case 5:
+                System.out.println("Friday");
+                break;
+            case 6:
+                System.out.println("Saturday");
+                break;
+            case 7:
+                System.out.println("Sunday");
+                break;
+            default:
+                System.out.println("Invalid day");
+        }
 
+        // why switch statement is better than if-else ladder
+        // 1. Readability: Switch statements can be more readable than if-else ladders when dealing with multiple conditions based on the same variable.
+        // 2. Performance: In some cases, switch statements can be more efficient than if else ladders, especially when there are many cases to evaluate.
+        // 3. Maintainability: Switch statements can be easier to maintain and modify, as adding new cases is straightforward without affecting existing logic.
+        // jump table in switch statement
+        // A jump table is a data structure used in switch statements to optimize the execution of multiple cases. It allows the program to jump directly to the relevant case based on the value of the switch expression, rather than evaluating each case sequentially. This can improve performance, especially when there are many cases to evaluate.
+    }
 }
