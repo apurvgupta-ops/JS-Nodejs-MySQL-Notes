@@ -244,5 +244,53 @@ public class demo {
         for (String color : colors) {
             System.out.println(color);
         }
+
+        // Array manipulation
+        System.out.println("Array manipulation:");
+        int[] arrs = new int[4]; // Declare an array of integers with size 4
+        // int[] numbers = {1, 2, 3, 4, 5};
+        int numbers[] = {1, 2, 3, 4, 5};
+
+        // Accessing array elements
+        System.out.println("First element: " + numbers[0]);
+        // Modifying array elements
+        numbers[1] = 20;
+        System.out.println("Modified second element: " + numbers[1]);
+        // Array length
+        System.out.println("Array length: " + numbers.length);
+        // Multi-dimensional arrays
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        System.out.println("Multi-dimensional array element: " + matrix[1][2]); //
+
+        // Array copying
+        int[] original = {1, 2, 3, 4, 5};
+        int[] copy = java.util.Arrays.copyOf(original, original.length);
+        System.out.println("Original array: " + java.util.Arrays.toString(original));
+        System.out.println("Copied array: " + java.util.Arrays.toString(copy));
+
+        // Array sorting
+        int[] unsorted = {5, 2, 8, 1, 4};
+        java.util.Arrays.sort(unsorted);
+        System.out.println("Sorted array: " + java.util.Arrays.toString(unsorted));
+
+        // Array methods and utilities and properties
+        int[] arr1 = {1, 2, 3, 4, 5};
+
+        // Length of the array
+        System.out.println("Length of the array: " + arr1.length);
+
+        // Check if the array contains a specific value
+        int valueToFind = 3;
+        boolean containsValue = java.util.Arrays.asList(arr1).contains(valueToFind);
+        System.out.println("Array contains " + valueToFind + ": " + containsValue);
+
+        // Convert array to string
+        String arrayAsString = java.util.Arrays.toString(arr1);
+        System.out.println("Array as string: " + arrayAsString);
+
     }
 }
