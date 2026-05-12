@@ -292,5 +292,19 @@ public class demo {
         String arrayAsString = java.util.Arrays.toString(arr1);
         System.out.println("Array as string: " + arrayAsString);
 
+        // Method Overloading
+        System.out.println("Method Overloading:");
+        demo demoObj = new demo();
+        demoObj.print(10); // Calls the method with an integer parameter
+        demoObj.print("Hello"); // Calls the method with a string parameter
+
+    }
+
+    private void print(int num) {
+        System.out.println("Printing an integer: " + num);
+    }
+
+    private void print(String str) {
+        System.out.println("Printing a string: " + str);
     }
 }
