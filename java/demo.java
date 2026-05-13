@@ -297,9 +297,26 @@ public class demo {
         demo demoObj = new demo();
         demoObj.print(10); // Calls the method with an integer parameter
         demoObj.print("Hello"); // Calls the method with a string parameter
+        demoObj.print(20, "World"); // Calls the method with both integer and string parameters
+
+        // Method chaining
+        System.out.println("Method chaining:");
+        demoObj.methodA(); // Calls methodA, which in turn calls methodB and methodC    
 
     }
 
+    // ? Function and methods
+    // A function is a block of code that performs a specific task and can be called from other parts of the program. In Java, functions are defined as methods within a class. Methods can have parameters, return types, and can be overloaded to provide different implementations based on the parameters passed.   
+    //  Types of methods in Java:
+    // 1. Instance Methods: These methods belong to an instance of a class and can access instance variables and other instance methods. They require an object of the class to be invoked.
+    // 2. Static Methods: These methods belong to the class itself rather than any specific instance. They can be called without creating an object of the class and can only access static variables and other static methods.
+    // 3. Abstract Methods: These methods are declared without an implementation and must be implemented by subclasses. They are typically used in abstract classes and interfaces.
+    // 4. Final Methods: These methods cannot be overridden by subclasses. They are declared with the final keyword and are often used to prevent modification of critical functionality in a class hierarchy.
+    // ? How many types of method overloading are there in Java?
+    // In Java, there are two types of method overloading:
+    // 1. Compile-time Method Overloading: This occurs when multiple methods in the same class have the same name but different parameter lists (different number of parameters, different types of parameters, or both). The compiler determines which method to call based on the method signature at compile time.
+    // 2. Runtime Method Overloading (also known as Method Overriding): This occurs when a subclass provides a specific implementation of a method that is already defined in its superclass. The method in the subclass overrides the method in the superclass, and the decision of which method to call is made at runtime based on the actual object type.
+    // Method overloading example
     private void print(int num) {
         System.out.println("Printing an integer: " + num);
     }
@@ -307,4 +324,34 @@ public class demo {
     private void print(String str) {
         System.out.println("Printing a string: " + str);
     }
+
+    private void print(int num, String str) {
+        System.out.println("Printing an integer and a string: " + num + ", " + str);
+    }
+
+    // Chaning of methods
+    private void methodA() {
+        System.out.println("Method A");
+        methodB(); // Calling methodB from methodA
+        methodC(); // Calling methodC from methodA
+
+    }
+
+    private void methodB() {
+        System.out.println("Method B");
+    }
+
+    private void methodC() {
+        System.out.println("Method C");
+    }
+
+    // Recursion
+    private int factorial(int n) {
+        if (n == 0) {
+            return 1; // Base case: factorial of 0 is 1
+        } else {
+            return n * factorial(n - 1); // Recursive case: n! = n * (n-1)!
+        }
+    }
+
 }

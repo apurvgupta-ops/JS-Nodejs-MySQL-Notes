@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "oops",
+      "request": "launch",
+      "mainClass": "oops",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
       "name": "demo",
       "request": "launch",
       "mainClass": "demo",

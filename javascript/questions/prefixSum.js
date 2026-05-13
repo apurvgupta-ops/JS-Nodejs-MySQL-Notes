@@ -182,24 +182,24 @@ console.log(findMaxLength());
 
 // console.log(subarraysDivByK());
 // !523. Continuous Subarray Sum
-var checkSubarraySum = function (nums = [23, 2, 4, 6, 7], k = 6) {
-  let currsum = 0;
-  let map = new Map();
-  map.set(0, -1);
-  for (let i = 0; i < nums.length; i++) {
-    currsum += nums[i];
+// var checkSubarraySum = function (nums = [23, 2, 4, 6, 7], k = 6) {
+//   let currsum = 0;
+//   let map = new Map();
+//   map.set(0, -1);
+//   for (let i = 0; i < nums.length; i++) {
+//     currsum += nums[i];
 
-    let remainder = currsum % k;
+//     let remainder = currsum % k;
 
-    if (map.has(remainder)) {
-      if (i - map.get(remainder)) {
-        return true;
-      }
-    } else {
-      map.set(remainder, i);
-    }
-  }
+//     if (map.has(remainder)) {
+//       if (i - map.get(remainder)) {
+//         return true;
+//       }
+//     } else {
+//       map.set(remainder, i);
+//     }
+//   }
 
-  return false;
-};
-console.log(checkSubarraySum());
+//   return false;
+// };
+// console.log(checkSubarraySum());

@@ -141,3 +141,51 @@
 // console.log(findMin());
 
 // !162. Find Peak Element
+// var findPeakElement = function (nums = [1, 2, 1, 3, 5, 6, 4]) {
+//   let low = 0;
+//   let high = nums.length - 1;
+
+//   while (low < high) {
+//     let mid = low + Math.floor((high - low) / 2);
+
+//     if (nums[mid] < nums[mid + 1]) {
+//       low = mid + 1;
+//     } else {
+//       high = mid;
+//     }
+//   }
+//   return low;
+// };
+
+// console.log(findPeakElement());
+
+// !34. Find First and Last Position of Element in Sorted Array
+// var searchRange = function (nums = [5, 7, 7, 8, 8, 10], target = 8) {
+//   return [searchIndex(nums, target, true), searchIndex(nums, target, false)];
+// };
+
+// const searchIndex = (nums, target, isFirst) => {
+//   let low = 0;
+//   let high = nums.length - 1;
+//   let index = -1;
+
+//   while (low <= high) {
+//     let mid = low + Math.floor((high - low) / 2);
+
+//     if (nums[mid] === target) {
+//       index = mid;
+
+//       if (isFirst) {
+//         high = mid - 1;
+//       } else {
+//         low = mid + 1;
+//       }
+//     } else if (nums[mid] < target) {
+//       low = mid + 1;
+//     } else {
+//       high = mid - 1;
+//     }
+//   }
+//   return index;
+// };
+// console.log(searchRange());
