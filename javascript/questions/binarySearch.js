@@ -189,3 +189,71 @@
 //   return index;
 // };
 // console.log(searchRange());
+
+// !875. Koko Eating Bananas
+// var minEatingSpeed = function (piles = [3, 6, 7, 11], h = 8) {
+//   let minspeed = 1;
+//   let maxspeed = Math.max(...piles);
+
+//   function caneatall(mid) {
+//     let totalhours = 0;
+
+//     for (let i of piles) {
+//       totalhours += Math.ceil(i / mid);
+//     }
+//     return totalhours <= h;
+//   }
+
+//   while (minspeed <= maxspeed) {
+//     let mid = minspeed + Math.floor((maxspeed - minspeed) / 2);
+//     if (caneatall(mid)) {
+//       maxspeed = mid - 1;
+//     } else {
+//       minspeed = mid + 1;
+//     }
+//   }
+
+//   return minspeed;
+// };
+// console.log(minEatingSpeed());
+
+// !1011. Capacity To Ship Packages Within D Days
+// var shipWithinDays = function (
+//   weights = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+//   days = 5,
+// ) {
+//   let mincap = Math.max(...weights);
+//   let maxcap = 0;
+//   for (let weight of weights) {
+//     maxcap += weight;
+//   }
+
+//   function canTransfer(capacity) {
+//     let totalDays = 0;
+//     let sum = 0;
+
+//     for (let weight of weights) {
+//       console.log({ sum, weight, capacity });
+//       if (sum + weight > capacity) {
+//         totalDays++;
+//         sum = 0;
+//       }
+//       sum += weight;
+//     }
+//     return totalDays;
+//   }
+
+//   while (mincap < maxcap) {
+//     let mid = mincap + Math.floor((maxcap - mincap) / 2);
+
+//     if (canTransfer(mid) < days) {
+//       maxcap = mid;
+//     } else {
+//       mincap = mid + 1;
+//     }
+//   }
+
+//   return mincap;
+// };
+
+// console.log(shipWithinDays());
