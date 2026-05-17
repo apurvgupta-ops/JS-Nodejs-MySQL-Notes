@@ -17,6 +17,7 @@ public class oops {
 
         CallByValueAndReference.main(args);
         DeepAndShallowCopy.main(args);
+        StaticAndFinal.main(args);
 
     }
 
@@ -114,5 +115,29 @@ class DeepAndShallowCopy {
         System.out.println("After modification:");
         System.out.println("Student 1: " + student1.name + ", " + student1.age); // Unchanged
         System.out.println("Student 2: " + student2.name + ", " + student2.age); // Changed
+    }
+}
+
+// Static and final keywords
+class StaticAndFinal {
+
+    static int staticVariable = 10; // Static variable
+    final int finalVariable = 20; // Final variable
+
+    public static void main(String[] args) {
+        System.out.println("Static Variable: " + staticVariable);
+        // System.out.println("Final Variable: " + finalVariable); // This will cause an error
+
+        StaticAndFinal obj1 = new StaticAndFinal();
+        StaticAndFinal obj2 = new StaticAndFinal();
+
+        System.out.println("Static Variable from obj1: " + obj1.staticVariable);
+        System.out.println("Static Variable from obj2: " + obj2.staticVariable);
+
+        obj1.staticVariable = 30; // Modifying static variable through obj1
+
+        System.out.println("After modification:");
+        System.out.println("Static Variable from obj1: " + obj1.staticVariable); // Changed
+        System.out.println("Static Variable from obj2: " + obj2.staticVariable); // Changed
     }
 }

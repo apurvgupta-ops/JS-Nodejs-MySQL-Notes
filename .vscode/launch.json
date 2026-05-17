@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "ques",
+      "request": "launch",
+      "mainClass": "ques",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
       "name": "DeepAndShallowCopy",
       "request": "launch",
       "mainClass": "DeepAndShallowCopy",
