@@ -1,10 +1,11 @@
 {
   "github.copilot.chat.completionContext.typescript.mode": "off",
   "github.copilot.enable": {
-    "*": false,
+    "*": true,
     "plaintext": false,
     "markdown": false,
     "scminput": false,
-    "javascript": false
+    "javascript": false,
+    "java": true
   }
 }

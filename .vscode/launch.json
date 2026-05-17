@@ -5,6 +5,41 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "ques",
+      "request": "launch",
+      "mainClass": "ques",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
+      "name": "DeepAndShallowCopy",
+      "request": "launch",
+      "mainClass": "DeepAndShallowCopy",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
+      "name": "CallByValueAndReference",
+      "request": "launch",
+      "mainClass": "CallByValueAndReference",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
+      "name": "oops",
+      "request": "launch",
+      "mainClass": "oops",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
+      "name": "demo",
+      "request": "launch",
+      "mainClass": "demo",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
