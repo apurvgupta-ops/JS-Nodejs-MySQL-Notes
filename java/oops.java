@@ -141,3 +141,6 @@ class StaticAndFinal {
         System.out.println("Static Variable from obj2: " + obj2.staticVariable); // Changed
     }
 }
+
+// Encapsulation, Inheritance, Polymorphism, Abstraction can be added in the future.
+
