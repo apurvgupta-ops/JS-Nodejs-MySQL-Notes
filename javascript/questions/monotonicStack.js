@@ -66,24 +66,67 @@
 // console.log(removeDuplicates());
 
 // !739. Daily Temperatures
-var dailyTemperatures = function (temperatures) {
-  let stack = [];
-  let res = new Array(temperatures.length).fill(0);
+// var dailyTemperatures = function (temperatures) {
+//   let stack = [];
+//   let res = new Array(temperatures.length).fill(0);
 
-  for (let i = 0; i < temperatures.length; i++) {
-    while (
-      stack.length > 0 &&
-      temperatures[stack[stack.length - 1]] < temperatures[i]
-    ) {
-      let prevIndex = stack.pop();
-      res[prevIndex] = i - prevIndex;
-    }
-    stack.push(i);
+//   for (let i = 0; i < temperatures.length; i++) {
+//     while (
+//       stack.length > 0 &&
+//       temperatures[stack[stack.length - 1]] < temperatures[i]
+//     ) {
+//       let prevIndex = stack.pop();
+//       res[prevIndex] = i - prevIndex;
+//     }
+//     stack.push(i);
 
-    console.log({ stack, res });
-  }
+//     console.log({ stack, res });
+//   }
 
-  return res;
-};
+//   return res;
+// };
 
-console.log(dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]));
+// console.log(dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]));
+
+// !503. Next Greater Element II :  saving index
+// var nextGreaterElements = function (nums = [1, 2, 1]) {
+//   let stack = [];
+//   const n = nums.length;
+//   let res = new Array(n).fill(-1);
+
+//   for (let i = 2 * n - 1; i >= 0; i--) {
+//     let realIdx = i % n;
+
+//     while (stack.length > 0 && nums[stack[stack.length - 1]] <= nums[realIdx]) {
+//       stack.pop();
+//     }
+
+//     if (i < n) {
+//       if (stack.length > 0) {
+//         res[realIdx] = nums[stack[stack.length - 1]];
+//       }
+//     }
+//     stack.push(realIdx);
+//   }
+//   return res;
+// };
+// console.log(nextGreaterElements());
+
+// !456. 132 Pattern
+// var find132pattern = function (nums = [3, 1, 4, 2]) {
+//   let numk = -Infinity;
+//   let stack = [];
+
+//   for (let i = nums.length - 1; i >= 0; i--) {
+//     if (numk > nums[i]) return true;
+
+//     while (stack.length > 0 && stack[stack.length - 1] < nums[i]) {
+//       numk = stack.pop();
+//     }
+
+//     stack.push(nums[i]);
+//   }
+
+//   return false;
+// };
+// console.log(find132pattern());
