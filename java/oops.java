@@ -19,6 +19,22 @@ public class oops {
         DeepAndShallowCopy.main(args);
         StaticAndFinal.main(args);
 
+        Encapsulation encapsulation = new Encapsulation();
+        encapsulation.setName("Encapsulated Name");
+        System.out.println("Encapsulated Name: " + encapsulation.getName());
+
+        Circle circle = new Circle(5);
+        System.out.println("Area of Circle: " + circle.calculateArea());
+
+        Dog dog = new Dog();
+        dog.sound();
+
+        Child child = new Child("Child Name", 10);
+        child.display();
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.draw();
+
     }
 
 }
@@ -142,5 +158,92 @@ class StaticAndFinal {
     }
 }
 
-// Encapsulation, Inheritance, Polymorphism, Abstraction can be added in the future.
+// Encapsulation
+class Encapsulation {
 
+    private String name; // Private variable
+
+    // Getter method for name
+    public String getName() {
+        return name;
+    }
+
+    // Setter method for name
+    public void setName(String name) {
+        this.name = name;
+    }
+
+}
+
+// Abstraction
+abstract class Shape {
+
+    abstract double calculateArea();
+}
+
+class Circle extends Shape {
+
+    double radius;
+
+    Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+
+// Polymorphism
+class Animal {
+
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+// Inheritance
+class Parent {
+
+    String name;
+    int age;
+
+    Parent(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+class Child extends Parent {
+
+    Child(String name, int age) {
+        super(name, age); // Calling the constructor of the parent class
+    }
+
+    void display() {
+        System.out.println("Name: " + name + ", Age: " + age);
+    }
+}
+
+// Interface
+interface Drawable {
+
+    void draw();
+}
+
+class Rectangle implements Drawable {
+
+    @Override
+    public void draw() {
+        System.out.println("Drawing a rectangle");
+    }
+}
