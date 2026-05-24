@@ -1,0 +1,814 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-mono, monospace); background: transparent; color: var(--color-text-primary); }
+
+.container { max-width: 100%; padding: 1rem 0; }
+
+.header { text-align: center; margin-bottom: 1.5rem; padding: 1.25rem; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); }
+.header h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.5px; }
+.header p { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; font-family: var(--font-sans); }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+.tab { padding: 6px 14px; font-size: 13px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); cursor: pointer; background: transparent; color: var(--color-text-secondary); font-family: var(--font-sans); transition: all 0.15s; }
+.tab:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.tab.active { background: var(--color-background-primary); border-color: var(--color-border-primary); color: var(--color-text-primary); font-weight: 500; }
+
+.section { display: none; }
+.section.active { display: block; }
+
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.card-title { font-size: 14px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-sans); display: flex; align-items: center; gap: 8px; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); font-family: var(--font-sans); }
+.badge-blue { background: #E6F1FB; color: #0C447C; }
+.badge-green { background: #EAF3DE; color: #27500A; }
+.badge-amber { background: #FAEEDA; color: #633806; }
+.badge-red { background: #FCEBEB; color: #791F1F; }
+.badge-purple { background: #EEEDFE; color: #3C3489; }
+
+pre { background: var(--color-background-tertiary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 0.85rem 1rem; font-size: 12.5px; line-height: 1.65; overflow-x: auto; white-space: pre; font-family: var(--font-mono, 'Courier New', monospace); }
+.kw { color: #534AB7; font-weight: 500; }
+.cm { color: var(--color-text-tertiary); font-style: italic; }
+.str { color: #0F6E56; }
+.num { color: #BA7517; }
+.cls { color: #185FA5; }
+.ann { color: #993C1D; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 12px; font-weight: 500; color: var(--color-text-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); font-family: var(--font-sans); }
+td { padding: 8px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+code { font-family: var(--font-mono, monospace); font-size: 12px; background: var(--color-background-secondary); padding: 1px 5px; border-radius: 4px; }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.pill { font-size: 12px; padding: 3px 10px; border-radius: 20px; font-family: var(--font-mono, monospace); }
+
+.tip { background: #E6F1FB; border-left: 3px solid #185FA5; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 0.6rem 0.9rem; font-size: 13px; color: #0C447C; margin-top: 0.75rem; font-family: var(--font-sans); }
+
+.pillar { text-align: center; padding: 1rem; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); }
+.pillar-icon { font-size: 24px; margin-bottom: 6px; }
+.pillar-name { font-size: 14px; font-weight: 500; font-family: var(--font-sans); }
+.pillar-desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; font-family: var(--font-sans); line-height: 1.5; }
+
+@media (max-width: 500px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Java Cheat Sheet</h1>
+    <p>Beginner → Advanced · OOP · Collections · Concurrency · Streams</p>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="show('basics')">Basics</button>
+    <button class="tab" onclick="show('oop')">OOP</button>
+    <button class="tab" onclick="show('inheritance')">Inheritance</button>
+    <button class="tab" onclick="show('interfaces')">Interfaces</button>
+    <button class="tab" onclick="show('generics')">Generics</button>
+    <button class="tab" onclick="show('collections')">Collections</button>
+    <button class="tab" onclick="show('exceptions')">Exceptions</button>
+    <button class="tab" onclick="show('streams')">Streams</button>
+    <button class="tab" onclick="show('concurrency')">Concurrency</button>
+    <button class="tab" onclick="show('advanced')">Advanced</button>
+  </div>
+
+  <!-- BASICS -->
+  <div class="section active" id="basics">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Data Types <span class="badge badge-blue">Primitive</span></div>
+        <div class="table-wrap"><table>
+          <tr><th>Type</th><th>Size</th><th>Default</th></tr>
+          <tr><td><code>byte</code></td><td>8-bit</td><td>0</td></tr>
+          <tr><td><code>short</code></td><td>16-bit</td><td>0</td></tr>
+          <tr><td><code>int</code></td><td>32-bit</td><td>0</td></tr>
+          <tr><td><code>long</code></td><td>64-bit</td><td>0L</td></tr>
+          <tr><td><code>float</code></td><td>32-bit</td><td>0.0f</td></tr>
+          <tr><td><code>double</code></td><td>64-bit</td><td>0.0d</td></tr>
+          <tr><td><code>char</code></td><td>16-bit</td><td>'\u0000'</td></tr>
+          <tr><td><code>boolean</code></td><td>1-bit</td><td>false</td></tr>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Variables & Literals</div>
+        <pre><span class="kw">int</span> x = <span class="num">10</span>;
+<span class="kw">long</span> big = <span class="num">100_000L</span>;
+<span class="kw">double</span> pi = <span class="num">3.14</span>;
+<span class="kw">char</span> c = <span class="str">'A'</span>;
+<span class="kw">boolean</span> flag = <span class="kw">true</span>;
+String s = <span class="str">"Hello"</span>;  <span class="cm">// object</span>
+<span class="kw">final int</span> MAX = <span class="num">100</span>;  <span class="cm">// constant</span>
+<span class="kw">var</span> list = <span class="kw">new</span> ArrayList<>(); <span class="cm">// Java 10+</span></pre>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Operators</div>
+        <div class="table-wrap"><table>
+          <tr><th>Category</th><th>Operators</th></tr>
+          <tr><td>Arithmetic</td><td><code>+ - * / % ++ --</code></td></tr>
+          <tr><td>Relational</td><td><code>== != > < >= <=</code></td></tr>
+          <tr><td>Logical</td><td><code>&& || ! ^ &amp; |</code></td></tr>
+          <tr><td>Bitwise</td><td><code>&amp; | ^ ~ << >> >>></code></td></tr>
+          <tr><td>Assignment</td><td><code>= += -= *= /= %=</code></td></tr>
+          <tr><td>Ternary</td><td><code>cond ? a : b</code></td></tr>
+          <tr><td>instanceof</td><td><code>obj instanceof Cls</code></td></tr>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Control Flow</div>
+        <pre><span class="cm">// if-else</span>
+<span class="kw">if</span> (x > <span class="num">0</span>) { } <span class="kw">else if</span> (x < <span class="num">0</span>) { } <span class="kw">else</span> { }
+
+<span class="cm">// switch (Java 14+ arrow)</span>
+<span class="kw">int</span> result = <span class="kw">switch</span> (day) {
+  <span class="kw">case</span> <span class="str">"MON"</span> -> <span class="num">1</span>;
+  <span class="kw">case</span> <span class="str">"TUE"</span> -> <span class="num">2</span>;
+  <span class="kw">default</span> -> <span class="num">0</span>;
+};
+
+<span class="cm">// loops</span>
+<span class="kw">for</span> (<span class="kw">int</span> i=<span class="num">0</span>; i&lt;<span class="num">10</span>; i++) {}
+<span class="kw">while</span> (cond) {}
+<span class="kw">do</span> {} <span class="kw">while</span> (cond);
+<span class="kw">for</span> (String el : list) {} <span class="cm">// enhanced</span></pre>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Arrays</div>
+      <pre><span class="kw">int</span>[] arr = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};                  <span class="cm">// declaration + init</span>
+<span class="kw">int</span>[] arr2 = <span class="kw">new int</span>[<span class="num">5</span>];                  <span class="cm">// size 5, filled with 0</span>
+<span class="kw">int</span>[][] matrix = <span class="kw">new int</span>[<span class="num">3</span>][<span class="num">3</span>];           <span class="cm">// 2D array</span>
+Arrays.sort(arr);                          <span class="cm">// sort</span>
+Arrays.copyOf(arr, arr.length);            <span class="cm">// copy</span>
+System.out.println(Arrays.toString(arr));  <span class="cm">// print</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">String Methods <span class="badge badge-green">Immutable</span></div>
+      <pre>String s = <span class="str">"Hello World"</span>;
+s.length()        <span class="cm">// 11</span>
+s.charAt(<span class="num">0</span>)       <span class="cm">// 'H'</span>
+s.substring(<span class="num">0</span>,<span class="num">5</span>) <span class="cm">// "Hello"</span>
+s.toLowerCase()   s.toUpperCase()
+s.trim()          s.strip()       <span class="cm">// Java 11+</span>
+s.contains(<span class="str">"lo"</span>) s.startsWith(<span class="str">"He"</span>)
+s.replace(<span class="str">"l"</span>,<span class="str">"r"</span>) s.split(<span class="str">" "</span>)
+s.equals(<span class="str">"other"</span>) s.equalsIgnoreCase(<span class="str">"hello world"</span>)
+String.format(<span class="str">"%s=%d"</span>, <span class="str">"x"</span>, <span class="num">10</span>)   <span class="cm">// "x=10"</span>
+
+<span class="cm">// StringBuilder (mutable, efficient)</span>
+StringBuilder sb = <span class="kw">new</span> StringBuilder();
+sb.append(<span class="str">"Hi"</span>).append(<span class="str">" there"</span>);
+sb.toString();    sb.reverse();</pre>
+    </div>
+  </div>
+
+  <!-- OOP -->
+  <div class="section" id="oop">
+    <div class="grid3" style="margin-bottom:1rem;">
+      <div class="pillar">
+        <div class="pillar-icon">🔒</div>
+        <div class="pillar-name">Encapsulation</div>
+        <div class="pillar-desc">Bundle data + methods. Hide internals via access modifiers.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🧬</div>
+        <div class="pillar-name">Inheritance</div>
+        <div class="pillar-desc">Derive new classes from existing. Promotes code reuse.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🎭</div>
+        <div class="pillar-name">Polymorphism</div>
+        <div class="pillar-desc">One interface, many implementations. Method overriding/overloading.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Class Anatomy</div>
+      <pre><span class="kw">public class</span> <span class="cls">BankAccount</span> {
+  <span class="cm">// fields (state)</span>
+  <span class="kw">private</span> String owner;
+  <span class="kw">private double</span> balance;
+  <span class="kw">private static int</span> totalAccounts = <span class="num">0</span>; <span class="cm">// class-level</span>
+
+  <span class="cm">// constructor</span>
+  <span class="kw">public</span> <span class="cls">BankAccount</span>(String owner, <span class="kw">double</span> balance) {
+    <span class="kw">this</span>.owner = owner;
+    <span class="kw">this</span>.balance = balance;
+    totalAccounts++;
+  }
+
+  <span class="cm">// copy constructor</span>
+  <span class="kw">public</span> <span class="cls">BankAccount</span>(<span class="cls">BankAccount</span> other) {
+    <span class="kw">this</span>(other.owner, other.balance);
+  }
+
+  <span class="cm">// getter / setter (encapsulation)</span>
+  <span class="kw">public double</span> getBalance() { <span class="kw">return</span> balance; }
+  <span class="kw">public void</span> deposit(<span class="kw">double</span> amount) {
+    <span class="kw">if</span> (amount > <span class="num">0</span>) balance += amount;
+  }
+
+  <span class="cm">// static method</span>
+  <span class="kw">public static int</span> getTotalAccounts() { <span class="kw">return</span> totalAccounts; }
+
+  <span class="cm">// overriding Object methods</span>
+  <span class="ann">@Override</span>
+  <span class="kw">public</span> String toString() {
+    <span class="kw">return</span> String.format(<span class="str">"Account[%s, %.2f]"</span>, owner, balance);
+  }
+}</pre>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Access Modifiers</div>
+        <div class="table-wrap"><table>
+          <tr><th>Modifier</th><th>Class</th><th>Pkg</th><th>Sub</th><th>World</th></tr>
+          <tr><td><code>public</code></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td><code>protected</code></td><td>✓</td><td>✓</td><td>✓</td><td>✗</td></tr>
+          <tr><td><em>(default)</em></td><td>✓</td><td>✓</td><td>✗</td><td>✗</td></tr>
+          <tr><td><code>private</code></td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Key Keywords</div>
+        <div class="table-wrap"><table>
+          <tr><td><code>this</code></td><td>Current instance reference</td></tr>
+          <tr><td><code>static</code></td><td>Class-level, not instance</td></tr>
+          <tr><td><code>final</code></td><td>Constant / no override / no extend</td></tr>
+          <tr><td><code>abstract</code></td><td>Cannot instantiate, must override</td></tr>
+          <tr><td><code>synchronized</code></td><td>Thread-safe block/method</td></tr>
+          <tr><td><code>transient</code></td><td>Skip during serialization</td></tr>
+          <tr><td><code>volatile</code></td><td>Visibility across threads</td></tr>
+        </table></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Method Overloading <span class="badge badge-purple">Compile-time Polymorphism</span></div>
+      <pre><span class="kw">class</span> <span class="cls">Calculator</span> {
+  <span class="kw">int</span> add(<span class="kw">int</span> a, <span class="kw">int</span> b)            { <span class="kw">return</span> a + b; }
+  <span class="kw">double</span> add(<span class="kw">double</span> a, <span class="kw">double</span> b)  { <span class="kw">return</span> a + b; }
+  <span class="kw">int</span> add(<span class="kw">int</span> a, <span class="kw">int</span> b, <span class="kw">int</span> c)    { <span class="kw">return</span> a + b + c; }
+  <span class="cm">// Same name, different signature (type/count/order)</span>
+}</pre>
+    </div>
+  </div>
+
+  <!-- INHERITANCE -->
+  <div class="section" id="inheritance">
+    <div class="card">
+      <div class="card-title">extends & super</div>
+      <pre><span class="kw">class</span> <span class="cls">Animal</span> {
+  String name;
+  <span class="cls">Animal</span>(String name) { <span class="kw">this</span>.name = name; }
+  <span class="kw">void</span> speak() { System.out.println(<span class="str">"..."</span>); }
+}
+
+<span class="kw">class</span> <span class="cls">Dog</span> <span class="kw">extends</span> <span class="cls">Animal</span> {
+  String breed;
+
+  <span class="cls">Dog</span>(String name, String breed) {
+    <span class="kw">super</span>(name);      <span class="cm">// must be first statement</span>
+    <span class="kw">this</span>.breed = breed;
+  }
+
+  <span class="ann">@Override</span>
+  <span class="kw">void</span> speak() {        <span class="cm">// runtime polymorphism</span>
+    System.out.println(name + <span class="str">": Woof!"</span>);
+  }
+
+  <span class="kw">void</span> fetch() {
+    <span class="kw">super</span>.speak();    <span class="cm">// call parent method</span>
+    System.out.println(<span class="str">"Fetching..."</span>);
+  }
+}
+
+<span class="cm">// Usage</span>
+<span class="cls">Animal</span> a = <span class="kw">new</span> <span class="cls">Dog</span>(<span class="str">"Rex"</span>, <span class="str">"Lab"</span>); <span class="cm">// upcasting</span>
+a.speak();                             <span class="cm">// → "Rex: Woof!" (dynamic dispatch)</span>
+<span class="cls">Dog</span> d = (<span class="cls">Dog</span>) a;                       <span class="cm">// downcasting</span>
+<span class="kw">if</span> (a <span class="kw">instanceof</span> <span class="cls">Dog</span> dog) dog.fetch(); <span class="cm">// Java 16+ pattern match</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Abstract Classes</div>
+      <pre><span class="kw">abstract class</span> <span class="cls">Shape</span> {
+  String color;
+
+  <span class="cls">Shape</span>(String color) { <span class="kw">this</span>.color = color; }
+
+  <span class="kw">abstract double</span> area();         <span class="cm">// must override</span>
+  <span class="kw">abstract double</span> perimeter();
+
+  <span class="kw">void</span> describe() {               <span class="cm">// concrete method</span>
+    System.out.printf(<span class="str">"%s: area=%.2f%n"</span>, color, area());
+  }
+}
+
+<span class="kw">class</span> <span class="cls">Circle</span> <span class="kw">extends</span> <span class="cls">Shape</span> {
+  <span class="kw">double</span> r;
+  <span class="cls">Circle</span>(<span class="kw">double</span> r) { <span class="kw">super</span>(<span class="str">"red"</span>); <span class="kw">this</span>.r = r; }
+
+  <span class="ann">@Override</span> <span class="kw">double</span> area()      { <span class="kw">return</span> Math.PI * r * r; }
+  <span class="ann">@Override</span> <span class="kw">double</span> perimeter() { <span class="kw">return</span> <span class="num">2</span> * Math.PI * r; }
+}</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Object class — Key Methods to Override</div>
+      <pre><span class="kw">class</span> <span class="cls">Point</span> {
+  <span class="kw">int</span> x, y;
+  <span class="cls">Point</span>(<span class="kw">int</span> x, <span class="kw">int</span> y) { <span class="kw">this</span>.x=x; <span class="kw">this</span>.y=y; }
+
+  <span class="ann">@Override</span>
+  <span class="kw">public boolean</span> equals(Object o) {
+    <span class="kw">if</span> (<span class="kw">this</span> == o) <span class="kw">return true</span>;
+    <span class="kw">if</span> (!(o <span class="kw">instanceof</span> <span class="cls">Point</span> p)) <span class="kw">return false</span>;
+    <span class="kw">return</span> x == p.x && y == p.y;
+  }
+
+  <span class="ann">@Override</span>
+  <span class="kw">public int</span> hashCode() { <span class="kw">return</span> Objects.hash(x, y); }
+
+  <span class="ann">@Override</span>
+  <span class="kw">public</span> String toString() { <span class="kw">return</span> <span class="str">"("</span> + x + <span class="str">","</span> + y + <span class="str">")"</span>; }
+}</pre>
+    </div>
+  </div>
+
+  <!-- INTERFACES -->
+  <div class="section" id="interfaces">
+    <div class="card">
+      <div class="card-title">Interface Basics & Default Methods <span class="badge badge-blue">Java 8+</span></div>
+      <pre><span class="kw">interface</span> <span class="cls">Drawable</span> {
+  <span class="kw">void</span> draw();                         <span class="cm">// abstract (implicit)</span>
+
+  <span class="kw">default void</span> print() {              <span class="cm">// default implementation</span>
+    System.out.println(<span class="str">"Drawing: "</span> + getClass().getSimpleName());
+  }
+
+  <span class="kw">static</span> <span class="cls">Drawable</span> ofCircle() {        <span class="cm">// static factory</span>
+    <span class="kw">return</span> () -> System.out.println(<span class="str">"○"</span>);
+  }
+
+  <span class="kw">private void</span> helper() { }           <span class="cm">// Java 9+</span>
+}
+
+<span class="kw">interface</span> <span class="cls">Resizable</span> { <span class="kw">void</span> resize(<span class="kw">double</span> factor); }
+
+<span class="cm">// Multiple interface implementation (no diamond problem)</span>
+<span class="kw">class</span> <span class="cls">Square</span> <span class="kw">implements</span> <span class="cls">Drawable</span>, <span class="cls">Resizable</span> {
+  <span class="kw">double</span> side;
+  <span class="ann">@Override</span> <span class="kw">public void</span> draw()               { System.out.println(<span class="str">"□"</span>); }
+  <span class="ann">@Override</span> <span class="kw">public void</span> resize(<span class="kw">double</span> f)    { side *= f; }
+}</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Functional Interfaces & Lambdas <span class="badge badge-green">Java 8+</span></div>
+      <pre><span class="cm">// @FunctionalInterface = exactly ONE abstract method</span>
+<span class="ann">@FunctionalInterface</span>
+<span class="kw">interface</span> <span class="cls">Transformer</span>&lt;T&gt; { T transform(T input); }
+
+<span class="cm">// Lambda = inline implementation</span>
+<span class="cls">Transformer</span>&lt;String&gt; upper = s -> s.toUpperCase();
+<span class="cls">Transformer</span>&lt;Integer&gt; doubled = n -> n * <span class="num">2</span>;
+
+<span class="cm">// Built-in functional interfaces (java.util.function)</span>
+Predicate&lt;String&gt; notEmpty = s -> !s.isEmpty();     <span class="cm">// T -> boolean</span>
+Function&lt;String, Integer&gt; len = String::length;      <span class="cm">// T -> R</span>
+Consumer&lt;String&gt; print = System.out::println;        <span class="cm">// T -> void</span>
+Supplier&lt;List&gt; newList = ArrayList::new;             <span class="cm">// () -> T</span>
+BiFunction&lt;Integer,Integer,Integer&gt; add = Integer::sum; <span class="cm">// (T,U) -> R</span>
+UnaryOperator&lt;String&gt; trim = String::trim;           <span class="cm">// T -> T</span>
+
+<span class="cm">// Method references</span>
+list.forEach(System.out::println);  <span class="cm">// instance::method</span>
+list.sort(String::compareTo);       <span class="cm">// Type::method</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Sealed Classes <span class="badge badge-amber">Java 17+</span></div>
+      <pre><span class="kw">sealed interface</span> <span class="cls">Shape</span> <span class="kw">permits</span> <span class="cls">Circle</span>, <span class="cls">Rect</span>, <span class="cls">Triangle</span> {}
+
+<span class="kw">record</span> <span class="cls">Circle</span>(<span class="kw">double</span> r) <span class="kw">implements</span> <span class="cls">Shape</span> {}
+<span class="kw">record</span> <span class="cls">Rect</span>(<span class="kw">double</span> w, <span class="kw">double</span> h) <span class="kw">implements</span> <span class="cls">Shape</span> {}
+<span class="kw">final class</span> <span class="cls">Triangle</span> <span class="kw">implements</span> <span class="cls">Shape</span> { ... }
+
+<span class="cm">// Pattern matching switch (Java 21+)</span>
+<span class="kw">double</span> area = <span class="kw">switch</span> (shape) {
+  <span class="kw">case</span> <span class="cls">Circle</span> c    -> Math.PI * c.r() * c.r();
+  <span class="kw">case</span> <span class="cls">Rect</span> r      -> r.w() * r.h();
+  <span class="kw">case</span> <span class="cls">Triangle</span> t  -> t.computeArea();
+};</pre>
+    </div>
+  </div>
+
+  <!-- GENERICS -->
+  <div class="section" id="generics">
+    <div class="card">
+      <div class="card-title">Generic Classes & Methods</div>
+      <pre><span class="cm">// Generic class</span>
+<span class="kw">class</span> <span class="cls">Pair</span>&lt;A, B&gt; {
+  <span class="kw">private final</span> A first;
+  <span class="kw">private final</span> B second;
+
+  <span class="kw">public</span> <span class="cls">Pair</span>(A first, B second) { <span class="kw">this</span>.first=first; <span class="kw">this</span>.second=second; }
+  <span class="kw">public</span> A getFirst()  { <span class="kw">return</span> first; }
+  <span class="kw">public</span> B getSecond() { <span class="kw">return</span> second; }
+
+  <span class="kw">public static</span> &lt;A,B&gt; <span class="cls">Pair</span>&lt;A,B&gt; of(A a, B b) { <span class="kw">return new</span> <span class="cls">Pair</span>&lt;&gt;(a, b); }
+}
+
+<span class="cm">// Generic method</span>
+<span class="kw">public static</span> &lt;T <span class="kw">extends</span> Comparable&lt;T&gt;&gt; T max(T a, T b) {
+  <span class="kw">return</span> a.compareTo(b) >= <span class="num">0</span> ? a : b;
+}
+
+max(<span class="num">3</span>, <span class="num">7</span>)       <span class="cm">// → 7</span>
+max(<span class="str">"apple"</span>, <span class="str">"mango"</span>) <span class="cm">// → "mango"</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Wildcards</div>
+      <pre><span class="cm">// Unbounded: accepts any type</span>
+<span class="kw">void</span> printList(List&lt;?&gt; list) { list.forEach(System.out::println); }
+
+<span class="cm">// Upper bounded: T or subtype (read-only pattern)</span>
+<span class="kw">double</span> sum(List&lt;? <span class="kw">extends</span> Number&gt; nums) {
+  <span class="kw">return</span> nums.stream().mapToDouble(Number::doubleValue).sum();
+}
+
+<span class="cm">// Lower bounded: T or supertype (write pattern)</span>
+<span class="kw">void</span> addNumbers(List&lt;? <span class="kw">super</span> Integer&gt; list) {
+  list.add(<span class="num">1</span>); list.add(<span class="num">2</span>);
+}
+
+<span class="cm">// PECS: Producer Extends, Consumer Super</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Records <span class="badge badge-green">Java 16+</span></div>
+      <pre><span class="cm">// Immutable data carrier — auto-generates: constructor,</span>
+<span class="cm">// getters, equals, hashCode, toString</span>
+<span class="kw">record</span> <span class="cls">Person</span>(String name, <span class="kw">int</span> age) {
+  <span class="cm">// compact canonical constructor (validation)</span>
+  <span class="cls">Person</span> {
+    <span class="kw">if</span> (age < <span class="num">0</span>) <span class="kw">throw new</span> IllegalArgumentException(<span class="str">"age < 0"</span>);
+    name = name.strip(); <span class="cm">// can transform fields here</span>
+  }
+  <span class="cm">// add custom methods</span>
+  <span class="kw">boolean</span> isAdult() { <span class="kw">return</span> age >= <span class="num">18</span>; }
+}
+
+<span class="cls">Person</span> p = <span class="kw">new</span> <span class="cls">Person</span>(<span class="str">"Alice"</span>, <span class="num">30</span>);
+p.name(); p.age(); p.isAdult();</pre>
+    </div>
+  </div>
+
+  <!-- COLLECTIONS -->
+  <div class="section" id="collections">
+    <div class="card">
+      <div class="card-title">Collections Hierarchy</div>
+      <div class="table-wrap"><table>
+        <tr><th>Interface</th><th>Implementation</th><th>Characteristics</th></tr>
+        <tr><td><code>List</code></td><td><code>ArrayList</code></td><td>Dynamic array, O(1) get, O(n) insert</td></tr>
+        <tr><td><code>List</code></td><td><code>LinkedList</code></td><td>Doubly-linked, O(1) add/remove at ends</td></tr>
+        <tr><td><code>Set</code></td><td><code>HashSet</code></td><td>No duplicates, O(1) ops, unordered</td></tr>
+        <tr><td><code>Set</code></td><td><code>LinkedHashSet</code></td><td>No duplicates, insertion order</td></tr>
+        <tr><td><code>Set</code></td><td><code>TreeSet</code></td><td>Sorted, O(log n), NavigableSet</td></tr>
+        <tr><td><code>Map</code></td><td><code>HashMap</code></td><td>Key-value, O(1), unordered</td></tr>
+        <tr><td><code>Map</code></td><td><code>LinkedHashMap</code></td><td>Key-value, insertion order</td></tr>
+        <tr><td><code>Map</code></td><td><code>TreeMap</code></td><td>Sorted keys, O(log n)</td></tr>
+        <tr><td><code>Queue</code></td><td><code>PriorityQueue</code></td><td>Heap, natural order or Comparator</td></tr>
+        <tr><td><code>Deque</code></td><td><code>ArrayDeque</code></td><td>Stack + Queue, O(1) both ends</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Common Operations</div>
+      <pre><span class="cm">// List</span>
+List&lt;String&gt; list = <span class="kw">new</span> ArrayList&lt;&gt;(List.of(<span class="str">"a"</span>,<span class="str">"b"</span>));
+list.add(<span class="str">"c"</span>); list.remove(<span class="str">"a"</span>); list.get(<span class="num">0</span>); list.size();
+Collections.sort(list); Collections.shuffle(list);
+
+<span class="cm">// Map</span>
+Map&lt;String, Integer&gt; map = <span class="kw">new</span> HashMap&lt;&gt;();
+map.put(<span class="str">"a"</span>, <span class="num">1</span>);
+map.getOrDefault(<span class="str">"x"</span>, <span class="num">0</span>);
+map.putIfAbsent(<span class="str">"b"</span>, <span class="num">2</span>);
+map.computeIfAbsent(<span class="str">"c"</span>, k -> k.length());
+map.merge(<span class="str">"a"</span>, <span class="num">10</span>, Integer::sum);
+map.forEach((k,v) -> System.out.println(k+<span class="str">"="</span>+v));
+
+<span class="cm">// Immutable collections (Java 9+)</span>
+List.of(<span class="str">"a"</span>,<span class="str">"b"</span>);  Set.of(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>);  Map.of(<span class="str">"k"</span>,<span class="str">"v"</span>);</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Sorting & Comparator</div>
+      <pre>List&lt;<span class="cls">Person</span>&gt; people = ...;
+
+<span class="cm">// Natural order</span>
+people.sort(Comparator.comparing(<span class="cls">Person</span>::name));
+
+<span class="cm">// Reverse</span>
+people.sort(Comparator.comparing(<span class="cls">Person</span>::age).reversed());
+
+<span class="cm">// Chained</span>
+people.sort(
+  Comparator.comparing(<span class="cls">Person</span>::age)
+            .thenComparing(<span class="cls">Person</span>::name)
+);
+
+<span class="cm">// Custom Comparator</span>
+people.sort((a,b) -> a.name().compareTo(b.name()));
+
+<span class="cm">// TreeMap with custom order</span>
+<span class="kw">new</span> TreeMap&lt;&gt;(Comparator.reverseOrder());</pre>
+    </div>
+  </div>
+
+  <!-- EXCEPTIONS -->
+  <div class="section" id="exceptions">
+    <div class="card">
+      <div class="card-title">Exception Hierarchy</div>
+      <div class="table-wrap"><table>
+        <tr><th>Type</th><th>Examples</th><th>Must Catch?</th></tr>
+        <tr><td><code>Error</code></td><td>OutOfMemoryError, StackOverflowError</td><td>No</td></tr>
+        <tr><td><code>RuntimeException</code></td><td>NPE, ArrayIndexOutOfBounds, ClassCast</td><td>No (unchecked)</td></tr>
+        <tr><td><code>Exception</code></td><td>IOException, SQLException</td><td>Yes (checked)</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Try-Catch-Finally & Multi-catch</div>
+      <pre><span class="kw">try</span> {
+  Files.readString(Path.of(<span class="str">"file.txt"</span>));
+  <span class="kw">int</span>[] arr = <span class="kw">new int</span>[<span class="num">5</span>];
+  arr[<span class="num">10</span>] = <span class="num">1</span>;
+} <span class="kw">catch</span> (IOException | ArrayIndexOutOfBoundsException e) {
+  System.err.println(<span class="str">"Error: "</span> + e.getMessage()); <span class="cm">// multi-catch</span>
+} <span class="kw">catch</span> (Exception e) {
+  e.printStackTrace();
+  <span class="kw">throw new</span> RuntimeException(<span class="str">"Wrapped"</span>, e); <span class="cm">// chaining</span>
+} <span class="kw">finally</span> {
+  <span class="cm">// always runs — cleanup code</span>
+}
+
+<span class="cm">// try-with-resources (AutoCloseable) — Java 7+</span>
+<span class="kw">try</span> (InputStream in = <span class="kw">new</span> FileInputStream(<span class="str">"f.txt"</span>);
+     BufferedReader br = <span class="kw">new</span> BufferedReader(<span class="kw">new</span> InputStreamReader(in))) {
+  String line = br.readLine();
+} <span class="cm">// auto-closed in reverse order, even on exception</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Custom Exceptions</div>
+      <pre><span class="cm">// Checked exception</span>
+<span class="kw">class</span> <span class="cls">InsufficientFundsException</span> <span class="kw">extends</span> Exception {
+  <span class="kw">private final double</span> amount;
+  <span class="cls">InsufficientFundsException</span>(<span class="kw">double</span> amount) {
+    <span class="kw">super</span>(String.format(<span class="str">"Need %.2f more"</span>, amount));
+    <span class="kw">this</span>.amount = amount;
+  }
+  <span class="kw">double</span> getAmount() { <span class="kw">return</span> amount; }
+}
+
+<span class="cm">// Unchecked exception</span>
+<span class="kw">class</span> <span class="cls">ValidationException</span> <span class="kw">extends</span> RuntimeException {
+  <span class="cls">ValidationException</span>(String field, String msg) {
+    <span class="kw">super</span>(field + <span class="str">": "</span> + msg);
+  }
+}</pre>
+    </div>
+  </div>
+
+  <!-- STREAMS -->
+  <div class="section" id="streams">
+    <div class="card">
+      <div class="card-title">Stream Pipeline: Source → Intermediate → Terminal</div>
+      <pre>List&lt;String&gt; names = List.of(<span class="str">"Alice"</span>,<span class="str">"Bob"</span>,<span class="str">"Charlie"</span>,<span class="str">"Anna"</span>);
+
+<span class="cm">// Lazy intermediate ops + eager terminal op</span>
+List&lt;String&gt; result = names.stream()
+  .filter(s -> s.startsWith(<span class="str">"A"</span>))      <span class="cm">// Predicate</span>
+  .map(String::toUpperCase)              <span class="cm">// Function</span>
+  .sorted()                              <span class="cm">// natural order</span>
+  .distinct()                            <span class="cm">// remove dups</span>
+  .limit(<span class="num">5</span>)                             <span class="cm">// max 5 elements</span>
+  .collect(Collectors.toList());
+
+<span class="cm">// Numeric streams</span>
+IntStream.range(<span class="num">0</span>, <span class="num">10</span>).sum();
+IntStream.rangeClosed(<span class="num">1</span>, <span class="num">100</span>).average();
+names.stream().mapToInt(String::length).max();</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Collectors</div>
+      <pre><span class="cm">// groupingBy</span>
+Map&lt;Integer, List&lt;String&gt;&gt; byLength =
+  names.stream().collect(Collectors.groupingBy(String::length));
+
+<span class="cm">// counting</span>
+Map&lt;Integer, Long&gt; countByLength =
+  names.stream().collect(Collectors.groupingBy(String::length, Collectors.counting()));
+
+<span class="cm">// joining</span>
+String joined = names.stream().collect(Collectors.joining(<span class="str">", "</span>, <span class="str">"["</span>, <span class="str">"]"</span>));
+
+<span class="cm">// partitioning</span>
+Map&lt;Boolean, List&lt;String&gt;&gt; partitioned =
+  names.stream().collect(Collectors.partitioningBy(s -> s.length() > <span class="num">3</span>));
+
+<span class="cm">// toMap</span>
+Map&lt;String, Integer&gt; nameLengths =
+  names.stream().collect(Collectors.toMap(s->s, String::length));</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Optional <span class="badge badge-purple">Null Safety</span></div>
+      <pre>Optional&lt;String&gt; opt = names.stream().filter(s->s.startsWith(<span class="str">"Z"</span>)).findFirst();
+
+opt.isPresent();                          <span class="cm">// false</span>
+opt.orElse(<span class="str">"default"</span>);                   <span class="cm">// "default"</span>
+opt.orElseGet(() -> compute());           <span class="cm">// lazy</span>
+opt.orElseThrow(NoSuchElementException::new);
+opt.ifPresent(System.out::println);
+opt.map(String::length);                  <span class="cm">// Optional&lt;Integer&gt;</span>
+opt.flatMap(s -> Optional.of(s.trim())); <span class="cm">// flat</span>
+opt.filter(s -> s.length() > <span class="num">3</span>);        <span class="cm">// conditional</span>
+
+<span class="cm">// Create</span>
+Optional.of(<span class="str">"value"</span>);    <span class="cm">// NPE if null</span>
+Optional.ofNullable(val); <span class="cm">// safe</span>
+Optional.empty();</pre>
+    </div>
+  </div>
+
+  <!-- CONCURRENCY -->
+  <div class="section" id="concurrency">
+    <div class="card">
+      <div class="card-title">Threads & Runnable</div>
+      <pre><span class="cm">// Thread subclass</span>
+<span class="kw">class</span> <span class="cls">MyThread</span> <span class="kw">extends</span> Thread {
+  <span class="ann">@Override</span> <span class="kw">public void</span> run() { System.out.println(<span class="str">"Running"</span>); }
+}
+<span class="kw">new</span> <span class="cls">MyThread</span>().start();
+
+<span class="cm">// Runnable lambda</span>
+Thread t = <span class="kw">new</span> Thread(() -> System.out.println(<span class="str">"Lambda thread"</span>));
+t.start(); t.join(); <span class="cm">// wait for completion</span>
+
+<span class="cm">// ExecutorService (prefer over raw threads)</span>
+ExecutorService exec = Executors.newFixedThreadPool(<span class="num">4</span>);
+exec.submit(() -> doWork());
+exec.shutdown();
+exec.awaitTermination(<span class="num">60</span>, TimeUnit.SECONDS);
+
+<span class="cm">// Virtual threads (Java 21+, Project Loom)</span>
+Thread.ofVirtual().start(() -> handleRequest());</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">CompletableFuture <span class="badge badge-blue">Async</span></div>
+      <pre>CompletableFuture&lt;String&gt; cf = CompletableFuture
+  .supplyAsync(() -> fetchData())        <span class="cm">// runs in ForkJoinPool</span>
+  .thenApply(data -> parse(data))        <span class="cm">// transform result</span>
+  .thenCompose(parsed -> enrich(parsed)) <span class="cm">// async chain</span>
+  .exceptionally(ex -> "fallback")       <span class="cm">// error handling</span>
+  .whenComplete((res, ex) -> log(res));  <span class="cm">// side-effect</span>
+
+<span class="cm">// Combine</span>
+CompletableFuture.allOf(cf1, cf2, cf3).join();  <span class="cm">// all done</span>
+CompletableFuture.anyOf(cf1, cf2).join();       <span class="cm">// first done</span>
+
+<span class="cm">// Get result</span>
+String result = cf.get();                        <span class="cm">// blocking</span>
+String result2 = cf.get(<span class="num">5</span>, TimeUnit.SECONDS);  <span class="cm">// timeout</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Synchronization & Atomic</div>
+      <pre><span class="cm">// synchronized method</span>
+<span class="kw">public synchronized void</span> increment() { count++; }
+
+<span class="cm">// synchronized block (prefer — finer grain)</span>
+<span class="kw">synchronized</span> (lock) { sharedResource.update(); }
+
+<span class="cm">// ReentrantLock</span>
+ReentrantLock lock = <span class="kw">new</span> ReentrantLock();
+lock.lock();
+<span class="kw">try</span> { doWork(); } <span class="kw">finally</span> { lock.unlock(); }
+
+<span class="cm">// Atomic (lock-free)</span>
+AtomicInteger counter = <span class="kw">new</span> AtomicInteger(<span class="num">0</span>);
+counter.incrementAndGet();
+counter.compareAndSet(<span class="num">0</span>, <span class="num">10</span>);
+
+<span class="cm">// Thread-safe collections</span>
+ConcurrentHashMap&lt;String, Integer&gt; map = <span class="kw">new</span> ConcurrentHashMap&lt;&gt;();
+CopyOnWriteArrayList&lt;String&gt; list = <span class="kw">new</span> CopyOnWriteArrayList&lt;&gt;();</pre>
+    </div>
+  </div>
+
+  <!-- ADVANCED -->
+  <div class="section" id="advanced">
+    <div class="card">
+      <div class="card-title">Reflection</div>
+      <pre>Class&lt;?&gt; clazz = Class.forName(<span class="str">"com.example.Person"</span>);
+clazz.getDeclaredFields();
+clazz.getDeclaredMethods();
+Constructor&lt;?&gt; ctor = clazz.getDeclaredConstructor(String.<span class="kw">class</span>, <span class="kw">int</span>.<span class="kw">class</span>);
+Object obj = ctor.newInstance(<span class="str">"Alice"</span>, <span class="num">30</span>);
+
+Field f = clazz.getDeclaredField(<span class="str">"name"</span>);
+f.setAccessible(<span class="kw">true</span>);   <span class="cm">// bypass private</span>
+f.get(obj);              <span class="cm">// → "Alice"</span>
+
+Method m = clazz.getDeclaredMethod(<span class="str">"greet"</span>);
+m.invoke(obj);           <span class="cm">// dynamic invocation</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Annotations</div>
+      <pre><span class="cm">// Define custom annotation</span>
+<span class="ann">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="ann">@Target</span>(ElementType.METHOD)
+<span class="kw">public @interface</span> <span class="cls">Timed</span> {
+  String value() <span class="kw">default</span> <span class="str">""</span>;
+  <span class="kw">int</span> maxMs() <span class="kw">default</span> <span class="num">1000</span>;
+}
+
+<span class="cm">// Use it</span>
+<span class="ann">@Timed</span>(value = <span class="str">"dbCall"</span>, maxMs = <span class="num">500</span>)
+<span class="kw">public</span> List&lt;User&gt; getUsers() { <span class="kw">return</span> db.query(); }
+
+<span class="cm">// Read at runtime via reflection</span>
+<span class="cls">Timed</span> ann = method.getAnnotation(<span class="cls">Timed</span>.<span class="kw">class</span>);
+System.out.println(ann.maxMs()); <span class="cm">// 500</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Design Patterns in Java</div>
+      <pre><span class="cm">// Singleton (thread-safe, lazy — Bill Pugh)</span>
+<span class="kw">class</span> <span class="cls">Singleton</span> {
+  <span class="kw">private</span> <span class="cls">Singleton</span>() {}
+  <span class="kw">private static class</span> <span class="cls">Holder</span> {
+    <span class="kw">static final</span> <span class="cls">Singleton</span> INSTANCE = <span class="kw">new</span> <span class="cls">Singleton</span>();
+  }
+  <span class="kw">public static</span> <span class="cls">Singleton</span> get() { <span class="kw">return</span> <span class="cls">Holder</span>.INSTANCE; }
+}
+
+<span class="cm">// Builder</span>
+<span class="kw">var</span> person = <span class="kw">new</span> <span class="cls">Person</span>.Builder()
+  .name(<span class="str">"Alice"</span>).age(<span class="num">30</span>).email(<span class="str">"a@b.com"</span>).build();
+
+<span class="cm">// Factory Method</span>
+<span class="kw">interface</span> <span class="cls">Notifier</span> { <span class="kw">void</span> send(String msg); }
+<span class="kw">static</span> <span class="cls">Notifier</span> of(String type) { <span class="kw">return switch</span>(type) {
+  <span class="kw">case</span> <span class="str">"email"</span> -> <span class="kw">new</span> <span class="cls">EmailNotifier</span>();
+  <span class="kw">case</span> <span class="str">"sms"</span>   -> <span class="kw">new</span> <span class="cls">SmsNotifier</span>();
+  <span class="kw">default</span> -> <span class="kw">throw new</span> IllegalArgumentException(type);
+}; }
+
+<span class="cm">// Observer (Event-driven)</span>
+<span class="kw">interface</span> <span class="cls">EventListener</span>&lt;T&gt; { <span class="kw">void</span> onEvent(T event); }
+list.add(event -> log(event));  <span class="cm">// lambda as listener</span></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Java Modules <span class="badge badge-amber">Java 9+</span> & JVM Flags</div>
+      <pre><span class="cm">// module-info.java</span>
+<span class="kw">module</span> com.myapp {
+  <span class="kw">requires</span> java.net.http;
+  <span class="kw">requires transitive</span> com.fasterxml.jackson.databind;
+  <span class="kw">exports</span> com.myapp.api;
+  <span class="kw">opens</span> com.myapp.model <span class="kw">to</span> com.fasterxml.jackson.databind;
+}
+
+<span class="cm">// HTTP Client (Java 11+)</span>
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest req = HttpRequest.newBuilder()
+  .uri(URI.create(<span class="str">"https://api.example.com/data"</span>))
+  .header(<span class="str">"Accept"</span>, <span class="str">"application/json"</span>)
+  .GET().build();
+HttpResponse&lt;String&gt; resp = client.send(req, BodyHandlers.ofString());</pre>
+    </div>
+    <div class="card">
+      <div class="card-title">Key Java Version Features</div>
+      <div class="table-wrap"><table>
+        <tr><th>Version</th><th>Key Features</th></tr>
+        <tr><td><span class="badge badge-blue">Java 8</span></td><td>Lambdas, Streams, Optional, default methods, Date/Time API</td></tr>
+        <tr><td><span class="badge badge-blue">Java 9</span></td><td>Modules, JShell, private interface methods, List.of()</td></tr>
+        <tr><td><span class="badge badge-blue">Java 11</span></td><td>var in lambdas, String methods, HttpClient, Files methods</td></tr>
+        <tr><td><span class="badge badge-green">Java 14</span></td><td>Switch expressions, helpful NPE messages</td></tr>
+        <tr><td><span class="badge badge-green">Java 16</span></td><td>Records, instanceof pattern matching</td></tr>
+        <tr><td><span class="badge badge-amber">Java 17</span></td><td>Sealed classes (LTS)</td></tr>
+        <tr><td><span class="badge badge-amber">Java 21</span></td><td>Virtual threads, pattern matching switch, sequenced collections (LTS)</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

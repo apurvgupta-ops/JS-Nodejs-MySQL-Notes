@@ -6,6 +6,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AbstractMethodDesign",
+      "request": "launch",
+      "mainClass": "DesignPatterns.FactoryDesign.AbstractMethodDesign",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
+      "name": "FactoryMethodDesign",
+      "request": "launch",
+      "mainClass": "DesignPatterns.FactoryDesign.FactoryMethodDesign",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
+      "name": "SimpleDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.FactoryDesign.SimpleDesignPattern",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
+      "name": "StrategyDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.StrategyDesignPattern",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
       "name": "ques",
       "request": "launch",
       "mainClass": "ques",

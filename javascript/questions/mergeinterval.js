@@ -136,7 +136,13 @@
 // console.log(findMinArrowShots());
 
 // !253. Meeting Rooms II
-var minMeetingRooms = function (intervals = [(0, 40), (5, 10), (15, 20)]) {
+var minMeetingRooms = function (
+  intervals = [
+    [0, 40],
+    [5, 10],
+    [15, 20],
+  ],
+) {
   if (intervals.length <= 1) return intervals.length;
   let startTimes = intervals
     .map((interval) => interval[0])
@@ -145,16 +151,20 @@ var minMeetingRooms = function (intervals = [(0, 40), (5, 10), (15, 20)]) {
 
   let startPointer = 0;
   let endPointer = 0;
-  let rooms = 0;
+
+  let currentRooms = 0;
+  let maxRooms = 0;
 
   while (startPointer < intervals.length) {
     if (startTimes[startPointer] < endTimes[endPointer]) {
-      rooms++;
+      currentRooms++;
+      startPointer++;
     } else {
+      currentRooms--;
       endPointer++;
     }
-    startPointer++;
+    maxRooms = Math.max(maxRooms, currentRooms);
   }
-  return rooms;
+  return maxRooms;
 };
 console.log(minMeetingRooms());
