@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "LinkedList",
+      "request": "launch",
+      "mainClass": "javascript.questions.LinkedList",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
       "name": "AbstractMethodDesign",
       "request": "launch",
       "mainClass": "DesignPatterns.FactoryDesign.AbstractMethodDesign",

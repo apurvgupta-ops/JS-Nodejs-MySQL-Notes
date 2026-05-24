@@ -111,8 +111,8 @@ class PremiumWheatGarlicBread implements GarlicBread {
     }
 }
 
-// Factory Interface and Concrete Factories
-interface BurgerFactory {
+// Factory Interface and Concrete Factories (composite factory and has-a relationship)
+interface MealFactory {
 
     Burger createBurger(String type);
 
@@ -120,7 +120,7 @@ interface BurgerFactory {
 }
 // Concrete Classes
 
-class SinghBurger implements BurgerFactory {
+class SinghBurger implements MealFactory {
 
     @Override
     public Burger createBurger(String type) {
@@ -151,7 +151,7 @@ class SinghBurger implements BurgerFactory {
     }
 }
 
-class KingBurger implements BurgerFactory {
+class KingBurger implements MealFactory {
 
     @Override
     public Burger createBurger(String type) {
@@ -187,7 +187,7 @@ public class AbstractMethodDesign {
     public static void main(String[] args) {
         String burgertype = "basic";
         String GarlicString = "standard";
-        BurgerFactory myFactory = new KingBurger();
+        MealFactory myFactory = new KingBurger();
         Burger burger = myFactory.createBurger(burgertype);
         GarlicBread bread = myFactory.createGarlicBread(GarlicString);
 

@@ -136,35 +136,68 @@
 // console.log(findMinArrowShots());
 
 // !253. Meeting Rooms II
-var minMeetingRooms = function (
-  intervals = [
-    [0, 40],
-    [5, 10],
-    [15, 20],
-  ],
-) {
-  if (intervals.length <= 1) return intervals.length;
-  let startTimes = intervals
-    .map((interval) => interval[0])
-    .sort((a, b) => a - b);
-  let endTimes = intervals.map((interval) => interval[1]).sort((a, b) => a - b);
+// var minMeetingRooms = function (
+//   intervals = [
+//     [0, 40],
+//     [5, 10],
+//     [15, 20],
+//   ],
+// ) {
+//   if (intervals.length <= 1) return intervals.length;
+//   let startTimes = intervals
+//     .map((interval) => interval[0])
+//     .sort((a, b) => a - b);
+//   let endTimes = intervals.map((interval) => interval[1]).sort((a, b) => a - b);
 
-  let startPointer = 0;
-  let endPointer = 0;
+//   let startPointer = 0;
+//   let endPointer = 0;
 
-  let currentRooms = 0;
-  let maxRooms = 0;
+//   let currentRooms = 0;
+//   let maxRooms = 0;
 
-  while (startPointer < intervals.length) {
-    if (startTimes[startPointer] < endTimes[endPointer]) {
-      currentRooms++;
-      startPointer++;
-    } else {
-      currentRooms--;
-      endPointer++;
-    }
-    maxRooms = Math.max(maxRooms, currentRooms);
-  }
-  return maxRooms;
-};
-console.log(minMeetingRooms());
+//   while (startPointer < intervals.length) {
+//     if (startTimes[startPointer] < endTimes[endPointer]) {
+//       currentRooms++;
+//       startPointer++;
+//     } else {
+//       currentRooms--;
+//       endPointer++;
+//     }
+//     maxRooms = Math.max(maxRooms, currentRooms);
+//   }
+//   return maxRooms;
+// };
+// console.log(minMeetingRooms());
+
+// !1288. Remove Covered Intervals
+// var removeCoveredIntervals = function (intervals) {
+//   if (intervals.length <= 1) return intervals.length;
+
+//   intervals.sort((a, b) => {
+//     if (a[0] === b[0]) {
+//       return b[1] - a[1]; // Sort by end time in descending order if start times are the same
+//     }
+//     return a[0] - b[0]; // Sort by start time in ascending order
+//   });
+
+//   let count = 0;
+//   let maxEnd = 0;
+
+//   for (let i = 0; i < intervals.length; i++) {
+//     let currentEnd = intervals[i][1];
+
+//     if (currentEnd > maxEnd) {
+//       count++;
+//       maxEnd = currentEnd; // Expand our tracked boundary
+//     }
+//   }
+//   return count;
+// };
+
+// console.log(
+//   removeCoveredIntervals([
+//     [1, 4],
+//     [3, 6],
+//     [2, 8],
+//   ]),
+// );
