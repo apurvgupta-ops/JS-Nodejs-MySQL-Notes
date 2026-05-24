@@ -7,5 +7,6 @@
     "scminput": false,
     "javascript": false,
     "java": true
-  }
+  },
+  "java.debug.settings.onBuildFailureProceed": true
 }
