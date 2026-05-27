@@ -36,35 +36,55 @@
 
 // console.log(isHappy(19));
 // !141. Linked List Cycle => JS
-function ListNode(val) {
-  this.val = val;
-  this.next = null;
-}
+// function ListNode(val) {
+//   this.val = val;
+//   this.next = null;
+// }
 
-/**
- * @param {ListNode} head
- * @return {boolean}
- */
+// /**
+//  * @param {ListNode} head
+//  * @return {boolean}
+//  */
 
-var hasCycle = function (head = [3, 2, 0, -4]) {
-  if (!head || !head.next) {
-    return false;
-  }
+// var hasCycle = function (head = [3, 2, 0, -4]) {
+//   if (!head || !head.next) {
+//     return false;
+//   }
 
-  let slow = head;
-  let fast = head;
+//   let slow = head;
+//   let fast = head;
 
-  console.log({ fast, slow, next: fast.next });
+//   console.log({ fast, slow, next: fast.next });
 
-  while (fast !== null && fast.next !== null) {
-    slow = slow.next;
-    fast = fast.next.next;
+//   while (fast !== null && fast.next !== null) {
+//     slow = slow.next;
+//     fast = fast.next.next;
 
-    if (slow === fast) {
-      return true;
-    }
-  }
+//     if (slow === fast) {
+//       return true;
+//     }
+//   }
 
-  return false;
-};
-console.log(hasCycle());
+//   return false;
+// };
+// console.log(hasCycle());
+
+// !287. Find the Duplicate Number
+// var findDuplicate = function (nums = [1, 3, 4, 2, 2]) {
+//   let slow = nums[0];
+//   let fast = nums[0];
+
+//   do {
+//     slow = nums[slow];
+//     fast = nums[nums[fast]];
+//   } while (slow !== fast);
+
+//   fast = nums[0];
+//   while (slow !== fast) {
+//     slow = nums[slow];
+//     fast = nums[fast];
+//   }
+
+//   return slow;
+// };
+// console.log(findDuplicate());
