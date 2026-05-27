@@ -88,3 +88,116 @@
 //   return slow;
 // };
 // console.log(findDuplicate());
+
+// !142. Linked List Cycle II => JS with class
+
+// class Node {
+//   constructor(data) {
+//     this.data = data;
+//     this.next = null;
+//   }
+// }
+
+// class Solution {
+//   detectCycle(head) {
+//     if (!head || !head.next) {
+//       return null;
+//     }
+
+//     let slow = head;
+//     let fast = head;
+//     let hasCycle = false;
+
+//     while (fast !== null && fast.next !== null) {
+//       slow = slow.next;
+//       fast = fast.next.next;
+//       if (slow === fast) {
+//         hasCycle = true;
+//         break;
+//       }
+//     }
+//     if (!hasCycle) {
+//       return null;
+//     }
+//     let pointer1 = head;
+//     let pointer2 = slow;
+
+//     while (pointer1 !== pointer2) {
+//       pointer1 = pointer1.next;
+//       pointer2 = pointer2.next;
+//     }
+
+//     return pointer1;
+//   }
+// }
+
+// {
+//   const head = new Node(3);
+//   const node2 = new Node(2);
+//   const node3 = new Node(0);
+//   const node4 = new Node(-4);
+
+//   // Creating the cycle: 3 -> 2 -> 0 -> -4 -> 2
+//   head.next = node2;
+//   node2.next = node3;
+//   node3.next = node4;
+//   node4.next = node2; // Creates the cycle
+
+//   const solution = new Solution();
+//   const cycleStartNode = solution.detectCycle(head);
+//   if (cycleStartNode) {
+//     console.log("Cycle starts at node with value:", cycleStartNode.data);
+//   } else {
+//     console.log("No cycle detected.");
+//   }
+// }
+// !142. Linked List Cycle II => JS without class
+// var detectCycle = function (head = [3, 2, 0, -4]) {
+//   // Phase 1: Handle edge cases where no cycle can exist
+//   if (!head || !head.next) {
+//     return null;
+//   }
+
+//   let slow = head;
+//   let fast = head;
+//   let hasCycle = false;
+
+//   // Gold Standard Loop Control: prevent TypeError crashes
+//   while (fast !== null && fast.next !== null) {
+//     slow = slow.next;
+//     fast = fast.next.next;
+
+//     if (slow === fast) {
+//       hasCycle = true;
+//       break; // Cycle detected!
+//     }
+//   }
+
+//   // If no cycle was found, return null
+//   if (!hasCycle) {
+//     return null;
+//   }
+
+//   // Phase 2: Find the entry node of the cycle
+//   let pointer1 = head;
+//   let pointer2 = slow; // Can use either slow or fast since they are at the meeting point
+
+//   while (pointer1 !== pointer2) {
+//     pointer1 = pointer1.next;
+//     pointer2 = pointer2.next;
+//   }
+
+//   return pointer1; // Both pointers collide at the start of the cycle
+// };
+
+// !876. Middle of the Linked List
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+class Solution {
+  middle(head) {}
+}

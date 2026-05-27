@@ -6,6 +6,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "DecoratorDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.DecoratorDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "ObserverDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.ObserverDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "SingletonDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.SingletonDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "Solution",
+      "request": "launch",
+      "mainClass": "Solution",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
       "name": "Solution",
       "request": "launch",
       "mainClass": "Solution",
