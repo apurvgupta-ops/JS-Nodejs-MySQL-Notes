@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "SingletonDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.SingletonDesignPattern",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
       "name": "Solution",
       "request": "launch",
       "mainClass": "Solution",

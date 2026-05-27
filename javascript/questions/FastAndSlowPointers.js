@@ -88,3 +88,99 @@
 //   return slow;
 // };
 // console.log(findDuplicate());
+
+// !142. Linked List Cycle II
+
+// class Node {
+//   constructor(data) {
+//     this.data = data;
+//     this.next = null;
+//   }
+// }
+// class Solution {
+//   detectCycle(head) {
+//     if (!head || !head.next) {
+//       return null;
+//     }
+
+//     let slow = head;
+//     let fast = head;
+//     let hasCycle = false;
+
+//     while (fast !== null && fast.next !== null) {
+//       slow = slow.next;
+//       fast = fast.next.next;
+
+//       if (slow === fast) {
+//         hasCycle = true;
+//         break;
+//       }
+//     }
+//     if (!hasCycle) return null;
+
+//     fast = head;
+//     while (fast !== slow) {
+//       slow = slow.next;
+//       fast = fast.next;
+//     }
+//     return slow;
+//   }
+// }
+
+// let head = new Node(3);
+// let node2 = new Node(2);
+// let node3 = new Node(0);
+// let node4 = new Node(-1);
+// let node5 = new Node(-4);
+
+// head.next = node2;
+// node2.next = node3;
+// node3.next = node4;
+// node4.next = node5;
+// node5.next = node4;
+
+// let solution = new Solution();
+// let result = solution.detectCycle(head);
+// if (result !== null) {
+//   console.log("Cycle starts at node with value: " + result.data);
+// } else {
+//   console.log("No cycle detected.");
+// }
+
+// !876. Middle of the Linked List
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+class Solution {
+  middleNode(head) {
+    if (!head || !head.next) {
+      return head;
+    }
+
+    let slow = head;
+    let fast = head;
+
+    while (fast !== null && fast.next !== null) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    return slow;
+  }
+}
+
+let head = new Node(3);
+let node2 = new Node(2);
+let node3 = new Node(1);
+let node4 = new Node(4);
+
+head.next = node2;
+node2.next = node3;
+node3.next = node4;
+node4.next = null;
+
+let result = new Solution().middleNode(head);
+console.log({ result: result.data });
