@@ -23,7 +23,7 @@ public class LinkedList {
     public void insertAtHead(int data) {
         Node newNode = new Node(data);
         newNode.next = head; // Point new node's next to the current head
-        head = newNode;      // Move head pointer to the new node
+        head = newNode; // Move head pointer to the new node
     }
 
     // 3. Insert a node at the end (Tail) of the list
@@ -79,6 +79,63 @@ public class LinkedList {
         prev.next = current.next;
     }
 
+    // Delete First element of the list
+    // Time Complexity: O(1)
+    public void deleteHead() {
+        if (head != null) {
+            head = head.next; // Move head pointer to the next node
+        }
+    }
+
+    public void deleteTail() {
+        if (head == null) {
+            return; // List is empty
+        }
+
+        if (head.next == null) {
+            head = null; // Only one node in the list
+            return;
+        }
+
+        Node current = head;
+        while (current.next.next != null) {
+            current = current.next; // Traverse to the second last node
+        }
+
+        current.next = null; // Unlink the last node
+    }
+
+    // Insert a node at a specific position (0-based index)
+    // Time Complexity: O(n)
+    public void insertAtPosition(int data, int position) {
+        Node newNode = new Node(data);
+
+        // Inserting at the head (position 0)
+        if (position == 0) {
+            newNode.next = head;
+            head = newNode;
+            return;
+        }
+
+        Node current = head;
+        int index = 0;
+
+        // Traverse to the node just before the desired position
+        while (current != null && index < position - 1) {
+            current = current.next;
+            index++;
+        }
+
+        // If the position is out of bounds, do not insert
+        if (current == null) {
+            return;
+        }
+
+        // Insert the new node at the desired position
+        newNode.next = current.next;
+        current.next = newNode;
+    }
+
     // 5. Display the elements of the Linked List
     // Time Complexity: O(n)
     public void printList() {
@@ -114,7 +171,15 @@ public class LinkedList {
         list.printList(); // Output: 40 -> 10 -> 30 -> null
 
         System.out.println("\n--- Deleting Head (40) ---");
-        list.deleteValue(40);
+        list.deleteHead();
         list.printList(); // Output: 10 -> 30 -> null
+
+        System.out.println("\n--- Deleting Tail (30) ---");
+        list.deleteTail();
+        list.printList(); // Output: 10 -> null
+
+        System.out.println("\n--- Inserting at Position 1 (50) ---");
+        list.insertAtPosition(50, 1);
+        list.printList(); // Output: 10 -> 50 -> null
     }
 }
