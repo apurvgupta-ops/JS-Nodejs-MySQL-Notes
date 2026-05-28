@@ -97,7 +97,6 @@
 //     this.next = null;
 //   }
 // }
-
 // class Solution {
 //   detectCycle(head) {
 //     if (!head || !head.next) {
@@ -151,6 +150,7 @@
 //     console.log("No cycle detected.");
 //   }
 // }
+
 // !142. Linked List Cycle II => JS without class
 // var detectCycle = function (head = [3, 2, 0, -4]) {
 //   // Phase 1: Handle edge cases where no cycle can exist
@@ -197,31 +197,33 @@
 //     this.next = null;
 //   }
 // }
-
 // class Solution {
-//   middle(head) {
-//     if (!head || !head.next) return head;
+//   middleNode(head) {
+//     if (!head || !head.next) {
+//       return head;
+//     }
+
 //     let slow = head;
 //     let fast = head;
+
 //     while (fast !== null && fast.next !== null) {
 //       slow = slow.next;
 //       fast = fast.next.next;
 //     }
+
 //     return slow;
 //   }
 // }
 
-// const head = new Node(3);
-// const node2 = new Node(2);
-// const node3 = new Node(0);
-// const node4 = new Node(-4);
+// let head = new Node(3);
+// let node2 = new Node(2);
+// let node3 = new Node(1);
+// let node4 = new Node(4);
 
 // head.next = node2;
 // node2.next = node3;
 // node3.next = node4;
 // node4.next = null;
 
-// let result = new Solution().middle(head);
-// console.log(result.data);
-
-// !234. Palindrome Linked List
+// let result = new Solution().middleNode(head);
+// console.log({ result: result.data });
