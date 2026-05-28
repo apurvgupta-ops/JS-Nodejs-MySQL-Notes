@@ -191,13 +191,37 @@
 // };
 
 // !876. Middle of the Linked List
-class Node {
-  constructor(data) {
-    this.data = data;
-    this.next = null;
-  }
-}
+// class Node {
+//   constructor(data) {
+//     this.data = data;
+//     this.next = null;
+//   }
+// }
 
-class Solution {
-  middle(head) {}
-}
+// class Solution {
+//   middle(head) {
+//     if (!head || !head.next) return head;
+//     let slow = head;
+//     let fast = head;
+//     while (fast !== null && fast.next !== null) {
+//       slow = slow.next;
+//       fast = fast.next.next;
+//     }
+//     return slow;
+//   }
+// }
+
+// const head = new Node(3);
+// const node2 = new Node(2);
+// const node3 = new Node(0);
+// const node4 = new Node(-4);
+
+// head.next = node2;
+// node2.next = node3;
+// node3.next = node4;
+// node4.next = null;
+
+// let result = new Solution().middle(head);
+// console.log(result.data);
+
+// !234. Palindrome Linked List

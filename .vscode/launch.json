@@ -6,6 +6,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AdapterDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.AdapterDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "FacadeDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.FacadeDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "CommandDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.CommandDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
       "name": "DecoratorDesignPattern",
       "request": "launch",
       "mainClass": "DesignPatterns.DecoratorDesignPattern",
