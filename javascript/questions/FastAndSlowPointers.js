@@ -227,3 +227,14 @@
 
 // let result = new Solution().middleNode(head);
 // console.log({ result: result.data });
+
+// !234. Palindrome Linked List
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+class Solution {}
