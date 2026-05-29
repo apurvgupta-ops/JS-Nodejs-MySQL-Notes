@@ -227,3 +227,64 @@
 
 // let result = new Solution().middleNode(head);
 // console.log({ result: result.data });
+
+// !234. Palindrome Linked List
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+class Solution {
+  isPalindrome(head) {
+    if (!head || !head.next) {
+      return true;
+    }
+    let slow = head;
+    let fast = head;
+    while (fast && fast.next) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+    let prev = null;
+    let curr = slow;
+
+    while (curr) {
+      let nextNode = curr.next;
+      curr.next = prev;
+      prev = curr;
+      curr = nextNode;
+    }
+    let left = head;
+    let right = prev;
+    while (right) {
+      if (left.data !== right.data) return false;
+
+      left = left.next;
+      right = right.next;
+    }
+    return true;
+  }
+}
+
+let head = new Node(1);
+let node2 = new Node(2);
+let node3 = new Node(2);
+let node4 = new Node(1);
+
+head.next = node2;
+node2.next = node3;
+node3.next = node4;
+node4.next = null;
+
+// print the linked list
+// let current = head;
+// while (current) {
+//   console.log(current.data);
+//   current = current.next;
+// }
+
+let result = new Solution().isPalindrome(head);
+console.log(result);
