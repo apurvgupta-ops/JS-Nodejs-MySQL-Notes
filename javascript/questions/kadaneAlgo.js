@@ -18,7 +18,7 @@
 // console.log(res);
 
 // !121. Best Time to Buy and Sell Stock
-// var maxProfit = function (prices = [7, 6, 4, 3, 1]) {
+// var maxProfit = function (prices = [7, 1, 5, 3, 6, 4]) {
 //   let minprice = Infinity;
 //   let maxprofit = 0;
 //   for (let i = 0; i < prices.length; i++) {
