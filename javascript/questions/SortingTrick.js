@@ -78,6 +78,19 @@
 
 // console.log(smallerNumbersThanCurrent());
 
-// !179. Largest Number
-var largestNumber = function (nums = [10, 2]) {};
-console.log(largestNumber());
+// !179. Largest Number => With inbuit funciton
+// var largestNumber = function (nums = [3, 30, 34, 5, 9]) {
+//   const strNums = nums.map(String);
+//   strNums.sort((a, b) => (b + a).localeCompare(a + b));
+
+//   if (strNums[0] === "0") {
+//     return "0";
+//   }
+
+//   return strNums.join("");
+// };
+
+// console.log(largestNumber());
+
+// !179. Largest Number => Without inbuit funciton
+// !274. H-Index
