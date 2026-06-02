@@ -6,6 +6,79 @@
   "configurations": [
     {
       "type": "java",
+<<<<<<< HEAD
+      "name": "AdapterDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.AdapterDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "FacadeDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.FacadeDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "CommandDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.CommandDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+=======
+<<<<<<< HEAD
+      "name": "SingletonDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.SingletonDesignPattern",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+=======
+>>>>>>> 37ae369d76b707996046e18332f5284dffe5714b
+      "name": "DecoratorDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.DecoratorDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "ObserverDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.ObserverDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "SingletonDesignPattern",
+      "request": "launch",
+      "mainClass": "DesignPatterns.SingletonDesignPattern",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
+      "name": "Solution",
+      "request": "launch",
+      "mainClass": "Solution",
+      "projectName": "nodejs_e784a3c2"
+>>>>>>> ae5b16ad5e559df1e116a13f1409740cb247933a
+    },
+    {
+      "type": "java",
+      "name": "Solution",
+      "request": "launch",
+      "mainClass": "Solution",
+      "projectName": "JS-Nodejs-MySQL-Notes_1a27aa37"
+    },
+    {
+      "type": "java",
+      "name": "LinkedList",
+      "request": "launch",
+      "mainClass": "javascript.questions.LinkedList",
+      "projectName": "nodejs_e784a3c2"
+    },
+    {
+      "type": "java",
       "name": "LinkedList",
       "request": "launch",
       "mainClass": "javascript.questions.LinkedList",
@@ -78,7 +151,9 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "program": "${workspaceFolder}/javascript/js/array.js"
     }
   ]
