@@ -94,3 +94,82 @@
 
 // !179. Largest Number => Without inbuit funciton
 // !274. H-Index
+// var hIndex = function (citations = [3, 0, 6, 1, 5]) {
+//   citations.sort((a, b) => b - a); // [6,5,3,1,0]
+
+//   let h = 0;
+//   for (let i = 0; i < citations.length; i++) {
+//     if (citations[i] >= i + 1) {
+//       h = i + 1;
+//     } else {
+//       break;
+//     }
+//   }
+
+//   return h;
+// };
+
+// console.log(hIndex());
+
+// !280. Wiggle Sort
+// var wiggleSort = function (nums = [1, 5, 1, 1, 6, 4]) {
+//   for (let i = 0; i < nums.length; i++) {
+//     if (i % 2 === 0) {
+//       if (nums[i] > nums[i + 1]) {
+//         [nums[i], nums[i + 1]] = [nums[i + 1], nums[i]];
+//       }
+//     } else {
+//       if (nums[i] < nums[i + 1]) {
+//         [nums[i], nums[i + 1]] = [nums[i + 1], nums[i]];
+//       }
+//     }
+//   }
+
+//   return nums;
+// };
+
+// console.log(wiggleSort());
+
+// !324. Wiggle Sort II
+// function wiggleSortII(nums = [1, 5, 1, 1, 6, 4]) {
+//   const sorted = [...nums].sort((a, b) => a - b);
+//   const n = nums.length;
+//   let j = Math.floor((n + 1) / 2);
+//   let k = n;
+
+//   for (let i = 0; i < n; i++) {
+//     nums[i] = i % 2 === 0 ? sorted[--j] : sorted[--k];
+//   }
+
+//   return nums;
+// }
+
+// console.log(wiggleSortII());
+
+// !1636. Sort Array by Increasing Frequency
+var frequencySort = function (nums = [4, 1, 1, 2, 2, 3]) {
+  let map = new Map();
+
+  for (let i = 0; i < nums.length; i++) {
+    map.set(nums[i], (map.get(nums[i]) || 0) + 1);
+  }
+  console.log({ map });
+  //   Custom Logic
+  let sortedArr = nums.sort((a, b) => {
+    console.log({ a, b });
+    let freqA = map.get(a);
+    let freqB = map.get(b);
+    console.log({ freqA, freqB });
+    if (freqA !== freqB) {
+      console.log({ diff: freqA - freqB });
+      return freqA - freqB;
+    }
+    return b - a;
+  });
+
+  return sortedArr;
+};
+
+console.log(frequencySort());
+
+// !1337. The K Weakest Rows in a Matrix
