@@ -350,3 +350,290 @@ function print(fn) {
 // }
 
 // print(rotateArray);
+
+// ?STRING
+
+// !125. Valid Palindrome
+// var isPalindrome = function (s = "A man, a plan, a canal: Panama") {
+//   s = s.toLowerCase().replace(/[^a-z0-9]/g, ""); // remove non-alphanumeric
+//   let left = 0;
+//   let right = s.length - 1;
+
+//   while (left < right) {
+//     if (s[left] !== s[right]) return false;
+//     left++;
+//     right--;
+//   }
+//   return true;
+// };
+// console.log(isPalindrome());
+
+// !344. Reverse String
+// var reverseString = function (s = ["h", "e", "l", "l", "o"]) {
+
+// ?with Inbuilt
+//  s.reverse();
+
+// ?Without
+// let reversed = [];
+// for (let i = s.length - 1; i >= 0; i--) {
+//   reversed.push(s[i]);
+// }
+// return reversed;
+
+// ?Do not return anything, modify s in-place instead.
+// let left = 0;
+// let right = s.length - 1;
+// while (left < right) {
+//   [s[left], s[right]] = [s[right], s[left]];
+//   left++;
+//   right--;
+// }
+// console.log(s);
+
+// ?my way
+// let i = 0;
+// while (i < Math.floor(s.length / 2)) {
+//   let left = i;
+//   let right = s.length - 1 - i;
+//   [s[left], s[right]] = [s[right], s[left]];
+//   i++;
+// }
+// console.log(s);
+// };
+
+// console.log(reverseString());
+
+// !345. Reverse Vowels of a String
+// var reverseVowels = function (s = "IceCreAm") {
+//   let arr = s.split("");
+// ? So we can do this with set as well, but includes is O(n) for array and O(1) for set, so better to use set
+// let vowels = new Set(["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]);
+//   let vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"];
+//   let left = 0;
+//   let right = s.length - 1;
+
+//   while (left < right) {
+
+// ? so instead of includes we can use vowels.has(arr[left]) if we use set, which is O(1) instead of O(n) for array includes
+//     while (left < right && !vowels.includes(arr[left])) {
+//       left++;
+//     }
+
+//     while (left < right && !vowels.includes(arr[right])) {
+//       right--;
+//     }
+
+//     if (left < right) {
+//       [arr[left], arr[right]] = [arr[right], arr[left]];
+//       left++;
+//       right--;
+//     }
+//   }
+
+//   return arr.join("");
+// };
+// console.log(reverseVowels());
+
+// !392. Is Subsequence
+// var isSubsequence = function (s = "abc", t = "ahbgdc") {
+//   let left = 0;
+//   let right = 0;
+//   while (left < s.length && right < t.length) {
+//     if (s[left] === t[right]) {
+//       left++;
+//     }
+//     right++;
+//   }
+//   return left === s.length;
+// };
+// console.log(isSubsequence());
+
+// !680. Valid Palindrome II
+// var validPalindrome = function (s = "abcca") {
+//   let left = 0;
+//   let right = s.length - 1;
+
+//   while (left < right) {
+//     if (s[left] !== s[right]) {
+//       return isPalidrone(s, left + 1, right) || isPalidrone(s, left, right - 1);
+//     }
+//     left++;
+//     right--;
+//   }
+
+//   return true;
+// };
+
+// function isPalidrone(s, left, right) {
+//   while (left < right) {
+//     if (s[left] !== s[right]) {
+//       return false;
+//     }
+//     left++;
+//     right--;
+//   }
+//   return true;
+// }
+// console.log(validPalindrome());
+
+// !151. Reverse Words in a String
+// var reverseWords = function (s = "  hello world  ") {
+// ? Inbuilt
+//  const stsr = str.split(" ").reverse().join(" ")
+// ? Without Inbuilt => with extra space
+// let word = "";
+// let words = [];
+// for (let char of s) {
+//   if (char !== " ") {
+//     word += char;
+//   } else if (word) {
+//     words.push(word);
+//     word = "";
+//   }
+// }
+// if (word) words.push(word);
+// // Reverse the array
+// let result = "";
+// for (let i = words.length - 1; i >= 0; i--) {
+//   result += words[i];
+//   if (i > 0) result += " ";
+// }
+// return result;
+// ? Without Inbuilt => Without extra space
+// let word = "";
+// let result = "";
+// for (let i = s.length - 1; i >= 0; i--) {
+//   if (s[i] !== " ") {
+//     word = s[i] + word;
+//   } else if (word) {
+//     result += word + " ";
+//     word = "";
+//   }
+// }
+// console.log({ word });
+// if (word) result += word;
+// return result;
+
+// ?Without Inbuit => Without extra space => with two pointers
+// s = "  hello world  "
+// let left = s.length - 1;
+// let right = s.length - 1;
+// let result = "";
+
+// while (left >= 0) {
+//   if (s[left] === " ") {
+//     right = left - 1;
+//   } else if (left === 0 || s[left - 1] === " ") {
+//     result += s.substring(left, right + 1) + " ";
+//   }
+//   left--;
+// }
+// return result.trim();
+
+// ?Without Inbuit => Without extra space => with two pointers
+// Step 1: Trim and normalize spaces
+// const cleaned = s.trim().replace(/\s+/g, " ");
+// // Step 2: Convert to array and reverse
+// const words = cleaned.split(" ");
+// let left = 0,
+//   right = words.length - 1;
+
+// while (left < right) {
+//   [words[left], words[right]] = [words[right], words[left]];
+//   left++;
+//   right--;
+// }
+
+// return words.join(" ");
+// };
+
+// console.log(reverseWords());
+
+// !242. Valid Anagram
+// var isAnagram = function (s = "rat", t = "cat") {
+// ? Inbuilt Way
+// if (s.length !== t.length) return false;
+// const sortedS = s.split("").sort().join("");
+// const sortedT = t.split("").sort().join("");
+// return sortedS === sortedT;
+// ?Without Inbuilt
+// if (s.length !== t.length) return false;
+// let map = new Map();
+// for (let char of s) {
+//   map.set(char, (map.get(char) || 0) + 1);
+// }
+// for (let char of t) {
+// ?Optimization: If char doesn't exist in map, t has an extra unique character
+// if (!map.has(char)) return false;
+//   map.set(char, map.get(char) - 1);
+//   if (map.get(char) == 0) {
+//     map.delete(char);
+//   }
+// }
+// return map.size === 0 ? true : false;
+// };
+
+// console.log(isAnagram());
+
+// !383. Ransom Note
+// var canConstruct = function (ransomNote = "aaa", magazine = "aab") {
+//   if (ransomNote.length > magazine.length) return false;
+
+//   let map = new Map();
+//   for (let char of magazine) {
+//     map.set(char, (map.get(char) || 0) + 1);
+//   }
+
+//   for (let char of ransomNote) {
+//     if (!map.has(char) || map.get(char) == 0) {
+//       return false;
+//     }
+//     map.set(char, map.get(char) - 1);
+//   }
+
+//   return true;
+// };
+
+// console.log(canConstruct());
+
+// !387. First Unique Character in a String
+// var firstUniqChar = function (s = "loveleetcode") {
+//   if (s.length <= 1) return 0;
+
+//   let map = new Map();
+//   for (let char of s) {
+//     map.set(char, (map.get(char) || 0) + 1);
+//   }
+
+//   for (let i = 0; i < s.length; i++) {
+//     if (map.get(s[i]) === 1) {
+//       return i;
+//     }
+//   }
+//   return -1;
+// };
+
+// console.log(firstUniqChar());
+
+// !49. Group Anagrams
+// var groupAnagrams = function (
+//   strs = ["eat", "tea", "tan", "ate", "nat", "bat"],
+// ) {
+//   let map = new Map();
+
+//   for (let char of strs) {
+//     let sortedChar = char.split("").sort().join("");
+//     if (!map.has(sortedChar)) {
+//       map.set(sortedChar, []);
+//     }
+//     map.get(sortedChar).push(char);
+//   }
+//   let res = [];
+//   for (let [key, value] of map) {
+//     res.push(value);
+//   }
+//   return res;
+// };
+
+// console.log(groupAnagrams());

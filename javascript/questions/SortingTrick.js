@@ -147,29 +147,65 @@
 // console.log(wiggleSortII());
 
 // !1636. Sort Array by Increasing Frequency
-var frequencySort = function (nums = [4, 1, 1, 2, 2, 3]) {
-  let map = new Map();
+// var frequencySort = function (nums = [4, 1, 1, 2, 2, 3]) {
+//   let map = new Map();
 
-  for (let i = 0; i < nums.length; i++) {
-    map.set(nums[i], (map.get(nums[i]) || 0) + 1);
-  }
-  console.log({ map });
-  //   Custom Logic
-  let sortedArr = nums.sort((a, b) => {
-    console.log({ a, b });
-    let freqA = map.get(a);
-    let freqB = map.get(b);
-    console.log({ freqA, freqB });
-    if (freqA !== freqB) {
-      console.log({ diff: freqA - freqB });
-      return freqA - freqB;
-    }
-    return b - a;
-  });
+//   for (let i = 0; i < nums.length; i++) {
+//     map.set(nums[i], (map.get(nums[i]) || 0) + 1);
+//   }
+//   console.log({ map });
+//   //   Custom Logic
+//   let sortedArr = nums.sort((a, b) => {
+//     console.log({ a, b });
+//     let freqA = map.get(a);
+//     let freqB = map.get(b);
+//     console.log({ freqA, freqB });
+//     if (freqA !== freqB) {
+//       console.log({ diff: freqA - freqB });
+//       return freqA - freqB;
+//     }
+//     return b - a;
+//   });
 
-  return sortedArr;
-};
+//   return sortedArr;
+// };
 
-console.log(frequencySort());
+// console.log(frequencySort());
 
 // !1337. The K Weakest Rows in a Matrix
+var kWeakestRows = function (
+  mat = [
+    [1, 1, 0, 0, 0],
+    [1, 1, 1, 1, 0],
+    [1, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0],
+    [1, 1, 1, 1, 1],
+  ],
+  k = 3,
+) {
+  const strength = mat.map((row, index) => {
+    let left = 0;
+    let right = row.length;
+    while (left < right) {
+      const mid = left + Math.floor((right - left) / 2);
+      if (row[mid] === 1) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+
+    return { index, count: left };
+  });
+
+  strength.sort((a, b) => {
+    if (a.count === b.count) {
+      return a.index - b.index;
+    }
+    return a.count - b.count;
+  });
+
+  return strength.slice(0, k).map((item) => item.index);
+};
+
+console.log(kWeakestRows());
