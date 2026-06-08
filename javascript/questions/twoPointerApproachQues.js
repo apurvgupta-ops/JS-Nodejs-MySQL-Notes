@@ -577,24 +577,63 @@ function print(fn) {
 // console.log(isAnagram());
 
 // !383. Ransom Note
-var canConstruct = function (ransomNote = "aaa", magazine = "aab") {
-  if (ransomNote.length > magazine.length) return false;
+// var canConstruct = function (ransomNote = "aaa", magazine = "aab") {
+//   if (ransomNote.length > magazine.length) return false;
 
-  let map = new Map();
-  for (let char of magazine) {
-    map.set(char, (map.get(char) || 0) + 1);
-  }
+//   let map = new Map();
+//   for (let char of magazine) {
+//     map.set(char, (map.get(char) || 0) + 1);
+//   }
 
-  for (let char of ransomNote) {
-    if (!map.has(char) || map.get(char) == 0) {
-      return false;
-    }
-    map.set(char, map.get(char) - 1);
-  }
+//   for (let char of ransomNote) {
+//     if (!map.has(char) || map.get(char) == 0) {
+//       return false;
+//     }
+//     map.set(char, map.get(char) - 1);
+//   }
 
-  return true;
-};
+//   return true;
+// };
 
-console.log(canConstruct());
+// console.log(canConstruct());
 
 // !387. First Unique Character in a String
+// var firstUniqChar = function (s = "loveleetcode") {
+//   if (s.length <= 1) return 0;
+
+//   let map = new Map();
+//   for (let char of s) {
+//     map.set(char, (map.get(char) || 0) + 1);
+//   }
+
+//   for (let i = 0; i < s.length; i++) {
+//     if (map.get(s[i]) === 1) {
+//       return i;
+//     }
+//   }
+//   return -1;
+// };
+
+// console.log(firstUniqChar());
+
+// !49. Group Anagrams
+// var groupAnagrams = function (
+//   strs = ["eat", "tea", "tan", "ate", "nat", "bat"],
+// ) {
+//   let map = new Map();
+
+//   for (let char of strs) {
+//     let sortedChar = char.split("").sort().join("");
+//     if (!map.has(sortedChar)) {
+//       map.set(sortedChar, []);
+//     }
+//     map.get(sortedChar).push(char);
+//   }
+//   let res = [];
+//   for (let [key, value] of map) {
+//     res.push(value);
+//   }
+//   return res;
+// };
+
+// console.log(groupAnagrams());
