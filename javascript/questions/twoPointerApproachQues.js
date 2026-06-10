@@ -637,3 +637,45 @@ function print(fn) {
 // };
 
 // console.log(groupAnagrams());
+
+// !451. Sort Characters By Frequency
+// var frequencySort = function (s = "tree") {
+// ? With BuitIn
+// let result = s.split("").sort().join("");
+
+// ? With Some BuitIn
+// let map = new Map();
+// for (let char of s) {
+//   map.set(char, (map.get(char) || 0) + 1);
+// }
+// let arr = Array.from(map.entries());
+// console.log({ arr });
+// arr.sort((a, b) => b[1] - a[1]);
+// let result = "";
+// for (let [char, freq] of arr) {
+//   result += char.repeat(freq);
+// }
+// return result;
+// };
+
+// console.log(frequencySort());
+
+// !1347. Minimum Number of Steps to Make Two Strings Anagram
+// var minSteps = function (s = "bab", t = "aba") {
+//   let map = new Map();
+//   for (let char of s) {
+//     map.set(char, (map.get(char) || 0) + 1);
+//   }
+
+//   let steps = 0;
+//   for (let char of t) {
+//     if (!map.has(char) || map.get(char) == 0) {
+//       steps++;
+//     } else {
+//       map.set(char, map.get(char) - 1);
+//     }
+//   }
+//   return steps;
+// };
+
+// console.log(minSteps());

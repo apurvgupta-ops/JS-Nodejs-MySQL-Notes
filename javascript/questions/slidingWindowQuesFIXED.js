@@ -394,3 +394,22 @@ function print(fn) {
 // }
 
 // console.log(distinctSubArrSum());
+
+// !3. Longest Substring Without Repeating Characters
+// var lengthOfLongestSubstring = function (s = "abcabcbb") {
+//   let seen = new Map();
+//   let left = 0;
+//   let maxlen = 0;
+//   for (let right = 0; right < s.length; right++) {
+//     if (seen.has(s[right]) && seen.get(s[right]) >= left) {
+//       left = seen.get(s[right]) + 1;
+//     }
+
+//     seen.set(s[right], right);
+//     maxlen = Math.max(maxlen, right - left + 1);
+//   }
+//   return maxlen;
+// };
+// console.log(lengthOfLongestSubstring());
+
+// !76. Minimum Window Substring
