@@ -130,3 +130,29 @@
 //   return false;
 // };
 // console.log(find132pattern());
+
+// !20. Valid Parentheses
+// var isValid = function (s = "([)]") {
+//   let stack = [];
+//   let map = new Map([
+//     ["(", ")"],
+//     ["[", "]"],
+//     ["{", "}"],
+//   ]);
+
+//   for (let char of s) {
+//     if (map.has(char)) {
+//       stack.push(char);
+//     } else {
+//       let last = stack.pop();
+//       if (map.get(last) !== char) {
+//         return false;
+//       }
+//     }
+//   }
+
+//   return stack.length === 0;
+// };
+// console.log(isValid());
+
+// !394. Decode String
