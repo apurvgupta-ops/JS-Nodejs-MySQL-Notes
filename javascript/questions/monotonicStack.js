@@ -184,13 +184,95 @@
 
 // console.log(decodeString());
 // !1081. Smallest Subsequence of Distinct Characters
-var smallestSubsequence = function (s = "bcabc") {};
+// var smallestSubsequence = function (s = "bcabc") {
+//   let map = new Map();
+//   for (let char of s) {
+//     map.set(char, (map.get(char) || 0) + 1);
+//   }
+//   let stack = [];
+//   let inStack = new Set();
+
+//   for (let char of s) {
+//     map.set(char, map.get(char) - 1);
+
+//     if (inStack.has(char)) {
+//       continue;
+//     }
+
+//     while (
+//       stack.length > 0 &&
+//       stack[stack.length - 1] > char &&
+//       map.get(stack[stack.length - 1]) > 0
+//     ) {
+//       let pop = stack.pop();
+//       inStack.delete(pop);
+//     }
+
+//     stack.push(char);
+//     inStack.add(char);
+//   }
+
+//   return stack.join("");
+// };
 
 // !316. Remove Duplicate Letters
-var removeDuplicateLetters = function (s = "bcabc") {};
+// var removeDuplicateLettersInLexicographicallyOrder = function (s = "cbacdcbc") {
+//   let map = new Map();
+//   for (let char of s) {
+//     map.set(char, (map.get(char) || 0) + 1);
+//   }
+//   let stack = [];
+//   let inStack = new Set();
 
-// !1249. Minimum Remove to Make Valid Parentheses
-var minRemoveToMakeValid = function (s = "lee(t(c)o)de)") {};
+//   for (let char of s) {
+//     map.set(char, map.get(char) - 1);
+
+//     if (inStack.has(char)) {
+//       continue;
+//     }
+
+//     while (
+//       stack.length > 0 &&
+//       stack[stack.length - 1] > char &&
+//       map.get(stack[stack.length - 1]) > 0
+//     ) {
+//       let pop = stack.pop();
+//       inStack.delete(pop);
+//     }
+
+//     stack.push(char);
+//     inStack.add(char);
+//   }
+
+//   return stack.join("");
+// };
+
+// console.log(removeDuplicateLettersInLexicographicallyOrder());
+
+// !1249. Minimum Remove to Make Valid Parentheses : saving index
+// var minRemoveToMakeValid = function (s = "lee(t(c)o)de)") {
+//   let stack = [];
+//   let arr = s.split("");
+
+//   for (let i = 0; i < arr.length; i++) {
+//     if (arr[i] === "(") {
+//       stack.push(i);
+//     } else if (arr[i] === ")") {
+//       if (stack.length > 0) {
+//         stack.pop();
+//       } else {
+//         arr[i] = "";
+//       }
+//     }
+//   }
+
+//   while (stack.length > 0) {
+//     let idx = stack.pop();
+//     arr[idx] = "";
+//   }
+
+//   return arr.join("");
+// };
 
 // !856. Score of Parentheses
 // var scoreOfParentheses = function (s = "(()(()))") {
