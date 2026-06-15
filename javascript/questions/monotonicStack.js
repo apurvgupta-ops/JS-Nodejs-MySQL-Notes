@@ -65,7 +65,7 @@
 
 // console.log(removeDuplicates());
 
-// !739. Daily Temperatures
+// !739. Daily Temperatures : saving index
 // var dailyTemperatures = function (temperatures) {
 //   let stack = [];
 //   let res = new Array(temperatures.length).fill(0);
@@ -130,3 +130,82 @@
 //   return false;
 // };
 // console.log(find132pattern());
+
+// !20. Valid Parentheses
+// var isValid = function (s = "([)]") {
+//   let stack = [];
+//   let map = new Map([
+//     ["(", ")"],
+//     ["[", "]"],
+//     ["{", "}"],
+//   ]);
+
+//   for (let char of s) {
+//     if (map.has(char)) {
+//       stack.push(char);
+//     } else {
+//       let last = stack.pop();
+//       if (map.get(last) !== char) {
+//         return false;
+//       }
+//     }
+//   }
+
+//   return stack.length === 0;
+// };
+// console.log(isValid());
+
+// !394. Decode String
+// var decodeString = function (s = "2[a3[c2[x]]y]") {
+//   let stack = [];
+//   let numStack = [];
+//   let currentNum = 0;
+//   let currentStr = "";
+
+//   for (let char of s) {
+//     if (!isNaN(char)) {
+//       currentNum = currentNum * 10 + parseInt(char);
+//     } else if (char === "[") {
+//       numStack.push(currentNum);
+//       stack.push(currentStr);
+//       currentNum = 0;
+//       currentStr = "";
+//     } else if (char === "]") {
+//       let repeatTimes = numStack.pop();
+//       let prevStr = stack.pop();
+//       currentStr = prevStr + currentStr.repeat(repeatTimes);
+//     } else {
+//       currentStr += char;
+//     }
+//   }
+
+//   return currentStr;
+// };
+
+// console.log(decodeString());
+// !1081. Smallest Subsequence of Distinct Characters
+var smallestSubsequence = function (s = "bcabc") {};
+
+// !316. Remove Duplicate Letters
+var removeDuplicateLetters = function (s = "bcabc") {};
+
+// !1249. Minimum Remove to Make Valid Parentheses
+var minRemoveToMakeValid = function (s = "lee(t(c)o)de)") {};
+
+// !856. Score of Parentheses
+// var scoreOfParentheses = function (s = "(()(()))") {
+//   let stack = [0];
+
+//   for (let char of s) {
+//     if (char === "(") {
+//       stack.push(0);
+//     } else {
+//       let topEle = stack.pop();
+//       stack[stack.length - 1] += topEle === 0 ? 1 : 2 * topEle;
+//     }
+//   }
+
+//   return stack[0];
+// };
+
+// console.log(scoreOfParentheses());

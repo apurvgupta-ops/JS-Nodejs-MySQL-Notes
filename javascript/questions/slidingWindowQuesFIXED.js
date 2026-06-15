@@ -413,3 +413,43 @@ function print(fn) {
 // console.log(lengthOfLongestSubstring());
 
 // !76. Minimum Window Substring
+// var minWindow = function (s, t) {
+//   let tmap = new Map();
+//   let wmap = new Map();
+//   let left = 0;
+//   let minlen = Infinity;
+//   let start = 0;
+
+//   for (let ch of t) {
+//     tmap.set(ch, (tmap.get(ch) || 0) + 1);
+//   }
+
+//   for (let right = 0; right < s.length; right++) {
+//     wmap.set(s[right], (wmap.get(s[right]) || 0) + 1);
+
+//     while (isContain(tmap, wmap)) {
+//       let len = right - left + 1;
+//       if (len < minlen) {
+//         minlen = len;
+//         start = left;
+//       }
+//       wmap.set(s[left], wmap.get(s[left]) - 1);
+//       if (wmap.get(s[left]) === 0) wmap.delete(s[left]);
+//       left++;
+//     }
+//   }
+
+//   return minlen === Infinity ? "" : s.substring(start, start + minlen);
+// };
+
+// function isContain(tmap, wmap) {
+//   for (let [key, val] of tmap) {
+//     if (!wmap.has(key) || wmap.get(key) < val) {
+//       return false;
+//     }
+//   }
+//   return true;
+// }
+// console.log(minWindow("ADOBECODEBANC", "ABC"));
+
+// !2067. Equal Count Substrings
