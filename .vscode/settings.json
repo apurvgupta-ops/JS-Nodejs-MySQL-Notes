@@ -7,5 +7,6 @@
     "scminput": false,
     "java": true
   },
-  "java.debug.settings.onBuildFailureProceed": true
+  "java.debug.settings.onBuildFailureProceed": true,
+  "java.compile.nullAnalysis.mode": "automatic"
 }
