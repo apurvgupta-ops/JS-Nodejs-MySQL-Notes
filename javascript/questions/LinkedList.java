@@ -61,7 +61,8 @@ public class LinkedList {
             return;
         }
 
-        // Case C: Search for the listnode to delete while tracking its previous listnode
+        // Case C: Search for the listnode to delete while tracking its previous
+        // listnode
         ListNode current = head;
         ListNode prev = null;
 
@@ -136,7 +137,7 @@ public class LinkedList {
         current.next = newListNode;
     }
 
-    // !206  Reverse linked List
+    // !206 Reverse linked List
     public void reverse() {
         ListNode prev = null;
         ListNode next = null;
@@ -178,8 +179,43 @@ public class LinkedList {
         return mergedList;
     }
 
+    // 1->2->3->4->5->6->null
+    // left =2, right =5
+    // 1->|2->3->4->5|->6->null
+    // so left is on 2nd node and right is on 5th node.
+    // so new linked list is => 1->5->4->3->2->6->null
     // !92. Reverse Sublist (Reverse Linked List II)
-    // 5. Display the elements of the Linked List
+    public static LinkedList reverseLinkedList2(LinkedList list, int left, int right) {
+
+        // Edge case check: list is empty or no structural swap needed
+        if (list == null || list.head == null || left == right) {
+            return list;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = list.head;
+
+        ListNode prevNode = dummy;
+
+        for (int i = 0; i < left - 1; i++) {
+            prevNode = prevNode.next;
+        }
+
+        // current Node is pointing to the absolute start of the sublist
+        ListNode currNode = prevNode.next; // Now current Node is pointing to prevNode next node which is 2 in our case;
+
+        for (int i = 0; i < right - left; i++) {
+            ListNode nextNode = currNode.next;
+            currNode.next = nextNode.next;
+            nextNode.next = prevNode.next;
+            prevNode.next = nextNode;
+        }
+
+        list.head = dummy.next;
+        return list;
+
+    }
+
+    // !5. Display the elements of the Linked List
     // Time Complexity: O(n)
     public void printList() {
         if (head == null) {
@@ -204,9 +240,9 @@ public class LinkedList {
         list.insertAtTail(10);
         list.insertAtTail(20);
         list.insertAtTail(30);
-        list2.insertAtTail(40);
-        list2.insertAtTail(50);
-        list2.insertAtTail(60);
+        list.insertAtTail(40);
+        list.insertAtTail(50);
+        list.insertAtTail(60);
         // list.printList(); // Output: 10 -> 20 -> 30 -> null
 
         // System.out.println("\n--- Inserting at Head (40) ---");
@@ -230,5 +266,9 @@ public class LinkedList {
         // System.out.println("\n Merge 2 sorted linked list");
         // list.mergeLinkedList(list, list2);
         // list.printList();
+
+        System.out.println("\n Reverse the linked list from position 2 to 5");
+        list.reverseLinkedList2(list, 2, 5);
+        list.printList(); // Output: 50 -> 10 -> null
     }
 }
