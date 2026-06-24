@@ -18,7 +18,7 @@
 // };
 // ? now using KMP algorithm
 
-function computeLPSArray(pattern) {
+function computeLPSArray(pattern = "leetcodeetcode") {
   let m = pattern.length;
   let lps = new Array(m).fill(0);
   let prefix = 0; // length of the previous longest prefix suffix
@@ -41,6 +41,8 @@ function computeLPSArray(pattern) {
   console.log({ lps });
   return lps;
 }
+
+console.log(computeLPSArray());
 
 // var strStrKMP = function (haystack, needle) {
 //   if (needle === "") return 0;
@@ -138,3 +140,19 @@ function computeLPSArray(pattern) {
 // };
 
 // console.log(rotateString());
+
+// !1408. String Matching in an Array
+var stringMatching = function (words) {
+  let result = [];
+  for (let i = 0; i < words.length; i++) {
+    for (let j = 0; j < words.length; j++) {
+      if (i !== j && words[i].includes(words[j])) {
+        result.push(words[j]);
+      }
+    }
+  }
+  // return [...new Set(result)]; // Remove duplicates
+  return result;
+};
+
+console.log(stringMatching(["mass", "as", "hero", "superhero"]));
