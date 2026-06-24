@@ -215,6 +215,27 @@ public class LinkedList {
 
     }
 
+    // 1->2->3->4->5->6->null
+    // out => 2 -> 1 -> 4 -> 3 -> 6 -> 5 -> null
+    // !24. Swap Nodes in Pairs
+    public static ListNode swapParLinkedList(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        int k = 2;// Because question mentioned we have to swap adajcent nodes
+
+        ListNode prev = dummy.next;
+
+        while (prev.next != null && prev.next.next != null) {
+            ListNode firstNode = prev.next;
+            ListNode secondNode = firstNode.next;
+
+            // Now i need to swap
+
+        }
+
+        return dummy.next;
+    }
+
     // !5. Display the elements of the Linked List
     // Time Complexity: O(n)
     public void printList() {
