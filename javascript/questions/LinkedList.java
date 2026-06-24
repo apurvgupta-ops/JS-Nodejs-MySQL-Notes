@@ -230,7 +230,6 @@ public class LinkedList {
             ListNode secondNode = firstNode.next;
 
             // Now i need to swap
-
         }
 
         return dummy.next;
