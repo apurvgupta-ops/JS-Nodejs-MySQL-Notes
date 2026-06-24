@@ -266,7 +266,6 @@ public class LinkedList {
         // System.out.println("\n Merge 2 sorted linked list");
         // list.mergeLinkedList(list, list2);
         // list.printList();
-
         System.out.println("\n Reverse the linked list from position 2 to 5");
         list.reverseLinkedList2(list, 2, 5);
         list.printList(); // Output: 50 -> 10 -> null
