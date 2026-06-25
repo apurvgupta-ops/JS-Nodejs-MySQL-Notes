@@ -218,8 +218,8 @@ public class LinkedList {
     // 1->2->3->4->5->6->null
     // out => 2 -> 1 -> 4 -> 3 -> 6 -> 5 -> null
     // !24. Swap Nodes in Pairs
-    // ? Recursive approach to swap nodes in pairs
     public ListNode swapParLinkedList(ListNode head) {
+        // ? Recursive approach to swap nodes in pairs
         // Base case: If the list is empty or has only one node, return the head
         // if (head == null || head.next == null) {
         // return head;
@@ -357,6 +357,5 @@ public class LinkedList {
         System.out.println("\n Reverse the linked list in k group");
         list.head = list.reversekGroup(list.head, 2);
         list.printList();
-
     }
 }
