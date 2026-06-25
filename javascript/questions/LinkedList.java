@@ -218,23 +218,81 @@ public class LinkedList {
     // 1->2->3->4->5->6->null
     // out => 2 -> 1 -> 4 -> 3 -> 6 -> 5 -> null
     // !24. Swap Nodes in Pairs
-    public static ListNode swapParLinkedList(ListNode head) {
+    // ? Recursive approach to swap nodes in pairs
+    public ListNode swapParLinkedList(ListNode head) {
+        // Base case: If the list is empty or has only one node, return the head
+        // if (head == null || head.next == null) {
+        // return head;
+        // }
+
+        // // Initialize pointers for the first two nodes
+        // ListNode firstNode = head;
+        // ListNode secondNode = head.next;
+
+        // // Swap the first two nodes
+        // firstNode.next = swapParLinkedList(secondNode.next);
+        // secondNode.next = firstNode;
+
+        // // Return the new head of the swapped pair
+        // return secondNode;
+
+        // ? Iterative approach to swap nodes in pairs
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        int k = 2;// Because question mentioned we have to swap adajcent nodes
+        ListNode current = dummy;
 
-        ListNode prev = dummy.next;
+        while (current.next != null && current.next.next != null) {
+            ListNode firstNode = current.next;
+            ListNode secondNode = current.next.next;
 
-        while (prev.next != null && prev.next.next != null) {
-            ListNode firstNode = prev.next;
-            ListNode secondNode = firstNode.next;
+            // Swapping the nodes
+            firstNode.next = secondNode.next;
+            secondNode.next = firstNode;
+            current.next = secondNode;
 
-            // Now i need to swap
-
+            // Move to the next pair
+            current = firstNode;
         }
-
         return dummy.next;
     }
+
+    // dummy/prev->1->2->3->4->5->null, k=2
+    // prev->2->1->3->4->5->null
+    // out => 0-> 2->1->4->3->5->NULL
+    // !25 Reverse Nodes in k-Group
+    public ListNode reversekGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        // Count total nodes
+        ListNode curr = dummy;
+        int count = 0;
+        while (curr.next != null) {
+            curr = curr.next;
+            count++; // 5
+        }
+
+        ListNode prev = dummy;
+        while (count >= k) {
+            curr = prev.next;
+            ListNode nextNode = curr.next;
+
+            for (int i = 1; i < k; i++) {
+                curr.next = nextNode.next;
+                nextNode.next = prev.next;
+                prev.next = nextNode;
+                nextNode = curr.next;
+            }
+            prev = curr;
+            count -= k;
+        }
+        return dummy.next;
+    }
+
+    // !328. Odd Even Linked List
+    // !141. Linked List Cycle
+    // !83. Remove Duplicates from Sorted List
+    // !19. Remove Nth Node From End of List
 
     // !5. Display the elements of the Linked List
     // Time Complexity: O(n)
@@ -288,8 +346,17 @@ public class LinkedList {
         // list.mergeLinkedList(list, list2);
         // list.printList();
 
-        System.out.println("\n Reverse the linked list from position 2 to 5");
-        list.reverseLinkedList2(list, 2, 5);
-        list.printList(); // Output: 50 -> 10 -> null
+        // System.out.println("\n Reverse the linked list from position 2 to 5");
+        // list.reverseLinkedList2(list, 2, 5);
+        // list.printList();
+
+        System.out.println("\n Swap the linked list in pairs");
+        list.head = list.swapParLinkedList(list.head);
+        list.printList();
+
+        System.out.println("\n Reverse the linked list in k group");
+        list.head = list.reversekGroup(list.head, 2);
+        list.printList();
+
     }
 }
