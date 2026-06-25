@@ -228,14 +228,11 @@ public class LinkedList {
         // // Initialize pointers for the first two nodes
         // ListNode firstNode = head;
         // ListNode secondNode = head.next;
-
         // // Swap the first two nodes
         // firstNode.next = swapParLinkedList(secondNode.next);
         // secondNode.next = firstNode;
-
         // // Return the new head of the swapped pair
         // return secondNode;
-
         // ? Iterative approach to swap nodes in pairs
         ListNode dummy = new ListNode(0);
         dummy.next = head;
@@ -293,7 +290,6 @@ public class LinkedList {
     // !141. Linked List Cycle
     // !83. Remove Duplicates from Sorted List
     // !19. Remove Nth Node From End of List
-
     // !5. Display the elements of the Linked List
     // Time Complexity: O(n)
     public void printList() {
@@ -345,11 +341,9 @@ public class LinkedList {
         // System.out.println("\n Merge 2 sorted linked list");
         // list.mergeLinkedList(list, list2);
         // list.printList();
-
         // System.out.println("\n Reverse the linked list from position 2 to 5");
         // list.reverseLinkedList2(list, 2, 5);
         // list.printList();
-
         System.out.println("\n Swap the linked list in pairs");
         list.head = list.swapParLinkedList(list.head);
         list.printList();
