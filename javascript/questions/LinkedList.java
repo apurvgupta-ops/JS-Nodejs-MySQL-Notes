@@ -289,10 +289,148 @@ public class LinkedList {
         return dummy.next;
     }
 
+    // dummy/prev->1->2->3->4->5->null
+    // first Node count as ODD node
+    // out => dummy->1->3->5->2->4->null
     // !328. Odd Even Linked List
-    // !141. Linked List Cycle
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode odd = head;
+        ListNode even = head.next;
+
+        ListNode evenHead = even;
+
+        while (even != null && even.next != null) {
+            odd.next = even.next;
+            odd = odd.next;
+
+            even.next = odd.next;
+            even = even.next;
+        }
+
+        odd.next = evenHead;
+
+        return head;
+
+    }
+
+    // !Create a cycle in the linked list for testing purposes
+    public void createCycle(int pos) {
+        if (pos < 0) {
+            return; // No cycle to create
+        }
+
+        ListNode cycleNode = null;
+        ListNode current = head;
+        int index = 1;
+
+        while (current != null) {
+            if (index == pos) {
+                cycleNode = current; // Node where the cycle will start
+            }
+            if (current.next == null) {
+                current.next = cycleNode; // Create the cycle
+                return;
+            }
+            current = current.next;
+            index++;
+        }
+    }
+
+    // dummy/prev->1->2->3->4->5->null , int pos = 2;
+    // pos 2 => Means last node of 5 is connected to 2nd node;
+    // !141. LinkedList Cycle
+    public Boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // dummy/prev->1->1->3->3->5->null
     // !83. Remove Duplicates from Sorted List
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        ListNode curr = prev.next;
+        while (curr != null && curr.next != null) {
+            if (curr.data == curr.next.data) {
+                curr.next = curr.next.next;
+            } else {
+                prev = curr;
+                curr = curr.next;
+            }
+        }
+
+        return dummy.next;
+
+    }
+
+    // dummy/prev->1->2->3->4->5->null, n=2
+    // dummy/prev->1->2->3->5->null
     // !19. Remove Nth Node From End of List
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        if (head == null || n <= 0) {
+            return head; // Edge case: empty list or invalid n
+        }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode first = dummy;
+        ListNode curr = dummy;
+
+        int length = 0;
+        while (first.next != null && first != null) {
+            length++;
+            first = first.next;
+        }
+
+        for (int i = 1; i <= length - n; i++) {
+            curr = curr.next;
+        }
+        curr.next = curr.next.next;
+
+        return dummy.next;
+
+    }
+
+    // dummy/prev->1->2->3->4->5->null
+    // dummy/prev->3->4->5->null
+    // !876. Middle of the Linked List
+    public ListNode middleNode(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    // !142. Linked List Cycle II
+    public ListNode detectCycle(ListNode head) {
+
+    }
 
     // !5. Display the elements of the Linked List
     // Time Complexity: O(n)
@@ -350,12 +488,36 @@ public class LinkedList {
         // list.reverseLinkedList2(list, 2, 5);
         // list.printList();
 
-        System.out.println("\n Swap the linked list in pairs");
-        list.head = list.swapParLinkedList(list.head);
+        // System.out.println("\n Swap the linked list in pairs");
+        // list.head = list.swapParLinkedList(list.head);
+        // list.printList();
+
+        // System.out.println("\n Reverse the linked list in k group");
+        // list.head = list.reversekGroup(list.head, 2);
+        // list.printList();
+
+        // System.out.println("\n Odd Even linked list");
+        // list.head = list.oddEvenList(list.head);
+        // list.printList();
+
+        // System.out.println("\n Create a cycle in the linked list at position 2");
+        // list.createCycle(2);
+
+        // System.out.println("\n Check if linked list has cycle");
+        // boolean hasCycle = list.hasCycle(list.head);
+        // System.out.println("Has Cycle: " + hasCycle);
+
+        // System.out.println("\n Remove duplicates from sorted linked list");
+        // list.deleteDuplicates(list.head);
+        // list.printList();
+
+        // System.out.println("\n Remove Nth node from end of linked list");
+        // list.removeNthFromEnd(list.head, 2);
+        // list.printList();
+
+        System.out.println("\n Middle node to end of linked list");
+        list.head = list.middleNode(list.head);
         list.printList();
 
-        System.out.println("\n Reverse the linked list in k group");
-        list.head = list.reversekGroup(list.head, 2);
-        list.printList();
     }
 }
