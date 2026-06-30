@@ -425,8 +425,25 @@ public class LinkedList {
     }
 
     // !142. Linked List Cycle II
-    public ListNode detectCycle(ListNode head) {
+    // public ListNode detectCycle(ListNode head) {
 
+    // }
+
+    // !160. Intersection of Two Linked Lists
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        ListNode pointerA = headA;
+        ListNode pointerB = headB;
+
+        while (pointerA != pointerB) {
+            pointerA = (pointerA == null) ? headB : pointerA.next;
+            pointerB = (pointerB == null) ? headA : pointerB.next;
+        }
+
+        return pointerA; // or pointerB, both are the same at intersection
     }
 
     // !5. Display the elements of the Linked List
@@ -454,9 +471,9 @@ public class LinkedList {
         list.insertAtTail(10);
         list.insertAtTail(20);
         list.insertAtTail(30);
-        list.insertAtTail(40);
-        list.insertAtTail(50);
-        list.insertAtTail(60);
+        list2.insertAtTail(20);
+        list2.insertAtTail(50);
+        list2.insertAtTail(60);
         // list.printList(); // Output: 10 -> 20 -> 30 -> null
 
         // System.out.println("\n--- Inserting at Head (40) ---");
@@ -511,9 +528,17 @@ public class LinkedList {
         // list.removeNthFromEnd(list.head, 2);
         // list.printList();
 
-        System.out.println("\n Middle node to end of linked list");
-        list.head = list.middleNode(list.head);
-        list.printList();
+        // System.out.println("\n Middle node to end of linked list");
+        // list.head = list.middleNode(list.head);
+        // list.printList();
+
+        System.out.println("\n  Intersection of Two Linked Lists");
+        ListNode intersection = list.getIntersectionNode(list.head, list2.head);
+        if (intersection != null) {
+            System.out.println("Intersection at node with value: " + intersection.data);
+        } else {
+            System.out.println("No intersection found.");
+        }
 
     }
 }
