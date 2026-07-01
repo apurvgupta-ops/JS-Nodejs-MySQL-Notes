@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.crud.fullstack;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class FullstackApplicationTests {
 
 	@Test
 	void contextLoads() {
