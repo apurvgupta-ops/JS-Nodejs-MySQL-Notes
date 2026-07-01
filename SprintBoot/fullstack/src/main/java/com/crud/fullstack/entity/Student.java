@@ -1,24 +1,23 @@
 package com.crud.fullstack.entity;
 
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class Student {
 
     @Id
-    private int id;
+    private Long id;
     private String name;
     private String email;
     private String phone;
     private int rollNo;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

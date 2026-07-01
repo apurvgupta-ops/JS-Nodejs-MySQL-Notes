@@ -1,13 +1,20 @@
 package com.crud.fullstack.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import com.crud.fullstack.entity.Student;
 
-public class StudentRepository {
+// @Component
+// @Repository
+public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    public void save(Student student) {
-        // Logic to save the student to a database or perform other operations
-        // For example, you might use an ORM framework to persist the student entity
+    // public Student save(Student student) {
+    // // Logic to save the student to a database or perform other operations
+    // // For example, you might use an ORM framework to persist the student entity
 
-        System.out.println("Saving student: " + student);
-    }
+    // System.out.println("Saving student: " + student);
+    // return student;
+    // }
 }
