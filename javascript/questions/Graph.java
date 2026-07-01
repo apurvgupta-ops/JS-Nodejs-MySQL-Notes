@@ -313,20 +313,28 @@ class BFSGraphRecursive {
         queue.add(rootVertex);
         visited.add(rootVertex);
 
-        while (!queue.isEmpty()) {
-            int currentElement = queue.poll(); // Dequeue the front element
-            System.out.print(currentElement + " ");
+        BFSUtil(queue, visited);
+    }
 
-            // Add all unvisited neighbors to the queue
-            for (int neighbor : adjList.getOrDefault(currentElement, new ArrayList<>())) {
-                if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    queue.add(neighbor);
-                }
+    private void BFSUtil(LinkedList<Integer> queue, Set<Integer> visited) {
+        if (queue.isEmpty()) {
+            return;
+        }
+
+        int currentElement = queue.poll(); // Dequeue the front element
+        System.out.print(currentElement + " ");
+
+        // Add all unvisited neighbors to the queue
+        for (int neighbor : adjList.getOrDefault(currentElement, new ArrayList<>())) {
+            if (!visited.contains(neighbor)) {
+                visited.add(neighbor);
+                queue.add(neighbor);
             }
         }
-        System.out.println();
+        // Recursive call for the next element in the queue
+        BFSUtil(queue, visited);
     }
+
 }
 
 // Graphs via Adjacency Matrix
