@@ -245,6 +245,90 @@ class DFSGraphRecursive {
     }
 }
 
+class BFSGraphIterative {
+    private Map<Integer, List<Integer>> adjList;
+
+    public BFSGraphIterative() {
+        this.adjList = new HashMap<>();
+    }
+
+    public void addEdgesAndVertexs(int source, int destination) {
+        // ?Adding Vertex
+        adjList.putIfAbsent(source, new ArrayList<>());
+        adjList.putIfAbsent(destination, new ArrayList<>());
+
+        // ?Adding Edges
+        adjList.get(source).add(destination);
+        adjList.get(destination).add(source);
+    }
+
+    // !BFS Implementation
+    public void BFS(int rootVertex) {
+        Set<Integer> visited = new HashSet<>();
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        // ?Initialize by adding the starting vertex to the queue
+        queue.add(rootVertex);
+        visited.add(rootVertex);
+
+        while (!queue.isEmpty()) {
+            int currentElement = queue.poll(); // Dequeue the front element
+            System.out.print(currentElement + " ");
+
+            // Add all unvisited neighbors to the queue
+            for (int neighbor : adjList.getOrDefault(currentElement, new ArrayList<>())) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
+        System.out.println();
+    }
+}
+
+class BFSGraphRecursive {
+    private Map<Integer, List<Integer>> adjList;
+
+    public BFSGraphRecursive() {
+        this.adjList = new HashMap<>();
+    }
+
+    public void addEdgesAndVertexs(int source, int destination) {
+        // ?Adding Vertex
+        adjList.putIfAbsent(source, new ArrayList<>());
+        adjList.putIfAbsent(destination, new ArrayList<>());
+
+        // ?Adding Edges
+        adjList.get(source).add(destination);
+        adjList.get(destination).add(source);
+    }
+
+    // !BFS Implementation
+    public void BFS(int rootVertex) {
+        Set<Integer> visited = new HashSet<>();
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        // ?Initialize by adding the starting vertex to the queue
+        queue.add(rootVertex);
+        visited.add(rootVertex);
+
+        while (!queue.isEmpty()) {
+            int currentElement = queue.poll(); // Dequeue the front element
+            System.out.print(currentElement + " ");
+
+            // Add all unvisited neighbors to the queue
+            for (int neighbor : adjList.getOrDefault(currentElement, new ArrayList<>())) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
+        System.out.println();
+    }
+}
+
 // Graphs via Adjacency Matrix
 public class Graph {
 
@@ -326,6 +410,40 @@ public class Graph {
         // Performing DFS traversal starting from vertex 0
         System.out.println("\nDFS Traversal starting from vertex 0:");
         graph.DFSRecursive(0);
+
+    }
+
+    // !BFS Graph Iterative Implementation
+    public static void main5(String[] args) {
+        BFSGraphIterative graph = new BFSGraphIterative();
+
+        // Adding edges and vertices to the graph
+        System.out.println("Adding edges and vertices to the graph: BFS Graph");
+        graph.addEdgesAndVertexs(0, 1);
+        graph.addEdgesAndVertexs(0, 2);
+        graph.addEdgesAndVertexs(1, 2);
+        graph.addEdgesAndVertexs(2, 3);
+
+        // Performing BFS traversal starting from vertex 0
+        System.out.println("\nBFS Traversal starting from vertex 0:");
+        graph.BFS(0);
+
+    }
+
+    // !BFS Graph Recursive Implementation
+    public static void main6(String[] args) {
+        BFSGraphRecursive graph = new BFSGraphRecursive();
+
+        // Adding edges and vertices to the graph
+        System.out.println("Adding edges and vertices to the graph: BFS Graph Recursive");
+        graph.addEdgesAndVertexs(0, 1);
+        graph.addEdgesAndVertexs(0, 2);
+        graph.addEdgesAndVertexs(1, 2);
+        graph.addEdgesAndVertexs(2, 3);
+
+        // Performing BFS traversal starting from vertex 0
+        System.out.println("\nBFS Traversal starting from vertex 0:");
+        graph.BFS(0);
 
     }
 }
