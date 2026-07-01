@@ -1,9 +1,14 @@
 
 package javascript.questions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+import java.util.LinkedList;
+import java.util.List;
 
 class AdjacencyMatrix {
     private int[][] adjacencyMatrix;
@@ -153,9 +158,97 @@ class AdjacencyList {
     }
 }
 
+class DFSGraphIterative {
+    private Map<Integer, List<Integer>> adjList;
+
+    public DFSGraphIterative() {
+        this.adjList = new HashMap<>();
+    }
+
+    public void addEdgesAndVertexs(int source, int destination) {
+        // ?Adding Vertex
+        adjList.putIfAbsent(source, new ArrayList<>());
+        adjList.putIfAbsent(destination, new ArrayList<>());
+
+        // ?Adding Edges
+        adjList.get(source).add(destination);
+        adjList.get(destination).add(source);
+    }
+
+    // !Iterative Approach
+    public void DFSIterative(int rootVertex) {
+        Set<Integer> visited = new HashSet<>();
+        Stack<Integer> stack = new Stack<>();
+
+        // ?Initialize by pushing the starting vertex
+        stack.push(rootVertex);
+
+        while (!stack.isEmpty()) {
+            int currentElement = stack.pop();
+
+            if (!visited.contains(currentElement)) {
+                // !PRINT the element here as it's being traversed
+                System.out.print(currentElement + " ");
+                visited.add(currentElement);
+
+                // Add all unvisited neighbors to the stack
+                List<Integer> unVisitedNodes = adjList.getOrDefault(currentElement, new ArrayList<>());
+                for (int unVisited : unVisitedNodes) {
+                    if (!visited.contains(unVisited)) {
+                        stack.push(unVisited);
+                    }
+                }
+            }
+
+        }
+        System.out.println();
+
+    }
+
+}
+
+class DFSGraphRecursive {
+    private Map<Integer, List<Integer>> adjList;
+
+    public DFSGraphRecursive() {
+        this.adjList = new HashMap<>();
+    }
+
+    public void addEdgesAndVertexs(int source, int destination) {
+        // ?Adding Vertex
+        adjList.putIfAbsent(source, new ArrayList<>());
+        adjList.putIfAbsent(destination, new ArrayList<>());
+
+        // ?Adding Edges
+        adjList.get(source).add(destination);
+        adjList.get(destination).add(source);
+    }
+
+    // !Recursive Approach
+    public void DFSRecursive(int rootVertex) {
+        Set<Integer> visited = new HashSet<>();
+        DFSUtil(rootVertex, visited);
+        System.out.println();
+    }
+
+    private void DFSUtil(int currentVertex, Set<Integer> visited) {
+        // Mark the current vertex as visited and print it
+        visited.add(currentVertex);
+        System.out.print(currentVertex + " ");
+
+        // Recur for all the vertices adjacent to this vertex
+        for (int neighbor : adjList.getOrDefault(currentVertex, new ArrayList<>())) {
+            if (!visited.contains(neighbor)) {
+                DFSUtil(neighbor, visited);
+            }
+        }
+    }
+}
+
 // Graphs via Adjacency Matrix
 public class Graph {
 
+    // !Ajacency Matrix Implementation
     public static void main2(String[] args) {
         AdjacencyMatrix graphs = new AdjacencyMatrix(4);
         // Adding edges to the graph
@@ -179,7 +272,8 @@ public class Graph {
         graphs.display();
     }
 
-    public static void main(String[] args) {
+    // !Adjacency List Implementation
+    public static void main1(String[] args) {
         AdjacencyList graph = new AdjacencyList();
 
         // Adding edges to the graph
@@ -201,4 +295,37 @@ public class Graph {
         graph.printGraph();
     }
 
+    // !DFS Graph Iterative Implementation
+    public static void main4(String[] args) {
+        DFSGraphIterative graph = new DFSGraphIterative();
+
+        // Adding edges and vertices to the graph
+        System.out.println("Adding edges and vertices to the graph: DFS Graph");
+        graph.addEdgesAndVertexs(0, 1);
+        graph.addEdgesAndVertexs(0, 2);
+        graph.addEdgesAndVertexs(1, 2);
+        graph.addEdgesAndVertexs(2, 3);
+
+        // Performing DFS traversal starting from vertex 0
+        System.out.println("\nDFS Traversal starting from vertex 0:");
+        graph.DFSIterative(0);
+
+    }
+
+    // !DFS Graph Recursive Implementation
+    public static void main(String[] args) {
+        DFSGraphRecursive graph = new DFSGraphRecursive();
+
+        // Adding edges and vertices to the graph
+        System.out.println("Adding edges and vertices to the graph: DFS Graph Recursive");
+        graph.addEdgesAndVertexs(0, 1);
+        graph.addEdgesAndVertexs(0, 2);
+        graph.addEdgesAndVertexs(1, 2);
+        graph.addEdgesAndVertexs(2, 3);
+
+        // Performing DFS traversal starting from vertex 0
+        System.out.println("\nDFS Traversal starting from vertex 0:");
+        graph.DFSRecursive(0);
+
+    }
 }
