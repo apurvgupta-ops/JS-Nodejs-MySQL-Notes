@@ -1,4 +1,3 @@
-
 package javascript.questions;
 
 import java.util.ArrayList;
@@ -42,6 +41,7 @@ class GraphEdge {
 
 // !Adjacency Matrix Implementation
 class AdjacencyMatrix {
+
     private int[][] adjacencyMatrix;
     private int numVertex;
 
@@ -70,7 +70,6 @@ class AdjacencyMatrix {
     // ? Adding a Vertex dynamically [00:11:07]
     // ! Since arrays are static in Java, we must allocate a larger matrix and copy
     // elements
-
     public void addVertex() {
         int newNumVertex = numVertex + 1;
         int[][] newMatrix = new int[newNumVertex][newNumVertex];
@@ -97,12 +96,14 @@ class AdjacencyMatrix {
 
         int newRow = 0;
         for (int i = 0; i < numVertex; i++) {
-            if (i == vertexToRemove)
+            if (i == vertexToRemove) {
                 continue;
+            }
             int newCol = 0;
             for (int j = 0; j < numVertex; j++) {
-                if (j == vertexToRemove)
+                if (j == vertexToRemove) {
                     continue;
+                }
             }
 
             newMatrix[newRow][newCol] = adjacencyMatrix[i][j];
@@ -127,6 +128,7 @@ class AdjacencyMatrix {
 
 // !Adjacency List Implementation
 class AdjacencyList {
+
     private Map<Integer, LinkedList<Integer>> adjacencyList;
 
     public AdjacencyList() {
@@ -165,7 +167,6 @@ class AdjacencyList {
         adjacencyList.remove(vertex);
 
         // ?Iterate through all remaining lists and remove references to this vertex
-
         for (Integer key : adjacencyList.keySet()) {
             adjacencyList.get(key).remove((Integer) vertex);
         }
@@ -192,6 +193,7 @@ class AdjacencyList {
 
 // !DFS Graph Iterative Implementation
 class DFSGraphIterative {
+
     private Map<Integer, List<Integer>> adjList;
 
     public DFSGraphIterative() {
@@ -226,6 +228,7 @@ class DFSGraphIterative {
 
                 // Add all unvisited neighbors to the stack
                 List<Integer> unVisitedNodes = adjList.getOrDefault(currentElement, new ArrayList<>());
+                System.out.println("Unvisited Nodes for " + currentElement + ": " + unVisitedNodes);
                 for (int unVisited : unVisitedNodes) {
                     if (!visited.contains(unVisited)) {
                         stack.push(unVisited);
@@ -242,6 +245,7 @@ class DFSGraphIterative {
 
 // !DFS Graph Recursive Implementation
 class DFSGraphRecursive {
+
     private Map<Integer, List<Integer>> adjList;
 
     public DFSGraphRecursive() {
@@ -281,6 +285,7 @@ class DFSGraphRecursive {
 
 // !BFS Graph Iterative Implementation
 class BFSGraphIterative {
+
     private Map<Integer, List<Integer>> adjList;
 
     public BFSGraphIterative() {
@@ -324,6 +329,7 @@ class BFSGraphIterative {
 
 // !BFS Graph Recursive Implementation
 class BFSGraphRecursive {
+
     private Map<Integer, List<Integer>> adjList;
 
     public BFSGraphRecursive() {
@@ -469,7 +475,7 @@ public class Graph {
     }
 
     // !DFS Graph Iterative Implementation
-    public static void main4(String[] args) {
+    public static void main(String[] args) {
         DFSGraphIterative graph = new DFSGraphIterative();
 
         // Adding edges and vertices to the graph
