@@ -1,9 +1,11 @@
 package javascript.questions;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.LinkedList;
@@ -424,7 +426,65 @@ class WeightedDirectedGraph {
 
 }
 
-// Graphs via Adjacency Matrix
+// !Prim's Algorithm for Minimum Spanning Tree (MST)
+
+class PrimMST {
+    public List<GraphEdge> findPrimMST(int vertices, List<List<GraphEdge>> adjList) {
+        List<GraphEdge> mstEdges = new ArrayList<>();
+        boolean[] visited = new boolean[vertices];
+        // Priority Queue sorted in ascending order by edge weight (Greedy Framework)
+        PriorityQueue<GraphEdge> pq = new PriorityQueue<>(Comparator.comparingInt(e -> e.weight));
+
+        // Start arbitrarily from vertex 0
+
+        int startvertex = 0;
+        visited[startvertex] = true;
+
+        // Push all initial edges from the starting vertex into the Priority Queue
+        for (GraphEdge edge : adjList.get(startvertex)) {
+            pq.add(edge);
+        }
+
+        // Loop until all reachable paths/edges are evaluated
+        while (!pq.isEmpty()) {
+            GraphEdge currentEdge = pq.poll();
+            int destination = currentEdge.destination;
+            // If the destination node is already in the MST, skip to avoid cycles
+            if (visited[destination]) {
+                continue;
+            }
+
+            // Secure the edge into the Minimum Spanning Tree
+            visited[destination] = true;
+            mstEdges.add(currentEdge);
+
+            // Add all edges from the newly covered destination vertex into the priority
+            // queue
+
+            for (GraphEdge nextEdge : adjList.get(destination)) {
+                if (!visited[nextEdge.destination]) {
+                    pq.add(nextEdge);
+                }
+            }
+        }
+
+        return mstEdges;
+    }
+
+    public void addEdgeToAdjList(List<List<GraphEdge>> adjList, int source, int destination, int weight) {
+        GraphEdge edge = new GraphEdge(source, destination, weight);
+        adjList.get(source).add(edge);
+    }
+
+    public void printMST(List<GraphEdge> mstEdges) {
+        System.out.println("Minimum Spanning Tree edges:");
+        for (GraphEdge edge : mstEdges) {
+            System.out.println(edge.source + " -> " + edge.destination + " (Weight: " + edge.weight + ")");
+        }
+    }
+
+}
+
 public class Graph {
 
     // !Ajacency Matrix Implementation
@@ -475,7 +535,7 @@ public class Graph {
     }
 
     // !DFS Graph Iterative Implementation
-    public static void main(String[] args) {
+    public static void main12(String[] args) {
         DFSGraphIterative graph = new DFSGraphIterative();
 
         // Adding edges and vertices to the graph
@@ -543,7 +603,7 @@ public class Graph {
     }
 
     // !Weighted Directed And Undirected Graph
-    public static void main(String[] args) {
+    public static void main1q(String[] args) {
         WeightedDirectedGraph weightedGraph = new WeightedDirectedGraph(5);
         // Adding an Undirected Edge (e.g., between 1 and 2 with weight 4)
         weightedGraph.addUnDirectedEdge(1, 2, 4);
@@ -553,5 +613,26 @@ public class Graph {
 
         // Print representation
         weightedGraph.printGraph();
+    }
+
+    // !Prim's Algorithm for Minimum Spanning Tree (MST)
+    public static void main(String[] args) {
+        int vertices = 5;
+        List<List<GraphEdge>> adjList = new ArrayList<>();
+        for (int i = 0; i < vertices; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        PrimMST primMST = new PrimMST();
+        primMST.addEdgeToAdjList(adjList, 0, 1, 2);
+        primMST.addEdgeToAdjList(adjList, 0, 3, 6);
+        primMST.addEdgeToAdjList(adjList, 1, 2, 3);
+        primMST.addEdgeToAdjList(adjList, 1, 3, 8);
+        primMST.addEdgeToAdjList(adjList, 1, 4, 5);
+        primMST.addEdgeToAdjList(adjList, 2, 4, 7);
+
+        List<GraphEdge> mstEdges = primMST.findPrimMST(vertices, adjList);
+        primMST.printMST(mstEdges);
+
     }
 }
