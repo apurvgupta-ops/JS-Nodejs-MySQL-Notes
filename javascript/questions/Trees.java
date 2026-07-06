@@ -28,6 +28,7 @@ public class Trees {
         }
         int leftDepth = maxDepth(root.left);
         int rightDepth = maxDepth(root.right);
+
         return Math.max(leftDepth, rightDepth) + 1;
     }
 
@@ -46,6 +47,7 @@ public class Trees {
 
         invertTree(root.left);
         invertTree(root.right);
+
         return root;
     }
 
@@ -60,7 +62,6 @@ public class Trees {
 
         boolean leftSum = hasPathSum(root.left, targetSum - root.val);
         boolean rightSum = hasPathSum(root.right, targetSum - root.val);
-
         return leftSum || rightSum;
     }
 
@@ -76,6 +77,7 @@ public class Trees {
         if ((p.val != q.val)) {
             return false;
         }
+        System.out.println(isSameTree(p.left, q.left));
 
         return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
@@ -111,9 +113,11 @@ public class Trees {
         // TreeNode invertedRoot = tree.invertTree(root);
         // tree.display(invertedRoot); // Output: 1 3 2 5 4
 
-        System.out.println("Path Sum Problem: ");
-        System.out.println("\nPath Sum (targetSum = 22): " + tree.hasPathSum(root, 22)); // Output: false
-        System.out.println("\nPath Sum (targetSum = 7): " + tree.hasPathSum(root, 7)); // Output: true
+        // System.out.println("Path Sum Problem: ");
+        // System.out.println("\nPath Sum (targetSum = 22): " + tree.hasPathSum(root,
+        // 22)); // Output: false
+        // System.out.println("\nPath Sum (targetSum = 7): " + tree.hasPathSum(root,
+        // 7)); // Output: true
 
         System.out.println("is Same Tree Problem: ");
         System.out.println(tree.isSameTree(root, root2));
