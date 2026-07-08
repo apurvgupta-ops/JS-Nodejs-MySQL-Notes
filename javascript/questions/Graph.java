@@ -9,6 +9,37 @@ import java.util.Stack;
 import java.util.LinkedList;
 import java.util.List;
 
+class GraphEdge {
+    int source;
+    int destination;
+    int weight;
+
+    public GraphEdge(int source, int destination, int weight) {
+        this.source = source;
+        this.destination = destination;
+        this.weight = weight;
+    }
+
+    // Getter;
+    public int getSrc() {
+        return source;
+    }
+
+    public int getDest() {
+        return destination;
+    }
+
+    public int weight() {
+        return weight;
+    }
+
+    // @Override
+    // public String String() {
+    // return source + " -> " + destination + " (Weight: " + weight + ")";
+    // }
+}
+
+// !Adjacency Matrix Implementation
 class AdjacencyMatrix {
 
     private int[][] adjacencyMatrix;
@@ -95,6 +126,7 @@ class AdjacencyMatrix {
     }
 }
 
+// !Adjacency List Implementation
 class AdjacencyList {
 
     private Map<Integer, LinkedList<Integer>> adjacencyList;
@@ -159,6 +191,7 @@ class AdjacencyList {
     }
 }
 
+// !DFS Graph Iterative Implementation
 class DFSGraphIterative {
 
     private Map<Integer, List<Integer>> adjList;
@@ -210,6 +243,7 @@ class DFSGraphIterative {
 
 }
 
+// !DFS Graph Recursive Implementation
 class DFSGraphRecursive {
 
     private Map<Integer, List<Integer>> adjList;
@@ -249,6 +283,7 @@ class DFSGraphRecursive {
     }
 }
 
+// !BFS Graph Iterative Implementation
 class BFSGraphIterative {
 
     private Map<Integer, List<Integer>> adjList;
@@ -292,6 +327,7 @@ class BFSGraphIterative {
     }
 }
 
+// !BFS Graph Recursive Implementation
 class BFSGraphRecursive {
 
     private Map<Integer, List<Integer>> adjList;
@@ -339,6 +375,51 @@ class BFSGraphRecursive {
         }
         // Recursive call for the next element in the queue
         BFSUtil(queue, visited);
+    }
+
+}
+
+// !Weighted And Directed Graph Implementation
+class WeightedDirectedGraph {
+    private int vertices;
+    private List<List<GraphEdge>> adjList;
+
+    public WeightedDirectedGraph(int vertices) {
+        this.vertices = vertices;
+        this.adjList = new ArrayList<>(vertices);
+
+        // Initialize an empty array list for each vertex to hold its edge objects
+
+        for (int i = 0; i < vertices; i++) {
+            adjList.add(new ArrayList<>());
+        }
+    }
+
+    // ?Method to add a ONE-WAY Directed Edge
+    public void addDirectedEdge(int source, int destination, int weight) {
+        GraphEdge edge = new GraphEdge(source, destination, weight);
+        adjList.get(source).add(edge);
+    }
+
+    // ?Method to add a MUTUAL Undirected Edge
+    public void addUnDirectedEdge(int source, int destination, int weight) {
+        // Forward edge (src -> dest)
+        GraphEdge edge1 = new GraphEdge(source, destination, weight);
+        adjList.get(source).add(edge1);
+        // Reverse edge (dest -> src)
+        GraphEdge edge2 = new GraphEdge(source, destination, weight);
+        adjList.get(destination).add(edge2);
+
+    }
+
+    // Utility method to print the complete graph visualization
+    public void printGraph() {
+        for (int i = 0; i < vertices; i++) {
+            System.out.println("Vertex " + i + " connections:");
+            for (GraphEdge edge : adjList.get(i)) {
+                System.out.println("  " + edge);
+            }
+        }
     }
 
 }
@@ -411,7 +492,7 @@ public class Graph {
     }
 
     // !DFS Graph Recursive Implementation
-    public static void mainw(String[] args) {
+    public static void main11(String[] args) {
         DFSGraphRecursive graph = new DFSGraphRecursive();
 
         // Adding edges and vertices to the graph
@@ -459,5 +540,18 @@ public class Graph {
         System.out.println("\nBFS Traversal starting from vertex 0:");
         graph.BFS(0);
 
+    }
+
+    // !Weighted Directed And Undirected Graph
+    public static void main(String[] args) {
+        WeightedDirectedGraph weightedGraph = new WeightedDirectedGraph(5);
+        // Adding an Undirected Edge (e.g., between 1 and 2 with weight 4)
+        weightedGraph.addUnDirectedEdge(1, 2, 4);
+
+        // Adding a Directed Edge (e.g., from 4 to 2 with weight 7)
+        weightedGraph.addDirectedEdge(4, 2, 7);
+
+        // Print representation
+        weightedGraph.printGraph();
     }
 }
