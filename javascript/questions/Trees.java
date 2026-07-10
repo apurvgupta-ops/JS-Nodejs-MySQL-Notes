@@ -1,5 +1,10 @@
 package javascript.questions;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 public class Trees {
 
     private static class TreeNode {
@@ -82,6 +87,38 @@ public class Trees {
         return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
+    // !102. Binary Tree Level Order Traversal
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        if (root == null) {
+            return result;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            List<Integer> currentLevel = new ArrayList<>();
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+
+                currentLevel.add(currentNode.val);
+
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+
+            }
+            result.add(currentLevel);
+        }
+        return result;
+    }
+
     // !Display funtion to print the tree in a structured format
     public void display(TreeNode root) {
         if (root == null) {
@@ -121,6 +158,12 @@ public class Trees {
 
         System.out.println("is Same Tree Problem: ");
         System.out.println(tree.isSameTree(root, root2));
+
+        System.out.println("Level Order Traversal of the Binary Tree: ");
+        List<List<Integer>> levelOrderResult = tree.levelOrder(root);
+        for (List<Integer> level : levelOrderResult) {
+            System.out.println(level);
+        }
     }
 
 }
