@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.HashMap;
+import java.util.List;
 
 public class Trees {
 
@@ -58,8 +60,9 @@ public class Trees {
 
     // !112. Path Sum
     public boolean hasPathSum(TreeNode root, int targetSum) {
-        if (root == null)
+        if (root == null) {
             return false;
+        }
 
         if (root.left == null && root.right == null) {
             return targetSum == root.val;
@@ -73,11 +76,13 @@ public class Trees {
     // !100. Same Tree
     public boolean isSameTree(TreeNode p, TreeNode q) {
 
-        if (p == null && q == null)
+        if (p == null && q == null) {
             return true;
+        }
 
-        if (p == null || q == null)
+        if (p == null || q == null) {
             return false;
+        }
 
         if ((p.val != q.val)) {
             return false;
@@ -85,6 +90,100 @@ public class Trees {
         System.out.println(isSameTree(p.left, q.left));
 
         return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
+    // root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+    // Output: [[5,4,11,2],[5,8,4,5]]
+
+    // !113. Path Sum II
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> current = new ArrayList<>();
+
+        findPathSum(root, targetSum, current, result);
+
+        return result;
+
+    }
+
+    public void findPathSum(TreeNode root, int targetSum, List<Integer> current, List<List<Integer>> result) {
+        if (root == null) {
+            return;
+
+        }
+        current.add(root.val);
+        if (root.left == null && root.right == null && root.val == targetSum) {
+            result.add(new ArrayList<>(current));
+        } else {
+            findPathSum(root.left, targetSum - root.val, current, result);
+            findPathSum(root.right, targetSum - root.val, current, result);
+        }
+        current.remove(current.size() - 1);
+    }
+
+    // !437. Path Sum III
+    public int pathSum3(TreeNode root, int targetSum) {
+        HashMap<Long, Integer> prefixSum = new HashMap<>();
+
+        prefixSum.put(0L, 1);
+
+        return dfs(root, 0L, targetSum, prefixSum);
+    }
+
+    public int dfs(TreeNode node, Long currSum, int targetSum, HashMap<Long, Integer> prefixSum) {
+        if (node == null) {
+            return 0;
+        }
+
+        currSum += node.val;
+
+        int count = prefixSum.getOrDefault(currSum - targetSum, 0);
+        prefixSum.put(currSum, prefixSum.getOrDefault(currSum, 0) + 1);
+        count += dfs(node.left, currSum, targetSum, prefixSum);
+        count += dfs(node.right, currSum, targetSum, prefixSum);
+
+        prefixSum.put(currSum, prefixSum.get(currSum) - 1);
+
+        return count;
+
+    }
+
+    // !543. Diameter of Tree
+    public int maxDiameter = 0;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        calculateHeight(root);
+        return maxDiameter;
+    }
+
+    private int calculateHeight(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+
+        int leftHeight = calculateHeight(node.left);
+        int rightHeight = calculateHeight(node.right);
+
+        // Update global max diameter tracker
+        maxDiameter = Math.max(maxDiameter, leftHeight + rightHeight);
+
+        // Return height of current node to its caller frame
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+    // !236. LCA of BST
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) {
+            return root;
+        }
+
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        if (left != null && right != null) {
+            return root;
+        }
+
+        return left != null ? left : right;
     }
 
     // !102. Binary Tree Level Order Traversal
@@ -145,7 +244,6 @@ public class Trees {
         // System.out.println("Max Depth of the Binary Tree: "); // Output: 3
         // int depth = tree.maxDepth(root);
         // System.out.println("Max Depth of the Binary Tree: " + depth); // Output: 3
-
         // System.out.println("Inverted Binary Tree: ");
         // TreeNode invertedRoot = tree.invertTree(root);
         // tree.display(invertedRoot); // Output: 1 3 2 5 4
@@ -164,6 +262,19 @@ public class Trees {
         for (List<Integer> level : levelOrderResult) {
             System.out.println(level);
         }
+        System.out.println("Path Sum II Problem: ");
+        List<List<Integer>> paths = tree.pathSum(root, 4);
+        System.out.println("Paths with target sum: " + paths); // Output:
+
+        System.out.println("Path Sum III Problem: ");
+        System.out.println("Number of paths with target sum: " + tree.pathSum3(root, 7)); // Output: 2
+
+        System.out.println("Diameter of Binary Tree Problem: ");
+        System.out.println("Diameter of Binary Tree: " + tree.diameterOfBinaryTree(root)); // Output: 2
+
+        System.out.println("Lowest Common Ancestor Problem: ");
+        TreeNode lca = tree.lowestCommonAncestor(root, root.left, root.right);
+        System.out.println("Lowest Common Ancestor: " + (lca != null ? lca.val : "null")); // Output: 1
     }
 
 }
