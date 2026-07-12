@@ -1,11 +1,10 @@
 package javascript.questions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.HashMap;
-import java.util.List;
 
 public class Trees {
 
@@ -35,7 +34,6 @@ public class Trees {
         }
         int leftDepth = maxDepth(root.left);
         int rightDepth = maxDepth(root.right);
-
         return Math.max(leftDepth, rightDepth) + 1;
     }
 
@@ -54,7 +52,6 @@ public class Trees {
 
         invertTree(root.left);
         invertTree(root.right);
-
         return root;
     }
 
@@ -70,6 +67,7 @@ public class Trees {
 
         boolean leftSum = hasPathSum(root.left, targetSum - root.val);
         boolean rightSum = hasPathSum(root.right, targetSum - root.val);
+
         return leftSum || rightSum;
     }
 
@@ -87,7 +85,6 @@ public class Trees {
         if ((p.val != q.val)) {
             return false;
         }
-        System.out.println(isSameTree(p.left, q.left));
 
         return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
@@ -186,24 +183,34 @@ public class Trees {
         return left != null ? left : right;
     }
 
-    // !102. Binary Tree Level Order Traversal
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
+    // !110 Balanced Binary Tree
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        int leftHeight = calculateHeight(root.left);
+        int rightHeight = calculateHeight(root.right);
+        return Math.abs(leftHeight - rightHeight) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+    }
 
+    // !102 Binary Tree Level Order Traversal
+    public List<List<Integer>> LevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
         if (root == null) {
             return result;
         }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
 
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.add(root);
         while (!queue.isEmpty()) {
             int levelSize = queue.size();
-            List<Integer> currentLevel = new ArrayList<>();
+
+            List<Integer> currentList = new ArrayList<>();
 
             for (int i = 0; i < levelSize; i++) {
                 TreeNode currentNode = queue.poll();
-
-                currentLevel.add(currentNode.val);
+                currentList.add(currentNode.val);
 
                 if (currentNode.left != null) {
                     queue.add(currentNode.left);
@@ -211,9 +218,9 @@ public class Trees {
                 if (currentNode.right != null) {
                     queue.add(currentNode.right);
                 }
-
             }
-            result.add(currentLevel);
+
+            result.add(currentList);
         }
         return result;
     }
@@ -247,21 +254,13 @@ public class Trees {
         // System.out.println("Inverted Binary Tree: ");
         // TreeNode invertedRoot = tree.invertTree(root);
         // tree.display(invertedRoot); // Output: 1 3 2 5 4
-
-        // System.out.println("Path Sum Problem: ");
-        // System.out.println("\nPath Sum (targetSum = 22): " + tree.hasPathSum(root,
-        // 22)); // Output: false
-        // System.out.println("\nPath Sum (targetSum = 7): " + tree.hasPathSum(root,
-        // 7)); // Output: true
+        System.out.println("Path Sum Problem: ");
+        System.out.println("\nPath Sum (targetSum = 22): " + tree.hasPathSum(root, 22)); // Output: false
+        System.out.println("\nPath Sum (targetSum = 7): " + tree.hasPathSum(root, 7)); // Output: true
 
         System.out.println("is Same Tree Problem: ");
         System.out.println(tree.isSameTree(root, root2));
 
-        System.out.println("Level Order Traversal of the Binary Tree: ");
-        List<List<Integer>> levelOrderResult = tree.levelOrder(root);
-        for (List<Integer> level : levelOrderResult) {
-            System.out.println(level);
-        }
         System.out.println("Path Sum II Problem: ");
         List<List<Integer>> paths = tree.pathSum(root, 4);
         System.out.println("Paths with target sum: " + paths); // Output:
@@ -275,6 +274,13 @@ public class Trees {
         System.out.println("Lowest Common Ancestor Problem: ");
         TreeNode lca = tree.lowestCommonAncestor(root, root.left, root.right);
         System.out.println("Lowest Common Ancestor: " + (lca != null ? lca.val : "null")); // Output: 1
+
+        System.out.println("Balanced Binary Tree Problem: ");
+        System.out.println("Is Balanced Binary Tree: " + tree.isBalanced(root)); // Output: true
+
+        System.out.println("Level Order Traversal Problem: ");
+        List<List<Integer>> levelOrder = tree.LevelOrder(root);
+        System.out.println("Level Order Traversal: " + levelOrder); // Output: [[1], [2, 3]]
     }
 
 }
