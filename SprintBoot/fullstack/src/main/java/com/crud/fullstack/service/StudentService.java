@@ -11,33 +11,34 @@ import com.crud.fullstack.repository.StudentRepository;
 @Service
 public class StudentService {
 
-    private final StudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-    public Student createStudent(Student student) {
-        Student savedStudent = studentRepository.save(student);
-        return savedStudent;
+    public Student createStudent(Student studentReq) {
+        studentReq.setDeleted(false);
+        Student studentResp = studentRepository.save(studentReq);
+        return studentResp;
     }
 
-    public Student getStudentById(Long id) {
-        // return studentRepository.findById(id).orElse(null);
-        Optional<Student> optionalStudent = studentRepository.findById(id);
-        if (optionalStudent.isPresent()) {
-            return optionalStudent.get();
-        } else {
-            return null; // or throw an exception if the student is not found
+    public Student getStudent(Long id) {
+        Optional<Student> studentResp = studentRepository.findById(id);
+
+        if (studentResp.isPresent()) {
+            return studentResp.get();
         }
+        return null;
     }
 
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public List<Student> getAllStudent() {
+        List<Student> studentList = studentRepository.findByDeletedIsFalse();
+        return studentList;
     }
 
     public Student updateStudent(Long id, Student studentReq) {
-        Optional<Student> existingStudent = studentRepository.findById(id);
+        Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id);
 
         if (existingStudent.isEmpty()) {
             return null;
@@ -48,6 +49,7 @@ public class StudentService {
         studentToSave.setName(studentReq.getName());
         studentToSave.setRollNo(studentReq.getRollNo());
         studentToSave.setEmail(studentReq.getEmail());
+        studentToSave.setDeleted(false);
 
         return studentRepository.save(studentToSave);
     }
@@ -66,7 +68,7 @@ public class StudentService {
 
     public Boolean deleteStudentSoftly(Long id) {
         Optional<Student> existingStudent
-                = studentRepository.findById(id);
+                = studentRepository.findByIdAndDeletedIsFalse(id);
 
         if (existingStudent.isEmpty()) {
             return false;

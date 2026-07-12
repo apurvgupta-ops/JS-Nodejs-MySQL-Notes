@@ -19,10 +19,10 @@ import com.crud.fullstack.entity.Student;
 import com.crud.fullstack.service.StudentService;
 
 @RestController
-@RequestMapping("/api/v1/students")
+@RequestMapping("/api/students")
 public class StudentController {
 
-    private final StudentService studentService;
+    private StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -30,35 +30,36 @@ public class StudentController {
 
     @PostMapping("/create")
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
-        System.out.println("Received student: " + student);
-        // For example, you might save the student to a database
-        Student createdStudent = studentService.createStudent(student);
-        System.out.println("Created student: " + createdStudent);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
+        Student createdStudent = studentService.createStudent(student);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdStudent);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
-        Student student = studentService.getStudentById(id);
-        if (student != null) {
-            return ResponseEntity.ok(student);
-        } else {
+    @GetMapping("/get")
+    public ResponseEntity<Student> getStudent(@RequestParam Long id) {
+        Student studentResp = studentService.getStudent(id);
+
+        if (studentResp == null) {
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(studentResp);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Student>> getAllStudents() {
-        List<Student> students = studentService.getAllStudents();
-        if (students.isEmpty()) {
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<List<Student>> getAllStudent() {
+        List<Student> studentList = studentService.getAllStudent();
+
+        if (studentList.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(students);
+        return ResponseEntity.ok(studentList);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id,
+    @PutMapping("/update")
+    public ResponseEntity<Student> updateStudent(@RequestParam Long id,
             @RequestBody Student studentReq) {
         Student studentResp = studentService.updateStudent(id, studentReq);
 

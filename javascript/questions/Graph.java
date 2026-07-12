@@ -1,16 +1,49 @@
-
 package javascript.questions;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.LinkedList;
 import java.util.List;
 
+class GraphEdge {
+    int source;
+    int destination;
+    int weight;
+
+    public GraphEdge(int source, int destination, int weight) {
+        this.source = source;
+        this.destination = destination;
+        this.weight = weight;
+    }
+
+    // Getter;
+    public int getSrc() {
+        return source;
+    }
+
+    public int getDest() {
+        return destination;
+    }
+
+    public int weight() {
+        return weight;
+    }
+
+    // @Override
+    // public String String() {
+    // return source + " -> " + destination + " (Weight: " + weight + ")";
+    // }
+}
+
+// !Adjacency Matrix Implementation
 class AdjacencyMatrix {
+
     private int[][] adjacencyMatrix;
     private int numVertex;
 
@@ -39,7 +72,6 @@ class AdjacencyMatrix {
     // ? Adding a Vertex dynamically [00:11:07]
     // ! Since arrays are static in Java, we must allocate a larger matrix and copy
     // elements
-
     public void addVertex() {
         int newNumVertex = numVertex + 1;
         int[][] newMatrix = new int[newNumVertex][newNumVertex];
@@ -66,12 +98,14 @@ class AdjacencyMatrix {
 
         int newRow = 0;
         for (int i = 0; i < numVertex; i++) {
-            if (i == vertexToRemove)
+            if (i == vertexToRemove) {
                 continue;
+            }
             int newCol = 0;
             for (int j = 0; j < numVertex; j++) {
-                if (j == vertexToRemove)
+                if (j == vertexToRemove) {
                     continue;
+                }
             }
 
             newMatrix[newRow][newCol] = adjacencyMatrix[i][j];
@@ -94,7 +128,9 @@ class AdjacencyMatrix {
     }
 }
 
+// !Adjacency List Implementation
 class AdjacencyList {
+
     private Map<Integer, LinkedList<Integer>> adjacencyList;
 
     public AdjacencyList() {
@@ -133,7 +169,6 @@ class AdjacencyList {
         adjacencyList.remove(vertex);
 
         // ?Iterate through all remaining lists and remove references to this vertex
-
         for (Integer key : adjacencyList.keySet()) {
             adjacencyList.get(key).remove((Integer) vertex);
         }
@@ -158,7 +193,9 @@ class AdjacencyList {
     }
 }
 
+// !DFS Graph Iterative Implementation
 class DFSGraphIterative {
+
     private Map<Integer, List<Integer>> adjList;
 
     public DFSGraphIterative() {
@@ -193,6 +230,7 @@ class DFSGraphIterative {
 
                 // Add all unvisited neighbors to the stack
                 List<Integer> unVisitedNodes = adjList.getOrDefault(currentElement, new ArrayList<>());
+                System.out.println("Unvisited Nodes for " + currentElement + ": " + unVisitedNodes);
                 for (int unVisited : unVisitedNodes) {
                     if (!visited.contains(unVisited)) {
                         stack.push(unVisited);
@@ -207,7 +245,9 @@ class DFSGraphIterative {
 
 }
 
+// !DFS Graph Recursive Implementation
 class DFSGraphRecursive {
+
     private Map<Integer, List<Integer>> adjList;
 
     public DFSGraphRecursive() {
@@ -245,7 +285,9 @@ class DFSGraphRecursive {
     }
 }
 
+// !BFS Graph Iterative Implementation
 class BFSGraphIterative {
+
     private Map<Integer, List<Integer>> adjList;
 
     public BFSGraphIterative() {
@@ -287,7 +329,9 @@ class BFSGraphIterative {
     }
 }
 
+// !BFS Graph Recursive Implementation
 class BFSGraphRecursive {
+
     private Map<Integer, List<Integer>> adjList;
 
     public BFSGraphRecursive() {
@@ -337,7 +381,110 @@ class BFSGraphRecursive {
 
 }
 
-// Graphs via Adjacency Matrix
+// !Weighted And Directed Graph Implementation
+class WeightedDirectedGraph {
+    private int vertices;
+    private List<List<GraphEdge>> adjList;
+
+    public WeightedDirectedGraph(int vertices) {
+        this.vertices = vertices;
+        this.adjList = new ArrayList<>(vertices);
+
+        // Initialize an empty array list for each vertex to hold its edge objects
+
+        for (int i = 0; i < vertices; i++) {
+            adjList.add(new ArrayList<>());
+        }
+    }
+
+    // ?Method to add a ONE-WAY Directed Edge
+    public void addDirectedEdge(int source, int destination, int weight) {
+        GraphEdge edge = new GraphEdge(source, destination, weight);
+        adjList.get(source).add(edge);
+    }
+
+    // ?Method to add a MUTUAL Undirected Edge
+    public void addUnDirectedEdge(int source, int destination, int weight) {
+        // Forward edge (src -> dest)
+        GraphEdge edge1 = new GraphEdge(source, destination, weight);
+        adjList.get(source).add(edge1);
+        // Reverse edge (dest -> src)
+        GraphEdge edge2 = new GraphEdge(source, destination, weight);
+        adjList.get(destination).add(edge2);
+
+    }
+
+    // Utility method to print the complete graph visualization
+    public void printGraph() {
+        for (int i = 0; i < vertices; i++) {
+            System.out.println("Vertex " + i + " connections:");
+            for (GraphEdge edge : adjList.get(i)) {
+                System.out.println("  " + edge);
+            }
+        }
+    }
+
+}
+
+// !Prim's Algorithm for Minimum Spanning Tree (MST)
+
+class PrimMST {
+    public List<GraphEdge> findPrimMST(int vertices, List<List<GraphEdge>> adjList) {
+        List<GraphEdge> mstEdges = new ArrayList<>();
+        boolean[] visited = new boolean[vertices];
+        // Priority Queue sorted in ascending order by edge weight (Greedy Framework)
+        PriorityQueue<GraphEdge> pq = new PriorityQueue<>(Comparator.comparingInt(e -> e.weight));
+
+        // Start arbitrarily from vertex 0
+
+        int startvertex = 0;
+        visited[startvertex] = true;
+
+        // Push all initial edges from the starting vertex into the Priority Queue
+        for (GraphEdge edge : adjList.get(startvertex)) {
+            pq.add(edge);
+        }
+
+        // Loop until all reachable paths/edges are evaluated
+        while (!pq.isEmpty()) {
+            GraphEdge currentEdge = pq.poll();
+            int destination = currentEdge.destination;
+            // If the destination node is already in the MST, skip to avoid cycles
+            if (visited[destination]) {
+                continue;
+            }
+
+            // Secure the edge into the Minimum Spanning Tree
+            visited[destination] = true;
+            mstEdges.add(currentEdge);
+
+            // Add all edges from the newly covered destination vertex into the priority
+            // queue
+
+            for (GraphEdge nextEdge : adjList.get(destination)) {
+                if (!visited[nextEdge.destination]) {
+                    pq.add(nextEdge);
+                }
+            }
+        }
+
+        return mstEdges;
+    }
+
+    public void addEdgeToAdjList(List<List<GraphEdge>> adjList, int source, int destination, int weight) {
+        GraphEdge edge = new GraphEdge(source, destination, weight);
+        adjList.get(source).add(edge);
+    }
+
+    public void printMST(List<GraphEdge> mstEdges) {
+        System.out.println("Minimum Spanning Tree edges:");
+        for (GraphEdge edge : mstEdges) {
+            System.out.println(edge.source + " -> " + edge.destination + " (Weight: " + edge.weight + ")");
+        }
+    }
+
+}
+
 public class Graph {
 
     // !Ajacency Matrix Implementation
@@ -388,7 +535,7 @@ public class Graph {
     }
 
     // !DFS Graph Iterative Implementation
-    public static void main4(String[] args) {
+    public static void main12(String[] args) {
         DFSGraphIterative graph = new DFSGraphIterative();
 
         // Adding edges and vertices to the graph
@@ -405,7 +552,7 @@ public class Graph {
     }
 
     // !DFS Graph Recursive Implementation
-    public static void main(String[] args) {
+    public static void main11(String[] args) {
         DFSGraphRecursive graph = new DFSGraphRecursive();
 
         // Adding edges and vertices to the graph
@@ -452,6 +599,40 @@ public class Graph {
         // Performing BFS traversal starting from vertex 0
         System.out.println("\nBFS Traversal starting from vertex 0:");
         graph.BFS(0);
+
+    }
+
+    // !Weighted Directed And Undirected Graph
+    public static void main1q(String[] args) {
+        WeightedDirectedGraph weightedGraph = new WeightedDirectedGraph(5);
+        // Adding an Undirected Edge (e.g., between 1 and 2 with weight 4)
+        weightedGraph.addUnDirectedEdge(1, 2, 4);
+
+        // Adding a Directed Edge (e.g., from 4 to 2 with weight 7)
+        weightedGraph.addDirectedEdge(4, 2, 7);
+
+        // Print representation
+        weightedGraph.printGraph();
+    }
+
+    // !Prim's Algorithm for Minimum Spanning Tree (MST)
+    public static void main(String[] args) {
+        int vertices = 5;
+        List<List<GraphEdge>> adjList = new ArrayList<>();
+        for (int i = 0; i < vertices; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        PrimMST primMST = new PrimMST();
+        primMST.addEdgeToAdjList(adjList, 0, 1, 2);
+        primMST.addEdgeToAdjList(adjList, 0, 3, 6);
+        primMST.addEdgeToAdjList(adjList, 1, 2, 3);
+        primMST.addEdgeToAdjList(adjList, 1, 3, 8);
+        primMST.addEdgeToAdjList(adjList, 1, 4, 5);
+        primMST.addEdgeToAdjList(adjList, 2, 4, 7);
+
+        List<GraphEdge> mstEdges = primMST.findPrimMST(vertices, adjList);
+        primMST.printMST(mstEdges);
 
     }
 }
