@@ -225,6 +225,61 @@ public class Trees {
         return result;
     }
 
+    // !111. Minimum Depth of Binary Tree => BSF
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        int minDepth = 1;
+
+        while (!queue.isEmpty()) {
+            int level = queue.size();
+
+            for (int i = 0; i < level; i++) {
+                TreeNode currentNode = queue.poll();
+
+                if (currentNode.left == null && currentNode.right == null) {
+                    return minDepth;
+                }
+
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+
+            }
+            minDepth++;
+        }
+        return minDepth;
+    }
+
+    // !111. Minimum Depth of Binary Tree => DSF
+    public int minDepthDfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        if (root.left == null) {
+            return 1 + minDepthDfs(root.right);
+        }
+
+        if (root.right == null) {
+            return 1 + minDepthDfs(root.left);
+        }
+
+        int leftDepth = minDepthDfs(root.left);
+        int rightDepth = minDepthDfs(root.right);
+
+        return 1 + Math.min(leftDepth, rightDepth);
+    }
+
     // !Display funtion to print the tree in a structured format
     public void display(TreeNode root) {
         if (root == null) {
@@ -241,8 +296,8 @@ public class Trees {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
-        // root.left.left = new TreeNode(4);
-        // root.left.right = new TreeNode(5);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
 
         TreeNode root2 = new TreeNode(1);
         root2.left = new TreeNode(2);
@@ -281,6 +336,10 @@ public class Trees {
         System.out.println("Level Order Traversal Problem: ");
         List<List<Integer>> levelOrder = tree.LevelOrder(root);
         System.out.println("Level Order Traversal: " + levelOrder); // Output: [[1], [2, 3]]
+
+        System.out.println("Minimum Depth of Binary Tree Problem: ");
+        System.out.println("Minimum Depth of Binary Tree: " + tree.minDepth(root)); // Output: 2
+        System.out.println("Minimum Depth of Binary Tree (DFS): " + tree.minDepthDfs(root)); // Output: 2
     }
 
 }
