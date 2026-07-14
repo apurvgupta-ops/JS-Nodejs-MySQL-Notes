@@ -370,6 +370,40 @@ public class Trees {
         return result;
     }
 
+    // !199. Binary Tree Right Side View
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null)
+            return res;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+                if (i == levelSize - 1) {
+                    res.add(currentNode.val);
+                }
+
+                if (currentNode.left != null) {
+                    queue.offer(currentNode.left);
+                }
+
+                if (currentNode.right != null) {
+                    queue.offer(currentNode.right);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // !116. Populating Next Right Pointers in Each Node
+
     // !Display funtion to print the tree in a structured format
     public void display(TreeNode root) {
         if (root == null) {
@@ -437,13 +471,22 @@ public class Trees {
         // System.out.println("Minimum Depth of Binary Tree Problem: ");
         // System.out.println("Minimum Depth of Binary Tree: " + tree.minDepth(root));
         // // Output: 2
-        System.out.println("Minimum Depth of Binary Tree (DFS): " +
-                tree.minDepthDfs(root)); // Output: 2
+        // System.out.println("Minimum Depth of Binary Tree (DFS): " +
+        // tree.minDepthDfs(root)); // Output: 2
 
         // System.out.println("Average of Levels in Binary Tree Problem: ");
         // List<Double> averages = tree.averageOfLevels(root);
         // System.out.println("Average of Levels in Binary Tree: " + averages); //
         // Output: [1.0, 2.5]
+
+        // System.out.println("Zigzag Level Order Traversal Problem: ");
+        // List<List<Integer>> zigzagOrder = tree.zigzagLevelOrder(root);
+        // System.out.println("Zigzag Level Order Traversal: " + zigzagOrder); //
+        // Output: [[1], [3, 2]]
+
+        System.out.println(" Binary Tree Right Side View Problem: ");
+        List<Integer> rightSideView = tree.rightSideView(root);
+        System.out.println("Binary Tree Right Side View Problem: " + rightSideView);
     }
 
 }
