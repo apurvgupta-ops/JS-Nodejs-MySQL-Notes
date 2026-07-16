@@ -434,7 +434,6 @@ public class Trees {
     }
 
     // !515. Find Largest Value in Each Tree Row
-
     public List<Integer> largestValues(TreeNode root) {
         List<Integer> res = new ArrayList<>();
 
@@ -465,6 +464,44 @@ public class Trees {
             res.add(max);
         }
         return res;
+    }
+
+    // !1161. Maximum Level Sum of a Binary Tree
+    public int maxLevelSum(TreeNode root) {
+        if (root == null)
+            return 0;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int maxSum = Integer.MIN_VALUE;
+        int levelWithMaxSum = 1;
+        int currentLevel = 1;
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            int currentLevelSum = 0;
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+                currentLevelSum += currentNode.val;
+
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+            }
+
+            if (currentLevelSum > maxSum) {
+                maxSum = currentLevelSum;
+                levelWithMaxSum = currentLevel;
+            }
+
+            currentLevel++;
+        }
+
+        return levelWithMaxSum;
     }
 
     // !Display funtion to print the tree in a structured format
