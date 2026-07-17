@@ -13,15 +13,17 @@ public class Trees {
         int val;
         TreeNode left;
         TreeNode right;
+        TreeNode next;
 
         TreeNode(int val) {
             this.val = val;
         }
 
-        TreeNode(int val, TreeNode left, TreeNode right) {
+        TreeNode(int val, TreeNode left, TreeNode right, TreeNode next) {
             this.val = val;
             this.left = left;
             this.right = right;
+            this.next = next;
         }
     }
 
@@ -402,6 +404,110 @@ public class Trees {
     }
 
     // !116. Populating Next Right Pointers in Each Node
+    public TreeNode connect(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+
+                if (i < levelSize - 1) {
+                    currentNode.next = queue.peek();
+                }
+
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+
+            }
+        }
+        return root;
+    }
+
+    // !515. Find Largest Value in Each Tree Row
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+
+        if (root == null) {
+            return res;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+
+            int max = Integer.MIN_VALUE;
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currNode = queue.poll();
+
+                if (max < currNode.val) {
+                    max = currNode.val;
+                }
+
+                if (currNode.left != null) {
+                    queue.add(currNode.left);
+                }
+                if (currNode.right != null) {
+                    queue.add(currNode.right);
+                }
+            }
+
+            res.add(max);
+        }
+        return res;
+    }
+
+    // !1161. Maximum Level Sum of a Binary Tree
+    public int maxLevelSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int maxSum = Integer.MIN_VALUE;
+        int levelWithMaxSum = 1;
+        int currentLevel = 1;
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            int currentLevelSum = 0;
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+                currentLevelSum += currentNode.val;
+
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+            }
+
+            if (currentLevelSum > maxSum) {
+                maxSum = currentLevelSum;
+                levelWithMaxSum = currentLevel;
+            }
+
+            currentLevel++;
+        }
+
+        return levelWithMaxSum;
+    }
+
     // !Display funtion to print the tree in a structured format
     public void display(TreeNode root) {
         if (root == null) {
@@ -420,6 +526,8 @@ public class Trees {
         root.right = new TreeNode(3);
         root.left.left = new TreeNode(4);
         root.left.right = new TreeNode(5);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
 
         TreeNode root2 = new TreeNode(1);
         root2.left = new TreeNode(2);
@@ -474,6 +582,15 @@ public class Trees {
         System.out.println(" Binary Tree Right Side View Problem: ");
         List<Integer> rightSideView = tree.rightSideView(root);
         System.out.println("Binary Tree Right Side View Problem: " + rightSideView);
+
+        System.out.println("Populating Next Right Pointers in Each Node Problem: ");
+        TreeNode connectedRoot = tree.connect(root);
+        System.out.println("Populating Next Right Pointers in Each Node Problem: ");
+        tree.display(connectedRoot);
+
+        System.out.println("Find Largest Value in Each Tree Row Problem: ");
+        List<Integer> largestValues = tree.largestValues(root);
+        System.out.println("Largest Values in Each Tree Row: " + largestValues);
     }
 
 }
