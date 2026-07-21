@@ -13,15 +13,17 @@ public class Trees {
         int val;
         TreeNode left;
         TreeNode right;
+        TreeNode next;
 
         TreeNode(int val) {
             this.val = val;
         }
 
-        TreeNode(int val, TreeNode left, TreeNode right) {
+        TreeNode(int val, TreeNode left, TreeNode right, TreeNode next) {
             this.val = val;
             this.left = left;
             this.right = right;
+            this.next = next;
         }
     }
 
@@ -260,24 +262,250 @@ public class Trees {
         return minDepth;
     }
 
-    // !111. Minimum Depth of Binary Tree => DSF
+    // !111. Minimum Depth of Binary Tree => DSF => [1,2,3,4,5]
     public int minDepthDfs(TreeNode root) {
         if (root == null) {
             return 0;
         }
 
         if (root.left == null) {
+            System.out.println("Left child is null, going right"); // Debugging line to check if left child is null
             return 1 + minDepthDfs(root.right);
         }
 
         if (root.right == null) {
+            System.out.println("Right child is null, going left"); // Debugging line to check if right child is null
             return 1 + minDepthDfs(root.left);
         }
 
         int leftDepth = minDepthDfs(root.left);
+        System.out.println("Left Depth: " + leftDepth); // Debugging line to check the left depth
         int rightDepth = minDepthDfs(root.right);
 
+        System.out.println("Right Depth: " + rightDepth); // Debugging line to check the right depth
         return 1 + Math.min(leftDepth, rightDepth);
+    }
+
+    // !637. Average of Levels in Binary Tree
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        System.out.println("Queue: " + queue); // Debugging line to check the queue contents
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            double sum = 0;
+            System.out.println("Level Size: " + levelSize); // Debugging line to check the level size
+            System.out.println("Current Queue: " + queue); // Debugging line to check the current queue before
+            // processing the level
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+                System.out.println("Current Node: " + currentNode + " Value: " + currentNode.val); // Debugging line to
+                // check the
+                // current node
+                // being
+                // processed
+                sum += currentNode.val;
+                System.out.println("Current Sum: " + sum); // Debugging line to check the current sum
+
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                    System.out.println("Added to Queue: " + currentNode.left.val); // Debugging line
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                    System.out.println("Added to Queue: " + currentNode.right.val); // Debugging line
+                }
+            }
+
+            double average = sum / levelSize;
+            System.out.println("Average of Level: " + average); // Debugging line to check the average of the level
+            result.add(average);
+        }
+
+        return result;
+    }
+
+    // !103. Binary Tree Zigzag Level Order Traversal
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int level = 0;
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            // Use LinkedList here to enable O(1) insertion at both ends
+            LinkedList<Integer> currentList = new LinkedList<>();
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+
+                if (level % 2 == 0) {
+                    currentList.addLast(currentNode.val);
+                } else {
+                    currentList.addFirst(currentNode.val);
+                }
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+
+            }
+            result.add(currentList);
+            level++;
+        }
+        return result;
+    }
+
+    // !199. Binary Tree Right Side View
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+                if (i == levelSize - 1) {
+                    res.add(currentNode.val);
+                }
+
+                if (currentNode.left != null) {
+                    queue.offer(currentNode.left);
+                }
+
+                if (currentNode.right != null) {
+                    queue.offer(currentNode.right);
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // !116. Populating Next Right Pointers in Each Node
+    public TreeNode connect(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+
+                if (i < levelSize - 1) {
+                    currentNode.next = queue.peek();
+                }
+
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+
+            }
+        }
+        return root;
+    }
+
+    // !515. Find Largest Value in Each Tree Row
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+
+        if (root == null) {
+            return res;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+
+            int max = Integer.MIN_VALUE;
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currNode = queue.poll();
+
+                if (max < currNode.val) {
+                    max = currNode.val;
+                }
+
+                if (currNode.left != null) {
+                    queue.add(currNode.left);
+                }
+                if (currNode.right != null) {
+                    queue.add(currNode.right);
+                }
+            }
+
+            res.add(max);
+        }
+        return res;
+    }
+
+    // !1161. Maximum Level Sum of a Binary Tree
+    public int maxLevelSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int maxSum = Integer.MIN_VALUE;
+        int levelWithMaxSum = 1;
+        int currentLevel = 1;
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            int currentLevelSum = 0;
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode currentNode = queue.poll();
+                currentLevelSum += currentNode.val;
+
+                if (currentNode.left != null) {
+                    queue.add(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    queue.add(currentNode.right);
+                }
+            }
+
+            if (currentLevelSum > maxSum) {
+                maxSum = currentLevelSum;
+                levelWithMaxSum = currentLevel;
+            }
+
+            currentLevel++;
+        }
+
+        return levelWithMaxSum;
     }
 
     // !Display funtion to print the tree in a structured format
@@ -298,6 +526,8 @@ public class Trees {
         root.right = new TreeNode(3);
         root.left.left = new TreeNode(4);
         root.left.right = new TreeNode(5);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
 
         TreeNode root2 = new TreeNode(1);
         root2.left = new TreeNode(2);
@@ -309,37 +539,58 @@ public class Trees {
         // System.out.println("Inverted Binary Tree: ");
         // TreeNode invertedRoot = tree.invertTree(root);
         // tree.display(invertedRoot); // Output: 1 3 2 5 4
-        System.out.println("Path Sum Problem: ");
-        System.out.println("\nPath Sum (targetSum = 22): " + tree.hasPathSum(root, 22)); // Output: false
-        System.out.println("\nPath Sum (targetSum = 7): " + tree.hasPathSum(root, 7)); // Output: true
+        // System.out.println("Path Sum Problem: ");
+        // System.out.println("\nPath Sum (targetSum = 22): " + tree.hasPathSum(root,
+        // 22)); // Output: false
+        // System.out.println("\nPath Sum (targetSum = 7): " + tree.hasPathSum(root,
+        // 7)); // Output: true
+        // System.out.println("is Same Tree Problem: ");
+        // System.out.println(tree.isSameTree(root, root2));
+        // System.out.println("Path Sum II Problem: ");
+        // List<List<Integer>> paths = tree.pathSum(root, 4);
+        // System.out.println("Paths with target sum: " + paths); // Output:
+        // System.out.println("Path Sum III Problem: ");
+        // System.out.println("Number of paths with target sum: " + tree.pathSum3(root,
+        // 7)); // Output: 2
+        // System.out.println("Diameter of Binary Tree Problem: ");
+        // System.out.println("Diameter of Binary Tree: " +
+        // tree.diameterOfBinaryTree(root)); // Output: 2
+        // System.out.println("Lowest Common Ancestor Problem: ");
+        // TreeNode lca = tree.lowestCommonAncestor(root, root.left, root.right);
+        // System.out.println("Lowest Common Ancestor: " + (lca != null ? lca.val :
+        // "null")); // Output: 1
+        // System.out.println("Balanced Binary Tree Problem: ");
+        // System.out.println("Is Balanced Binary Tree: " + tree.isBalanced(root)); //
+        // Output: true
+        // System.out.println("Level Order Traversal Problem: ");
+        // List<List<Integer>> levelOrder = tree.LevelOrder(root);
+        // System.out.println("Level Order Traversal: " + levelOrder); // Output: [[1],
+        // [2, 3]]
+        // System.out.println("Minimum Depth of Binary Tree Problem: ");
+        // System.out.println("Minimum Depth of Binary Tree: " + tree.minDepth(root));
+        // // Output: 2
+        // System.out.println("Minimum Depth of Binary Tree (DFS): " +
+        // tree.minDepthDfs(root)); // Output: 2
+        // System.out.println("Average of Levels in Binary Tree Problem: ");
+        // List<Double> averages = tree.averageOfLevels(root);
+        // System.out.println("Average of Levels in Binary Tree: " + averages); //
+        // Output: [1.0, 2.5]
+        // System.out.println("Zigzag Level Order Traversal Problem: ");
+        // List<List<Integer>> zigzagOrder = tree.zigzagLevelOrder(root);
+        // System.out.println("Zigzag Level Order Traversal: " + zigzagOrder); //
+        // Output: [[1], [3, 2]]
+        System.out.println(" Binary Tree Right Side View Problem: ");
+        List<Integer> rightSideView = tree.rightSideView(root);
+        System.out.println("Binary Tree Right Side View Problem: " + rightSideView);
 
-        System.out.println("is Same Tree Problem: ");
-        System.out.println(tree.isSameTree(root, root2));
+        System.out.println("Populating Next Right Pointers in Each Node Problem: ");
+        TreeNode connectedRoot = tree.connect(root);
+        System.out.println("Populating Next Right Pointers in Each Node Problem: ");
+        tree.display(connectedRoot);
 
-        System.out.println("Path Sum II Problem: ");
-        List<List<Integer>> paths = tree.pathSum(root, 4);
-        System.out.println("Paths with target sum: " + paths); // Output:
-
-        System.out.println("Path Sum III Problem: ");
-        System.out.println("Number of paths with target sum: " + tree.pathSum3(root, 7)); // Output: 2
-
-        System.out.println("Diameter of Binary Tree Problem: ");
-        System.out.println("Diameter of Binary Tree: " + tree.diameterOfBinaryTree(root)); // Output: 2
-
-        System.out.println("Lowest Common Ancestor Problem: ");
-        TreeNode lca = tree.lowestCommonAncestor(root, root.left, root.right);
-        System.out.println("Lowest Common Ancestor: " + (lca != null ? lca.val : "null")); // Output: 1
-
-        System.out.println("Balanced Binary Tree Problem: ");
-        System.out.println("Is Balanced Binary Tree: " + tree.isBalanced(root)); // Output: true
-
-        System.out.println("Level Order Traversal Problem: ");
-        List<List<Integer>> levelOrder = tree.LevelOrder(root);
-        System.out.println("Level Order Traversal: " + levelOrder); // Output: [[1], [2, 3]]
-
-        System.out.println("Minimum Depth of Binary Tree Problem: ");
-        System.out.println("Minimum Depth of Binary Tree: " + tree.minDepth(root)); // Output: 2
-        System.out.println("Minimum Depth of Binary Tree (DFS): " + tree.minDepthDfs(root)); // Output: 2
+        System.out.println("Find Largest Value in Each Tree Row Problem: ");
+        List<Integer> largestValues = tree.largestValues(root);
+        System.out.println("Largest Values in Each Tree Row: " + largestValues);
     }
 
 }
