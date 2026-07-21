@@ -31,6 +31,34 @@ class Solution {
         return current;
     }
 
+    // !701. Insert into a Binary Search Tree => BFS
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        TreeNode newNode = new TreeNode(val, null, null);
+        if (root == null)
+            return newNode;
+
+        TreeNode current = root;
+        TreeNode parent = null;
+
+        while (current != null) {
+            parent = current;
+
+            if (val < current.val) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+
+        if (val < parent.val) {
+            parent.left = newNode;
+        } else {
+            parent.right = newNode;
+        }
+
+        return root;
+    }
+
     // !Display the BST
     public void displayLevelOrder(TreeNode root) {
         if (root == null) {
@@ -67,5 +95,8 @@ public class BSTOperations {
 
         TreeNode result = solution.searchBST(root, 2);
         System.out.println("Found: " + (result != null ? result.val : "null"));
+
+        TreeNode newRoot = solution.insertIntoBST(root, 5);
+        solution.displayLevelOrder(newRoot);
     }
 }
