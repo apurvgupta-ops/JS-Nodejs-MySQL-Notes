@@ -1,6 +1,8 @@
 package javascript.questions;
 
 import java.security.Policy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 class TreeNode {
@@ -8,6 +10,9 @@ class TreeNode {
     int val;
     TreeNode left;
     TreeNode right;
+
+    TreeNode() {
+    }
 
     TreeNode(int val, TreeNode left, TreeNode right) {
         this.val = val;
@@ -160,6 +165,41 @@ class Solution {
         reverseInOrder(node.left, k);
     }
 
+    // !108. Convert Sorted Array to Binary Search Tree
+    // ?=> this is array based solution
+    // public TreeNode sortedArrayToBST(int[] nums) {
+    // List<Integer> preOrder = new ArrayList<>();
+    // builtPreOrder(0, nums.length - 1);
+    // return preOrder;
+    // }
+
+    // private void builtPreOrder(int start, int end) {
+    // if (start > end) {
+    // return;
+    // }
+    // }
+    // ?=> this is making tree based solution
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums.length == 0 || nums == null)
+            return null;
+        return builtPreOrder(nums, 0, nums.length - 1);
+
+    }
+
+    private TreeNode builtPreOrder(int[] nums, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+
+        int mid = start + ((end - start) / 2);
+
+        TreeNode newNode = new TreeNode(nums[mid], null, null);
+
+        newNode.left = builtPreOrder(nums, start, mid - 1);
+        newNode.right = builtPreOrder(nums, mid + 1, end);
+        return newNode;
+    }
+
     // !Display the BST
     public void displayLevelOrder(TreeNode root) {
         if (root == null) {
@@ -213,6 +253,11 @@ public class BSTOperations {
 
         System.out.println("GFG. Kth largest element in BST");
         System.out.println("Kth largest element: " + solution2.kthLargest(root, k));
+
+        System.out.println("108. Convert Sorted Array to Binary Search Tree");
+        int[] nums = { -10, -3, 0, 5, 9 };
+        TreeNode bstRoot = solution2.sortedArrayToBST(nums);
+        solution2.displayLevelOrder(bstRoot);
 
     }
 }
