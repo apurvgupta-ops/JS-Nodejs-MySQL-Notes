@@ -1,5 +1,6 @@
 package javascript.questions;
 
+import java.security.Policy;
 import java.util.Queue;
 
 class TreeNode {
@@ -23,8 +24,8 @@ class Solution {
 
         while (current != null && current.val != val) {
             if (val < current.val) {
-                current = current.left; 
-            }else {
+                current = current.left;
+            } else {
                 current = current.right;
             }
         }
@@ -57,6 +58,106 @@ class Solution {
         }
 
         return root;
+    }
+
+    // !98. Validate Binary Search Tree
+    int prev = Integer.MIN_VALUE;
+
+    public boolean isValidBST(TreeNode root) {
+        if (root == null)
+            return true;
+
+        boolean left = isValidBST(root.left);
+
+        if (!left) {
+            return false;
+        }
+        if (root.val <= prev) {
+            return false;
+        }
+        prev = root.val;
+
+        return isValidBST(root.right);
+    }
+
+    // !783. Minimum Distance Between BST Nodes
+    private int minDiff = Integer.MAX_VALUE;
+    private Integer prev2 = null;
+
+    public int minDiffInBST(TreeNode root) {
+        inOrder(root);
+        return minDiff;
+    }
+
+    private void inOrder(TreeNode node) {
+        if (node == null)
+            return;
+
+        inOrder(node.left);
+        if (prev2 != null) {
+            minDiff = Math.min(minDiff, node.val - prev2);
+        }
+
+        prev2 = node.val;
+        inOrder(node.right);
+    }
+
+    // !GFG. Sum of k smallest in BST
+    private int sum = 0;
+    private int count = 0;
+
+    public int kthSum(TreeNode root, int k) {
+        count = 0;
+        sum = 0;
+        inOrderforKth(root, k);
+        return sum;
+
+    }
+
+    private void inOrderforKth(TreeNode node, int k) {
+        if (node == null || count >= k) {
+            return;
+        }
+
+        inOrderforKth(node.left, k);
+
+        if (count < k) {
+            count++;
+            sum += node.val;
+        }
+        if (count < k) {
+            inOrderforKth(node.right, k);
+        }
+    }
+
+    // !230. Kth Smallest Element in a BST
+    // !GFG. Sum of k smallest in BST
+    // !GFG. Kth largest element in BST
+    int count1 = 0;
+    int result = -1;
+
+    public int kthLargest(TreeNode root, int k) {
+        count1 = 0;
+        result = -1;
+
+        reverseInOrder(root, k);
+        return result;
+    }
+
+    private void reverseInOrder(TreeNode node, int k) {
+        if (node == null || count1 >= k) {
+            return;
+        }
+
+        reverseInOrder(node.right, k);
+
+        count1++;
+        if (count1 == k) {
+            result = node.val;
+            return;
+        }
+
+        reverseInOrder(node.left, k);
     }
 
     // !Display the BST
@@ -98,5 +199,20 @@ public class BSTOperations {
 
         TreeNode newRoot = solution.insertIntoBST(root, 5);
         solution.displayLevelOrder(newRoot);
+
+        System.out.println("98. Validate the BST");
+        System.out.println("Is Valid BST: " + solution.isValidBST(newRoot));
+
+        System.out.println("783. Minimum Distance Between BST Nodes");
+        System.out.println("Min Diff is: " + solution.minDiffInBST(root));
+
+        System.out.println("GFG. Sum of k smallest in BST");
+        Solution solution2 = new Solution();
+        int k = 3;
+        System.out.println("Sum of " + k + " smallest elements: " + solution2.kthSum(root, k));
+
+        System.out.println("GFG. Kth largest element in BST");
+        System.out.println("Kth largest element: " + solution2.kthLargest(root, k));
+
     }
 }
