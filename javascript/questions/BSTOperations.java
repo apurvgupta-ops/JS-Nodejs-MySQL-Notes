@@ -3,6 +3,7 @@ package javascript.questions;
 import java.util.Queue;
 
 class TreeNode {
+
     int val;
     TreeNode left;
     TreeNode right;
@@ -15,15 +16,17 @@ class TreeNode {
 }
 
 class Solution {
+
     // !700. Search in a Binary Search Tree
     public TreeNode searchBST(TreeNode root, int val) {
         TreeNode current = root;
 
         while (current != null && current.val != val) {
-            if (val < current.val)
-                current = current.left;
-            else
+            if (val < current.val) {
+                current = current.left; 
+            }else {
                 current = current.right;
+            }
         }
         return current;
     }
@@ -58,8 +61,9 @@ class Solution {
 
     // !Display the BST
     public void displayLevelOrder(TreeNode root) {
-        if (root == null)
+        if (root == null) {
             return;
+        }
         Queue<TreeNode> queue = new java.util.LinkedList<>();
         queue.add(root);
         while (!queue.isEmpty()) {
@@ -67,10 +71,12 @@ class Solution {
             for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
                 System.out.print(node.val + " ");
-                if (node.left != null)
+                if (node.left != null) {
                     queue.add(node.left);
-                if (node.right != null)
+                }
+                if (node.right != null) {
                     queue.add(node.right);
+                }
             }
             System.out.println();
         }
@@ -78,6 +84,7 @@ class Solution {
 }
 
 public class BSTOperations {
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         TreeNode root = new TreeNode(4,
