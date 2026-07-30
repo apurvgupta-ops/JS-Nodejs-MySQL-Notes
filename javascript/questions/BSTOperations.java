@@ -1,8 +1,5 @@
 package javascript.questions;
 
-import java.security.Policy;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 
 class TreeNode {
@@ -11,7 +8,8 @@ class TreeNode {
     TreeNode left;
     TreeNode right;
 
-    TreeNode() {
+    TreeNode(int val) {
+        this.val = val;
     }
 
     TreeNode(int val, TreeNode left, TreeNode right) {
@@ -40,8 +38,9 @@ class Solution {
     // !701. Insert into a Binary Search Tree => BFS
     public TreeNode insertIntoBST(TreeNode root, int val) {
         TreeNode newNode = new TreeNode(val, null, null);
-        if (root == null)
+        if (root == null) {
             return newNode;
+        }
 
         TreeNode current = root;
         TreeNode parent = null;
@@ -69,8 +68,9 @@ class Solution {
     int prev = Integer.MIN_VALUE;
 
     public boolean isValidBST(TreeNode root) {
-        if (root == null)
+        if (root == null) {
             return true;
+        }
 
         boolean left = isValidBST(root.left);
 
@@ -95,8 +95,9 @@ class Solution {
     }
 
     private void inOrder(TreeNode node) {
-        if (node == null)
+        if (node == null) {
             return;
+        }
 
         inOrder(node.left);
         if (prev2 != null) {
@@ -172,7 +173,6 @@ class Solution {
     // builtPreOrder(0, nums.length - 1);
     // return preOrder;
     // }
-
     // private void builtPreOrder(int start, int end) {
     // if (start > end) {
     // return;
@@ -180,8 +180,9 @@ class Solution {
     // }
     // ?=> this is making tree based solution
     public TreeNode sortedArrayToBST(int[] nums) {
-        if (nums.length == 0 || nums == null)
+        if (nums.length == 0 || nums == null) {
             return null;
+        }
         return builtPreOrder(nums, 0, nums.length - 1);
 
     }
@@ -198,6 +199,28 @@ class Solution {
         newNode.left = builtPreOrder(nums, start, mid - 1);
         newNode.right = builtPreOrder(nums, mid + 1, end);
         return newNode;
+    }
+
+// !1008. Construct Binary Search Tree from Preorder Traversal
+    private int index = 0;
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+        index = 0;
+        return constructBST(preorder, Integer.MAX_VALUE);
+    }
+
+    private TreeNode constructBST(int[] preorder, int upper) {
+        if (index == preorder.length || preorder[index] > upper) {
+            return null;
+        }
+
+        TreeNode newNode = new TreeNode(preorder[index++]);
+
+        newNode.left = constructBST(preorder, newNode.val);
+        newNode.right = constructBST(preorder, upper);
+
+        return newNode;
+
     }
 
     // !Display the BST
@@ -255,7 +278,7 @@ public class BSTOperations {
         System.out.println("Kth largest element: " + solution2.kthLargest(root, k));
 
         System.out.println("108. Convert Sorted Array to Binary Search Tree");
-        int[] nums = { -10, -3, 0, 5, 9 };
+        int[] nums = {-10, -3, 0, 5, 9};
         TreeNode bstRoot = solution2.sortedArrayToBST(nums);
         solution2.displayLevelOrder(bstRoot);
 
