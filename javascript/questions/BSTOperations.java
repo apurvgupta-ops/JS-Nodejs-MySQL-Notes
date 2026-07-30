@@ -1,5 +1,7 @@
 package javascript.questions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 class TreeNode {
@@ -223,6 +225,42 @@ class Solution {
 
     }
 
+    // !235. Lowest Common Ancestor BST
+    // root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.val > p.val && root.val > q.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        } else if (root.val < p.val && root.val < q.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        } else {
+            return root;
+        }
+    }
+
+    // !GFG. Print BST element in the given range
+    List<Integer> results = new ArrayList<>();
+
+    public List<Integer> printInRange(TreeNode root, int low, int high) {
+        if (root == null) {
+            return results;
+        }
+        if (root.val > low && root.val > high) {
+            return printInRange(root.left, low, high);
+        } else if (root.val < low && root.val < high) {
+            return printInRange(root.right, low, high);
+        } else {
+            printInRange(root.left, low, high);
+            results.add(root.val);
+            printInRange(root.right, low, high);
+        }
+
+        return results;
+    }
+
     // !Display the BST
     public void displayLevelOrder(TreeNode root) {
         if (root == null) {
@@ -281,6 +319,23 @@ public class BSTOperations {
         int[] nums = {-10, -3, 0, 5, 9};
         TreeNode bstRoot = solution2.sortedArrayToBST(nums);
         solution2.displayLevelOrder(bstRoot);
+
+        System.out.println("1008. Construct Binary Search Tree from Preorder Traversal");
+        int[] preorder = {8, 5, 1, 7, 10, 12};
+        TreeNode bstFromPreorder = solution2.bstFromPreorder(preorder);
+        solution2.displayLevelOrder(bstFromPreorder);
+
+        System.err.println("235. Lowest Common Ancestor BST");
+        TreeNode p = new TreeNode(5);
+        TreeNode q = new TreeNode(1);
+        TreeNode lca = solution2.lowestCommonAncestor(bstFromPreorder, p, q);
+        System.out.println("LCA of " + p.val + " and " + q.val + " is: " + (lca != null ? lca.val : "null"));
+
+        System.out.println("GFG. Print BST element in the given range");
+        int low = 5;
+        int high = 10;
+        List<Integer> elementsInRange = solution2.printInRange(bstFromPreorder, low, high);
+        System.out.println("Elements in range [" + low + ", " + high + "]: " + elementsInRange);
 
     }
 }
