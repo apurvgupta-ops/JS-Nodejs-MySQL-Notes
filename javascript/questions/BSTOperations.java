@@ -21,6 +21,16 @@ class TreeNode {
     }
 }
 
+class ListNode {
+
+    int val;
+    ListNode next;
+
+    ListNode(int val) {
+        this.val = val;
+    }
+}
+
 class Solution {
 
     // !700. Search in a Binary Search Tree
@@ -261,6 +271,35 @@ class Solution {
         return results;
     }
 
+    // !109. Convert Sorted List to Binary Search Tree
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        List<Integer> values = new ArrayList<>();
+        while (head != null) {
+            values.add(head.val);
+            head = head.next;
+        }
+
+        return buildBSTFromList(values, 0, values.size() - 1);
+    }
+
+    private TreeNode buildBSTFromList(List<Integer> values, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+
+        int mid = start + (end - start) / 2;
+        TreeNode node = new TreeNode(values.get(mid));
+
+        node.left = buildBSTFromList(values, start, mid - 1);
+        node.right = buildBSTFromList(values, mid + 1, end);
+
+        return node;
+    }
+
     // !Display the BST
     public void displayLevelOrder(TreeNode root) {
         if (root == null) {
@@ -336,6 +375,15 @@ public class BSTOperations {
         int high = 10;
         List<Integer> elementsInRange = solution2.printInRange(bstFromPreorder, low, high);
         System.out.println("Elements in range [" + low + ", " + high + "]: " + elementsInRange);
+
+        System.out.println("109. Convert Sorted List to Binary Search Tree");
+        ListNode head = new ListNode(-10);
+        head.next = new ListNode(-3);
+        head.next.next = new ListNode(0);
+        head.next.next.next = new ListNode(5);
+        head.next.next.next.next = new ListNode(9);
+        TreeNode bstFromList = solution2.sortedListToBST(head);
+        solution2.displayLevelOrder(bstFromList);
 
     }
 }
