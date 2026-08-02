@@ -300,6 +300,55 @@ class Solution {
         return node;
     }
 
+    // !1373. Maximum Sum BST in Binary Tree
+    private static class Box {
+
+        boolean isBST;
+        int sum;
+        int min;
+        int max;
+
+        Box(boolean isBST,
+                int sum, int min, int max
+        ) {
+            this.isBST = isBST;
+            this.sum = sum;
+            this.min = min;
+            this.max = max;
+
+        }
+    }
+
+    private int maxSum = 0;
+
+    public int maxSumBST(TreeNode root) {
+        maxSum = 0;
+        find(root);
+        return maxSum;
+    }
+
+    private Box find(TreeNode root) {
+        if (root == null) {
+            System.err.println("here");
+            return new Box(true, 0, Integer.MAX_VALUE, Integer.MIN_VALUE);
+        }
+        Box leftHead = find(root.left);
+        Box rightHead = find(root.right);
+
+        if (leftHead.isBST && rightHead.isBST && leftHead.max < root.val && rightHead.min > root.val) {
+            int currSum = root.val + leftHead.sum + rightHead.sum;
+            maxSum = Math.max(maxSum, currSum);
+
+            int currMin = Math.min(root.val, leftHead.min);
+            int currMax = Math.max(root.val, rightHead.max);
+
+            return new Box(true, currSum, currMin, currMax);
+        }
+
+        return new Box(false, 0, 0, 0);
+
+    }
+
     // !Display the BST
     public void displayLevelOrder(TreeNode root) {
         if (root == null) {
@@ -384,6 +433,13 @@ public class BSTOperations {
         head.next.next.next.next = new ListNode(9);
         TreeNode bstFromList = solution2.sortedListToBST(head);
         solution2.displayLevelOrder(bstFromList);
+
+        System.err.println("1373. Maximum Sum BST in Binary Tree");
+        TreeNode root2 = new TreeNode(1,
+                new TreeNode(4, new TreeNode(2, null, null), new TreeNode(3, null, null)),
+                new TreeNode(3, new TreeNode(5, null, null), null));
+        int maxSum = solution2.maxSumBST(root2);
+        System.out.println("Maximum Sum BST in Binary Tree: " + maxSum);
 
     }
 }
