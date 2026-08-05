@@ -300,6 +300,40 @@ class Solution {
         return node;
     }
 
+    // !99. Recover Binary Search Tree => recursive approach
+    TreeNode first = null;
+    TreeNode second = null;
+    TreeNode prev3 = null;
+
+    public TreeNode recoverTree(TreeNode root) {
+        inorder(root);
+        // Swap the values of the first and second nodes
+        if (first != null && second != null) {
+            int temp = first.val;
+            first.val = second.val;
+            second.val = temp;
+        }
+        return root;
+    }
+
+    private void inorder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        inorder(root.left);
+
+        if (prev3 != null && root.val < prev3.val) {
+            if (first == null) {
+                first = prev3;
+            }
+            second = root;
+        }
+        prev3 = root;
+
+        inorder(root.right);
+    }
+
     // !1373. Maximum Sum BST in Binary Tree
     private static class Box {
 
@@ -440,6 +474,16 @@ public class BSTOperations {
                 new TreeNode(3, new TreeNode(5, null, null), null));
         int maxSum = solution2.maxSumBST(root2);
         System.out.println("Maximum Sum BST in Binary Tree: " + maxSum);
+
+        System.out.println("99. Recover Binary Search Tree");
+        TreeNode root3 = new TreeNode(3,
+                new TreeNode(1, null, null),
+                new TreeNode(4, new TreeNode(2, null, null), null));
+        System.out.println("Before recovery:");
+        solution2.displayLevelOrder(root3);
+        TreeNode recoveredRoot = solution2.recoverTree(root3);
+        System.out.println("After recovery:");
+        solution2.displayLevelOrder(recoveredRoot);
 
     }
 }
