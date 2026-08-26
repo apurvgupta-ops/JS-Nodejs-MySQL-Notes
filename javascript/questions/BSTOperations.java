@@ -1,5 +1,7 @@
 package javascript.questions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 class TreeNode {
@@ -16,6 +18,16 @@ class TreeNode {
         this.val = val;
         this.left = left;
         this.right = right;
+    }
+}
+
+class ListNode {
+
+    int val;
+    ListNode next;
+
+    ListNode(int val) {
+        this.val = val;
     }
 }
 
@@ -223,6 +235,154 @@ class Solution {
 
     }
 
+    // !235. Lowest Common Ancestor BST
+    // root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.val > p.val && root.val > q.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        } else if (root.val < p.val && root.val < q.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        } else {
+            return root;
+        }
+    }
+
+    // !GFG. Print BST element in the given range
+    List<Integer> results = new ArrayList<>();
+
+    public List<Integer> printInRange(TreeNode root, int low, int high) {
+        if (root == null) {
+            return results;
+        }
+        if (root.val > low && root.val > high) {
+            return printInRange(root.left, low, high);
+        } else if (root.val < low && root.val < high) {
+            return printInRange(root.right, low, high);
+        } else {
+            printInRange(root.left, low, high);
+            results.add(root.val);
+            printInRange(root.right, low, high);
+        }
+
+        return results;
+    }
+
+    // !109. Convert Sorted List to Binary Search Tree
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        List<Integer> values = new ArrayList<>();
+        while (head != null) {
+            values.add(head.val);
+            head = head.next;
+        }
+
+        return buildBSTFromList(values, 0, values.size() - 1);
+    }
+
+    private TreeNode buildBSTFromList(List<Integer> values, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+
+        int mid = start + (end - start) / 2;
+        TreeNode node = new TreeNode(values.get(mid));
+
+        node.left = buildBSTFromList(values, start, mid - 1);
+        node.right = buildBSTFromList(values, mid + 1, end);
+
+        return node;
+    }
+
+    // !99. Recover Binary Search Tree => recursive approach
+    TreeNode first = null;
+    TreeNode second = null;
+    TreeNode prev3 = null;
+
+    public TreeNode recoverTree(TreeNode root) {
+        inorder(root);
+        // Swap the values of the first and second nodes
+        if (first != null && second != null) {
+            int temp = first.val;
+            first.val = second.val;
+            second.val = temp;
+        }
+        return root;
+    }
+
+    private void inorder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        inorder(root.left);
+
+        if (prev3 != null && root.val < prev3.val) {
+            if (first == null) {
+                first = prev3;
+            }
+            second = root;
+        }
+        prev3 = root;
+
+        inorder(root.right);
+    }
+
+    // !1373. Maximum Sum BST in Binary Tree
+    private static class Box {
+
+        boolean isBST;
+        int sum;
+        int min;
+        int max;
+
+        Box(boolean isBST,
+                int sum, int min, int max
+        ) {
+            this.isBST = isBST;
+            this.sum = sum;
+            this.min = min;
+            this.max = max;
+
+        }
+    }
+
+    private int maxSum = 0;
+
+    public int maxSumBST(TreeNode root) {
+        maxSum = 0;
+        find(root);
+        return maxSum;
+    }
+
+    private Box find(TreeNode root) {
+        if (root == null) {
+            System.err.println("here");
+            return new Box(true, 0, Integer.MAX_VALUE, Integer.MIN_VALUE);
+        }
+        Box leftHead = find(root.left);
+        Box rightHead = find(root.right);
+
+        if (leftHead.isBST && rightHead.isBST && leftHead.max < root.val && rightHead.min > root.val) {
+            int currSum = root.val + leftHead.sum + rightHead.sum;
+            maxSum = Math.max(maxSum, currSum);
+
+            int currMin = Math.min(root.val, leftHead.min);
+            int currMax = Math.max(root.val, rightHead.max);
+
+            return new Box(true, currSum, currMin, currMax);
+        }
+
+        return new Box(false, 0, 0, 0);
+
+    }
+
     // !Display the BST
     public void displayLevelOrder(TreeNode root) {
         if (root == null) {
@@ -281,6 +441,49 @@ public class BSTOperations {
         int[] nums = {-10, -3, 0, 5, 9};
         TreeNode bstRoot = solution2.sortedArrayToBST(nums);
         solution2.displayLevelOrder(bstRoot);
+
+        System.out.println("1008. Construct Binary Search Tree from Preorder Traversal");
+        int[] preorder = {8, 5, 1, 7, 10, 12};
+        TreeNode bstFromPreorder = solution2.bstFromPreorder(preorder);
+        solution2.displayLevelOrder(bstFromPreorder);
+
+        System.err.println("235. Lowest Common Ancestor BST");
+        TreeNode p = new TreeNode(5);
+        TreeNode q = new TreeNode(1);
+        TreeNode lca = solution2.lowestCommonAncestor(bstFromPreorder, p, q);
+        System.out.println("LCA of " + p.val + " and " + q.val + " is: " + (lca != null ? lca.val : "null"));
+
+        System.out.println("GFG. Print BST element in the given range");
+        int low = 5;
+        int high = 10;
+        List<Integer> elementsInRange = solution2.printInRange(bstFromPreorder, low, high);
+        System.out.println("Elements in range [" + low + ", " + high + "]: " + elementsInRange);
+
+        System.out.println("109. Convert Sorted List to Binary Search Tree");
+        ListNode head = new ListNode(-10);
+        head.next = new ListNode(-3);
+        head.next.next = new ListNode(0);
+        head.next.next.next = new ListNode(5);
+        head.next.next.next.next = new ListNode(9);
+        TreeNode bstFromList = solution2.sortedListToBST(head);
+        solution2.displayLevelOrder(bstFromList);
+
+        System.err.println("1373. Maximum Sum BST in Binary Tree");
+        TreeNode root2 = new TreeNode(1,
+                new TreeNode(4, new TreeNode(2, null, null), new TreeNode(3, null, null)),
+                new TreeNode(3, new TreeNode(5, null, null), null));
+        int maxSum = solution2.maxSumBST(root2);
+        System.out.println("Maximum Sum BST in Binary Tree: " + maxSum);
+
+        System.out.println("99. Recover Binary Search Tree");
+        TreeNode root3 = new TreeNode(3,
+                new TreeNode(1, null, null),
+                new TreeNode(4, new TreeNode(2, null, null), null));
+        System.out.println("Before recovery:");
+        solution2.displayLevelOrder(root3);
+        TreeNode recoveredRoot = solution2.recoverTree(root3);
+        System.out.println("After recovery:");
+        solution2.displayLevelOrder(recoveredRoot);
 
     }
 }

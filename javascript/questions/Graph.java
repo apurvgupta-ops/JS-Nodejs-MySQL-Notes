@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 class GraphEdge {
+
     int source;
     int destination;
     int weight;
@@ -383,6 +384,7 @@ class BFSGraphRecursive {
 
 // !Weighted And Directed Graph Implementation
 class WeightedDirectedGraph {
+
     private int vertices;
     private List<List<GraphEdge>> adjList;
 
@@ -391,7 +393,6 @@ class WeightedDirectedGraph {
         this.adjList = new ArrayList<>(vertices);
 
         // Initialize an empty array list for each vertex to hold its edge objects
-
         for (int i = 0; i < vertices; i++) {
             adjList.add(new ArrayList<>());
         }
@@ -427,8 +428,8 @@ class WeightedDirectedGraph {
 }
 
 // !Prim's Algorithm for Minimum Spanning Tree (MST)
-
 class PrimMST {
+
     public List<GraphEdge> findPrimMST(int vertices, List<List<GraphEdge>> adjList) {
         List<GraphEdge> mstEdges = new ArrayList<>();
         boolean[] visited = new boolean[vertices];
@@ -436,7 +437,6 @@ class PrimMST {
         PriorityQueue<GraphEdge> pq = new PriorityQueue<>(Comparator.comparingInt(e -> e.weight));
 
         // Start arbitrarily from vertex 0
-
         int startvertex = 0;
         visited[startvertex] = true;
 
@@ -460,7 +460,6 @@ class PrimMST {
 
             // Add all edges from the newly covered destination vertex into the priority
             // queue
-
             for (GraphEdge nextEdge : adjList.get(destination)) {
                 if (!visited[nextEdge.destination]) {
                     pq.add(nextEdge);
