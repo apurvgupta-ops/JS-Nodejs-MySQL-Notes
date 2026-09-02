@@ -57,6 +57,7 @@
 //   let currMin = 0;
 
 //   for (let num of nums) {
+/' ≥'
 //     total += num;
 //     currMax = Math.max(currMax + num, num);
 //     maxSum = Math.max(maxSum, currMax);

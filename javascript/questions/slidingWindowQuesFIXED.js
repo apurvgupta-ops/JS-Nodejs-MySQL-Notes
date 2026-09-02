@@ -3,7 +3,7 @@ function print(fn) {
   console.log(res);
 }
 
-// Max Sum Subarray of size K with 2 loops
+// ?Max Sum Subarray of size K with 2 loops
 // function maxSubArrSum(arr = [1, 4, 2, 10, 23, 3, 1, 0, 20], k = 4) {
 //   let n = arr.length;
 //   let maxSum = 0;
@@ -24,7 +24,7 @@ function print(fn) {
 // const res = maxSubArrSum();
 // console.log(res);
 
-// if asked with one loop
+// ?if asked with one loop
 // function maxSubArrSum(arr = [1, 4, 2, 10, 23, 3, 1, 0, 20], k = 4) {
 //   let n = arr.length;
 //   let maxSum = 0;
@@ -45,7 +45,7 @@ function print(fn) {
 // const res = maxSubArrSum();
 // console.log(res);
 
-// 485. Max Consecutive Ones
+// !485. Max Consecutive Ones
 // function ones(arr = [1, 1, 0, 1, 1, 1]) {
 //   let current_ones = 0;
 //   let maxCount = 0;
@@ -65,7 +65,7 @@ function print(fn) {
 // const res = ones();
 // console.log(res);
 
-// 1004. Max Consecutive Ones III
+// !1004. Max Consecutive Ones III
 // function maxConsecutiv(arr = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0], k = 2) {
 //   const n = arr.length;
 //   let left = 0;
@@ -97,7 +97,7 @@ function print(fn) {
 // const res = maxConsecutiv();
 // console.log(res);
 
-// 209. Minimum Size Subarray Sum
+// !209. Minimum Size Subarray Sum
 // function minimunSize(target = 7, nums = [2, 3, 1, 2, 4, 3]) {
 //   let minlen = Infinity;
 //   let left = 0;
@@ -118,7 +118,7 @@ function print(fn) {
 // const res = minimunSize();
 // console.log(res);
 
-// 713. Subarray Product Less Than K
+// !713. Subarray Product Less Than K
 // function numSubarrayProductLessThanK(nums = [10, 5, 2, 6], k = 100) {
 //   if (k <= 1) return 0;
 //   let left = 0;
